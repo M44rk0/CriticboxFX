@@ -1,0 +1,20 @@
+.defaultButton{
+    -fx-background-color: #2b2a31;
+    -fx-border-width: 1;
+    -fx-background-radius: 50;
+    -fx-border-radius: 50;
+}
+
+.defaultButton:hover{
+    -fx-scale-y: 1.05;
+    -fx-scale-x: 1.05;
+    -fx-cursor: hand;
+    -fx-border-width: 5;
+    -fx-effect: innershadow(one-pass-box, rgba(0, 0, 0, 0.8), 2, 6.7, 0, 0);
+}
+
+.defaultButton:pressed{
+    -fx-blend-mode: screen;
+}
+
+

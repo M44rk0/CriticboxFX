@@ -1,0 +1,17 @@
+
+
+#cinemaText{
+    -fx-background-color:  linear-gradient(to left, black, #1f1e23, #2b2a31, black)
+}
+
+#cinemaText:hover{
+    -fx-background-color: linear-gradient(to left, black, #1f1e23, #2b2a31, cyan, black)
+}
+
+#avaliadosText{
+    -fx-background-color:  linear-gradient(to left, black, #1f1e23, #2b2a31, black)
+}
+
+#avaliadosText:hover{
+    -fx-background-color: linear-gradient(to left, black, yellow, #1f1e23, #2b2a31, black)
+}

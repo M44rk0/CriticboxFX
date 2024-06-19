@@ -1,0 +1,63 @@
+#favoriteButton{
+    -fx-background-color:  #FE9900;
+    -fx-border-color: yellow;
+    -fx-background-radius: 10 0 0 10;
+    -fx-border-radius: 10 0 0 10;
+    -fx-border-width: 1;
+}
+
+#favoriteButton:hover{
+    -fx-scale-y: 1.01;
+    -fx-scale-x: 1.01;
+    -fx-cursor: hand;
+    -fx-border-width: 2;
+}
+
+#favoriteButton:pressed{
+    -fx-background-color: rgba(254, 153, 0, 0.4);
+
+}
+
+#reviewButton{
+    -fx-background-color: #44711D;
+    -fx-border-color: #5EB03E;
+    -fx-background-radius: 0 10 10 0;
+    -fx-border-radius: 0 10 10 0;
+    -fx-border-width: 1;
+}
+
+#reviewButton:hover{
+    -fx-scale-y: 1.01;
+    -fx-scale-x: 1.01;
+    -fx-cursor: hand;
+    -fx-border-width: 2;
+}
+
+#reviewButton:pressed{
+    -fx-background-color: rgba(68, 113, 29, 0.4);
+}
+
+#returnButton{
+    -fx-blend-mode: screen;
+    -fx-background-color: #4a4a4a;
+    -fx-opacity: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+#returnButton:hover{
+    -fx-blend-mode: none;
+    -fx-opacity: 1;
+    -fx-background-color: #684eda;
+}
+
+#returnButton:pressed{
+    -fx-opacity: 1;
+    -fx-background-color: rgba(31, 30, 35, 0.4);
+    -fx-border-color: white;
+}
+
+.memberFlow{
+    -fx-border-width: 3;
+    -fx-background-color:  #1f1e23;
+}

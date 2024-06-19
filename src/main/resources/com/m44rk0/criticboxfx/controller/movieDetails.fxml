@@ -1,0 +1,708 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<Pane fx:id="movieDetailsPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="806.0" style="-fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C); -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: lightgray; -fx-border-width: 0.1;" stylesheets="@../style/moviedetails.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.MovieDetailsController">
+   <padding>
+      <Insets left="10.0" right="10.0" top="10.0" />
+   </padding>
+   <VBox layoutX="13.0" layoutY="10.0">
+      <children>
+         <Pane>
+            <children>
+               <ImageView fx:id="posterImage" fitHeight="350.0" fitWidth="250.0" pickOnBounds="true">
+                  <Image url="@../../../../../../../../../Downloads/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg" />
+               </ImageView>
+               <Button id="returnButton" fx:id="returnButton" layoutX="4.0" layoutY="4.0" mnemonicParsing="false" onAction="#handleReturnButtonClick" prefHeight="30.0" prefWidth="40.0" textAlignment="CENTER">
+                  <graphic>
+                     <SVGPath content="m8.5 12.8 5.7 5.6c.4.4 1 .4 1.4 0 .4-.4.4-1 0-1.4l-4.9-5 4.9-5c.4-.4.4-1 0-1.4-.2-.2-.4-.3-.7-.3-.3 0-.5.1-.7.3l-5.7 5.6c-.4.5-.4 1.1 0 1.6 0-.1 0-.1 0 0z" fill="WHITE" scaleX="1.3" scaleY="1.4" />
+                  </graphic>
+               </Button>
+               <FlowPane alignment="TOP_RIGHT" hgap="5.0" layoutX="258.0" prefHeight="300.0" prefWidth="520.0" vgap="5.0">
+                  <TextFlow prefHeight="22.0" prefWidth="522.0" style="-fx-border-color: white;" textAlignment="CENTER">
+                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Titulo" textAlignment="CENTER" wrappingWidth="570.0">
+                        <font>
+                           <Font name="JetBrains Mono Bold" size="15.0" />
+                        </font>
+                     </Text>
+                  </TextFlow>
+                  <TextFlow fx:id="tittleField" blendMode="SCREEN" maxWidth="-Infinity" prefHeight="30.0" prefWidth="522.0" style="-fx-border-color: #2b2b2d; -fx-border-radius: 5; -fx-background-color: #1f1e23; -fx-background-radius: 5;" textAlignment="CENTER">
+                     <children>
+                        <Text fx:id="tittleText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Vingadores: Guerra Infinita" wrappingWidth="394.79994201660156">
+                           <font>
+                              <Font name="Segoe UI Bold" size="16.0" />
+                           </font>
+                        </Text>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+                     </padding>
+                     <effect>
+                        <Blend mode="OVERLAY" opacity="0.5" />
+                     </effect>
+                  </TextFlow>
+                  <TextFlow layoutX="10.0" layoutY="10.0" prefHeight="22.0" prefWidth="522.0" style="-fx-border-color: white;" textAlignment="CENTER">
+                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Visão Geral" textAlignment="CENTER" wrappingWidth="570.0">
+                        <font>
+                           <Font name="JetBrains Mono Bold" size="15.0" />
+                        </font>
+                     </Text>
+                  </TextFlow>
+                  <TextFlow fx:id="overviewField" blendMode="SCREEN" lineSpacing="3.0" prefHeight="217.0" prefWidth="522.0" style="-fx-border-color: #2b2b2d; -fx-border-radius: 5; -fx-background-color: #1f1e23; -fx-background-radius: 5;">
+                     <children>
+                        <Text fx:id="overviewText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Homem de Ferro, Thor, Hulk e os Vingadores se unem para combater seu inimigo mais poderoso, o maligno Thanos. Em uma missão para coletar todas as seis pedras infinitas, Thanos planeja usá-las para infligir sua vontade maléfica sobre a realidade.">
+                           <font>
+                              <Font name="SansSerif Bold" size="16.0" />
+                           </font>
+                        </Text>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </padding>
+                     <effect>
+                        <Blend mode="OVERLAY" opacity="0.5" />
+                     </effect>
+                  </TextFlow>
+                  <Button id="favoriteButton" fx:id="addFavoriteButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="258.0" textFill="WHITE">
+                     <font>
+                        <Font name="Tahoma Bold" size="11.0" />
+                     </font>
+                     <graphic>
+                        <SVGPath content="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z" fill="WHITE" />
+                     </graphic>
+                  </Button>
+                  <Button id="reviewButton" fx:id="doReviewButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="258.0" textFill="WHITE">
+                     <font>
+                        <Font name="Roboto Mono SemiBold" size="1.0" />
+                     </font>
+                     <graphic>
+                        <SVGPath content="M18.5,5.5h-4a1,1,0,0,0,0,2h4a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H8.5a1,1,0,0,1-1-1v-1a1,1,0,0,0-2,0v1a3,3,0,0,0,3,3h8.36l3,2.73a1,1,0,0,0,.68.27,1.1,1.1,0,0,0,.4-.08,1,1,0,0,0,.6-.92V8.5A3,3,0,0,0,18.5,5.5Zm-9.42,7H11.5a1,1,0,0,0,1-1V9.08a1,1,0,0,0-.29-.71L6.63,2.79a1,1,0,0,0-1.41,0L2.79,5.22a1,1,0,0,0,0,1.41l5.58,5.58A1,1,0,0,0,9.08,12.5ZM5.92,4.91,10.5,9.49v1h-1L4.91,5.92Z" fill="WHITE" />
+                     </graphic>
+                  </Button>
+               </FlowPane>
+            </children>
+         </Pane>
+         <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="780.0" spacing="5.0" style="-fx-border-color: white white transparent white;">
+            <children>
+               <TextFlow textAlignment="CENTER">
+                  <children>
+                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Lançamento" textAlignment="CENTER" wrappingWidth="570.0">
+                        <font>
+                           <Font name="JetBrains Mono Bold" size="15.0" />
+                        </font>
+                     </Text>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </TextFlow>
+               <TextFlow fx:id="releaseField" blendMode="ADD" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                  <padding>
+                     <Insets left="5.0" right="5.0" top="5.0" />
+                  </padding>
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+                  <children>
+                     <Text fx:id="releaseText" blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="25/04/2018">
+                        <font>
+                           <Font name="JetBrains Mono Bold" size="15.0" />
+                        </font>
+                     </Text>
+                  </children>
+               </TextFlow>
+               <TextFlow layoutX="16.0" layoutY="16.0" textAlignment="CENTER">
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+                  <children>
+                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Duração" textAlignment="CENTER" wrappingWidth="570.0">
+                        <font>
+                           <Font name="JetBrains Mono Bold" size="15.0" />
+                        </font>
+                     </Text>
+                  </children>
+               </TextFlow>
+               <TextFlow fx:id="durationField" blendMode="ADD" layoutX="123.0" layoutY="16.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                  <padding>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </padding>
+                  <children>
+                     <Text fx:id="durationText" blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="145 min">
+                        <font>
+                           <Font name="JetBrains Mono Bold" size="15.0" />
+                        </font>
+                     </Text>
+                  </children>
+               </TextFlow>
+               <TextFlow prefHeight="32.0" prefWidth="122.0" style="-fx-border-width: 1;" textAlignment="CENTER">
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </TextFlow>
+            </children>
+            <padding>
+               <Insets left="5.0" right="5.0" />
+            </padding>
+         </HBox>
+         <VBox prefHeight="0.0" prefWidth="780.0" style="-fx-border-color: white;">
+            <children>
+               <FlowPane fx:id="genresFlow" alignment="CENTER_LEFT" hgap="5.0" prefWrapLength="300.0" style="-fx-border-color: transparent transparent white transparent;" vgap="5.0">
+                  <children>
+                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Genero" textAlignment="CENTER" wrappingWidth="67.0">
+                        <font>
+                           <Font name="JetBrains Mono Bold" size="15.0" />
+                        </font>
+                     </Text>
+                     <TextFlow blendMode="ADD" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Ação">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="376.0" layoutY="15.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                  </children>
+                  <VBox.margin>
+                     <Insets />
+                  </VBox.margin>
+                  <padding>
+                     <Insets bottom="5.0" />
+                  </padding>
+               </FlowPane>
+               <TextFlow prefWidth="780.0" style="-fx-border-width: 1;" textAlignment="CENTER">
+                  <children>
+                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Direção" textAlignment="CENTER" wrappingWidth="570.0">
+                        <font>
+                           <Font name="JetBrains Mono Bold" size="15.0" />
+                        </font>
+                     </Text>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </TextFlow>
+               <FlowPane fx:id="directorFlow" alignment="CENTER" hgap="5.0" prefWidth="780.0" prefWrapLength="300.0" vgap="5.0">
+                  <children>
+                     <TextFlow id="memberFlow" fx:id="memberField" blendMode="ADD">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text fx:id="memberText" blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Joe Russo">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </FlowPane>
+               <TextFlow prefWidth="780.0" style="-fx-border-width: 1;" textAlignment="CENTER">
+                  <children>
+                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Elenco" textAlignment="CENTER" wrappingWidth="570.0">
+                        <font>
+                           <Font name="JetBrains Mono Bold" size="15.0" />
+                        </font>
+                     </Text>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </TextFlow>
+               <FlowPane fx:id="castFlow" alignment="CENTER" hgap="5.0" prefWidth="780.0" prefWrapLength="300.0" vgap="5.0">
+                  <children>
+                     <TextFlow blendMode="ADD" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="João">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="376.0" layoutY="15.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Pedro Antunes">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="402.0" layoutY="15.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="José">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="427.0" layoutY="15.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Maria">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="453.0" layoutY="15.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Felipe Castro">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="478.0" layoutY="15.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Isabelle Dias">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </FlowPane>
+               <TextFlow prefWidth="780.0" style="-fx-border-width: 1;" textAlignment="CENTER">
+                  <children>
+                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Escritores | Escritores Originais" textAlignment="CENTER" wrappingWidth="570.0">
+                        <font>
+                           <Font name="JetBrains Mono Bold" size="15.0" />
+                        </font>
+                     </Text>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </TextFlow>
+               <FlowPane fx:id="writerFlow" alignment="CENTER" hgap="5.0" prefWidth="780.0" prefWrapLength="300.0" vgap="5.0">
+                  <children>
+                     <TextFlow blendMode="ADD" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Joao">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Maria">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Pedro Gonçalves" textAlignment="CENTER">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="61.0" layoutY="10.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="João Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </FlowPane>
+               <TextFlow prefWidth="780.0" style="-fx-border-width: 1;" textAlignment="CENTER">
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+                  <children>
+                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Produtores | Produtores Executivos" textAlignment="CENTER" wrappingWidth="570.0">
+                        <font>
+                           <Font name="JetBrains Mono Bold" size="15.0" />
+                        </font>
+                     </Text>
+                  </children>
+               </TextFlow>
+               <FlowPane fx:id="producerFlow" alignment="CENTER" hgap="5.0" prefWidth="780.0" prefWrapLength="300.0" vgap="5.0">
+                  <children>
+                     <TextFlow blendMode="ADD" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Ação">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Ficção Científica" textAlignment="CENTER">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="403.0" layoutY="10.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="490.0" layoutY="10.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </FlowPane>
+               <TextFlow prefWidth="780.0" style="-fx-border-width: 1;" textAlignment="CENTER">
+                  <children>
+                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Direção de Arte" textAlignment="CENTER" wrappingWidth="570.0">
+                        <font>
+                           <Font name="JetBrains Mono Bold" size="15.0" />
+                        </font>
+                     </Text>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </TextFlow>
+               <FlowPane fx:id="artDirectFlow" alignment="CENTER" hgap="5.0" prefWidth="780.0" prefWrapLength="300.0" vgap="5.0">
+                  <children>
+                     <TextFlow blendMode="ADD" layoutX="61.0" layoutY="10.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="316.0" layoutY="10.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="403.0" layoutY="10.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="490.0" layoutY="10.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </FlowPane>
+               <TextFlow layoutX="11.0" layoutY="366.0" prefWidth="780.0" style="-fx-border-width: 1;" textAlignment="CENTER">
+                  <children>
+                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Som" textAlignment="CENTER" wrappingWidth="570.0">
+                        <font>
+                           <Font name="JetBrains Mono Bold" size="15.0" />
+                        </font>
+                     </Text>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </TextFlow>
+               <FlowPane fx:id="soundFlow" alignment="CENTER" hgap="5.0" layoutX="11.0" layoutY="396.0" prefWidth="780.0" prefWrapLength="300.0" vgap="5.0">
+                  <children>
+                     <TextFlow blendMode="ADD" layoutX="61.0" layoutY="10.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="316.0" layoutY="10.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="403.0" layoutY="10.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </FlowPane>
+               <TextFlow layoutX="11.0" layoutY="436.0" prefWidth="780.0" style="-fx-border-width: 1;" textAlignment="CENTER">
+                  <children>
+                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Camera | Fotográfia" textAlignment="CENTER" wrappingWidth="570.0">
+                        <font>
+                           <Font name="JetBrains Mono Bold" size="15.0" />
+                        </font>
+                     </Text>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </TextFlow>
+               <FlowPane fx:id="cameraFlow" alignment="CENTER" hgap="5.0" layoutX="11.0" layoutY="466.0" prefWidth="780.0" prefWrapLength="300.0" vgap="5.0">
+                  <children>
+                     <TextFlow blendMode="ADD" layoutX="61.0" layoutY="10.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="403.0" layoutY="10.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="490.0" layoutY="10.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </FlowPane>
+               <TextFlow layoutX="11.0" layoutY="506.0" prefWidth="780.0" style="-fx-border-width: 1;" textAlignment="CENTER">
+                  <children>
+                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Efeitos Visuais" textAlignment="CENTER" wrappingWidth="570.0">
+                        <font>
+                           <Font name="JetBrains Mono Bold" size="15.0" />
+                        </font>
+                     </Text>
+                  </children>
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
+               </TextFlow>
+               <FlowPane fx:id="vfxFlow" alignment="CENTER" hgap="5.0" layoutX="11.0" layoutY="536.0" prefWidth="780.0" prefWrapLength="300.0" vgap="5.0">
+                  <children>
+                     <TextFlow blendMode="ADD" layoutX="61.0" layoutY="10.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="316.0" layoutY="10.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                     <TextFlow blendMode="ADD" layoutX="403.0" layoutY="10.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                        <padding>
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                        <children>
+                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                     </TextFlow>
+                  </children>
+                  <padding>
+                     <Insets top="5.0" />
+                  </padding>
+               </FlowPane>
+            </children>
+            <padding>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </padding>
+         </VBox>
+      </children>
+   </VBox>
+</Pane>

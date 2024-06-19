@@ -1,0 +1,26 @@
+#deleteButton{
+    -fx-blend-mode: src-over;
+    -fx-background-color: #4a4a4a;
+    -fx-opacity: 1;
+    -fx-border-radius: 5;
+    -fx-border-color: white;
+    -fx-border-width: 0.5;
+    -fx-background-radius: 5;
+}
+
+#deleteButton:hover{
+    -fx-blend-mode: none;
+    -fx-opacity: 1;
+    -fx-background-color: #b50000;
+}
+
+#deleteButton:pressed{
+    -fx-opacity: 1;
+    -fx-background-color: rgba(31, 30, 35, 0.4);
+    -fx-border-color: white;
+}
+
+#favoritePoster:hover{
+    -fx-scale-y: 1.01;
+    -fx-scale-x: 1.01;
+}

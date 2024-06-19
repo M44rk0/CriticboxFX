@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+
+<Pane stylesheets="@../style/favoritepanel.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.FavoritePanelController">
+   <children>
+      <ImageView fx:id="favoritePoster" fitHeight="350.0" fitWidth="250.0" onMouseClicked="#showDetails" pickOnBounds="true" styleClass="favoritePoster">
+         <image>
+            <Image url="@../../../../../../../../../Downloads/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg" />
+         </image>
+      </ImageView>
+      <Button id="deleteButton" fx:id="deleteButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="10.0" layoutX="4.0" layoutY="4.0" mnemonicParsing="false" onAction="#removeFavorite" prefHeight="35.0" prefWidth="35.0" text="Deletar" textFill="WHITE">
+         <font>
+            <Font name="Tahoma Bold" size="11.0" />
+         </font>
+         <graphic>
+            <SVGPath content="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z" fill="WHITE" />
+         </graphic>
+      </Button>
+   </children>
+</Pane>

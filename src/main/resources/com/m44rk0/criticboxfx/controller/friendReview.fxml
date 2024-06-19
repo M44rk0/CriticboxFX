@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<Pane fx:id="movieInfoPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="370.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: lightgray; -fx-border-width: 0.1;" stylesheets="@../style/movieinfo.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.UserReviewController">
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+   <children>
+      <ImageView fx:id="posterImage" fitHeight="350.0" fitWidth="250.0" layoutX="538.0" layoutY="11.0" pickOnBounds="true" styleClass="poster">
+         <image>
+            <Image url="@../../../../../../../../../Downloads/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg" />
+         </image>
+      </ImageView>
+      <FlowPane fx:id="movieInfoFlow" columnHalignment="CENTER" hgap="10.0" layoutX="8.0" layoutY="95.0" prefWidth="521.0" vgap="10.0">
+         <children>
+            <TextFlow fx:id="tittleField" blendMode="SCREEN" maxWidth="-Infinity" prefHeight="44.0" prefWidth="520.0" style="-fx-border-color: #2b2b2d; -fx-border-radius: 5; -fx-background-color: #1f1e23; -fx-background-radius: 5;">
+               <padding>
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+               </padding>
+               <children>
+                  <Text fx:id="tittleText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Vingadores: Guerra Infinita" wrappingWidth="394.79994201660156">
+                     <font>
+                        <Font name="Segoe UI Bold" size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </TextFlow>
+            <TextFlow fx:id="overviewField" blendMode="SCREEN" lineSpacing="3.0" prefHeight="115.0" prefWidth="521.0" style="-fx-border-color: #2b2b2d; -fx-border-radius: 5; -fx-background-color: #1f1e23; -fx-background-radius: 5;">
+               <padding>
+                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+               </padding>
+               <children>
+                  <Text fx:id="overviewText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Homem de Ferro, Thor, Hulk e os Vingadores se unem para combater seu inimigo mais poderoso, o maligno Thanos. Em uma missão para coletar todas as seis pedras infinitas, Thanos planeja usá-las para infligir sua vontade maléfica sobre a realidade.">
+                     <font>
+                        <Font name="SansSerif Bold" size="16.0" />
+                     </font>
+                  </Text>
+               </children>
+            </TextFlow>
+         </children>
+      </FlowPane>
+      <TextFlow fx:id="releaseField" blendMode="ADD" layoutX="410.0" layoutY="50.0">
+         <padding>
+            <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+         </padding>
+         <children>
+            <Text fx:id="releaseText" blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="25/04/2018">
+               <font>
+                  <Font name="JetBrains Mono Bold" size="14.0" />
+               </font>
+            </Text>
+         </children>
+      </TextFlow>
+      <HBox fx:id="ratingBox" layoutX="14.0" layoutY="288.0" spacing="5.0">
+         <children>
+            <SVGPath fx:id="star1" content="M22,10.1c0.1-0.5-0.3-1.1-0.8-1.1l-5.7-0.8L12.9,3c-0.1-0.2-0.2-0.3-0.4-0.4C12,2.3,11.4,2.5,11.1,3L8.6,8.2L2.9,9C2.6,9,2.4,9.1,2.3,9.3c-0.4,0.4-0.4,1,0,1.4l4.1,4l-1,5.7c0,0.2,0,0.4,0.1,0.6c0.3,0.5,0.9,0.7,1.4,0.4l5.1-2.7l5.1,2.7c0.1,0.1,0.3,0.1,0.5,0.1l0,0c0.1,0,0.1,0,0.2,0c0.5-0.1,0.9-0.6,0.8-1.2l-1-5.7l4.1-4C21.9,10.5,22,10.3,22,10.1z" fill="WHITE" />
+            <SVGPath fx:id="star2" content="M22,10.1c0.1-0.5-0.3-1.1-0.8-1.1l-5.7-0.8L12.9,3c-0.1-0.2-0.2-0.3-0.4-0.4C12,2.3,11.4,2.5,11.1,3L8.6,8.2L2.9,9C2.6,9,2.4,9.1,2.3,9.3c-0.4,0.4-0.4,1,0,1.4l4.1,4l-1,5.7c0,0.2,0,0.4,0.1,0.6c0.3,0.5,0.9,0.7,1.4,0.4l5.1-2.7l5.1,2.7c0.1,0.1,0.3,0.1,0.5,0.1l0,0c0.1,0,0.1,0,0.2,0c0.5-0.1,0.9-0.6,0.8-1.2l-1-5.7l4.1-4C21.9,10.5,22,10.3,22,10.1z" fill="WHITE" />
+            <SVGPath fx:id="star3" content="M22,10.1c0.1-0.5-0.3-1.1-0.8-1.1l-5.7-0.8L12.9,3c-0.1-0.2-0.2-0.3-0.4-0.4C12,2.3,11.4,2.5,11.1,3L8.6,8.2L2.9,9C2.6,9,2.4,9.1,2.3,9.3c-0.4,0.4-0.4,1,0,1.4l4.1,4l-1,5.7c0,0.2,0,0.4,0.1,0.6c0.3,0.5,0.9,0.7,1.4,0.4l5.1-2.7l5.1,2.7c0.1,0.1,0.3,0.1,0.5,0.1l0,0c0.1,0,0.1,0,0.2,0c0.5-0.1,0.9-0.6,0.8-1.2l-1-5.7l4.1-4C21.9,10.5,22,10.3,22,10.1z" fill="WHITE" />
+            <SVGPath fx:id="star4" content="M22,10.1c0.1-0.5-0.3-1.1-0.8-1.1l-5.7-0.8L12.9,3c-0.1-0.2-0.2-0.3-0.4-0.4C12,2.3,11.4,2.5,11.1,3L8.6,8.2L2.9,9C2.6,9,2.4,9.1,2.3,9.3c-0.4,0.4-0.4,1,0,1.4l4.1,4l-1,5.7c0,0.2,0,0.4,0.1,0.6c0.3,0.5,0.9,0.7,1.4,0.4l5.1-2.7l5.1,2.7c0.1,0.1,0.3,0.1,0.5,0.1l0,0c0.1,0,0.1,0,0.2,0c0.5-0.1,0.9-0.6,0.8-1.2l-1-5.7l4.1-4C21.9,10.5,22,10.3,22,10.1z" fill="WHITE" />
+            <SVGPath fx:id="star5" content="M22,10.1c0.1-0.5-0.3-1.1-0.8-1.1l-5.7-0.8L12.9,3c-0.1-0.2-0.2-0.3-0.4-0.4C12,2.3,11.4,2.5,11.1,3L8.6,8.2L2.9,9C2.6,9,2.4,9.1,2.3,9.3c-0.4,0.4-0.4,1,0,1.4l4.1,4l-1,5.7c0,0.2,0,0.4,0.1,0.6c0.3,0.5,0.9,0.7,1.4,0.4l5.1-2.7l5.1,2.7c0.1,0.1,0.3,0.1,0.5,0.1l0,0c0.1,0,0.1,0,0.2,0c0.5-0.1,0.9-0.6,0.8-1.2l-1-5.7l4.1-4C21.9,10.5,22,10.3,22,10.1z" fill="WHITE" />
+         </children>
+      </HBox>
+   </children>
+</Pane>
