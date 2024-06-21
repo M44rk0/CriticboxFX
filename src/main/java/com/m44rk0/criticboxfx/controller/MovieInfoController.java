@@ -12,6 +12,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.fxml.FXML;
 
+import java.io.IOException;
+
 import static com.m44rk0.criticboxfx.App.user;
 
 public class MovieInfoController {
@@ -102,6 +104,11 @@ public class MovieInfoController {
     @FXML
     public void showDetails(){
         mainController.showMovieDetails(title);
+    }
+
+    @FXML
+    public void showReview(){
+        mainController.showTitleReview(title);
     }
 
     @FXML

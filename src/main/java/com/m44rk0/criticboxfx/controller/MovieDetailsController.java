@@ -1,13 +1,18 @@
 package com.m44rk0.criticboxfx.controller;
 
+import com.m44rk0.criticboxfx.model.Title;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.TextFlow;
 import javafx.scene.image.Image;
 import javafx.geometry.Insets;
 import javafx.scene.text.Text;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 
@@ -84,7 +89,6 @@ public class MovieDetailsController {
             mainController.restoreSearchResults();
         }
     }
-
 
     private void copyTextStyles(Text source, Text target) {
         target.setFont(source.getFont());

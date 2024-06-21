@@ -6,11 +6,8 @@ import info.movito.themoviedbapi.TmdbMovieLists;
 import info.movito.themoviedbapi.model.core.Movie;
 import info.movito.themoviedbapi.tools.TmdbException;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.*;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import java.io.IOException;
@@ -88,17 +85,6 @@ public class ViewController {
         }
     }
 
-    public void showReview() throws IOException {
-
-        scrollBox.getChildren().clear();
-        ScrollPage.setFitToHeight(true);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("friendreview.fxml"));
-        Pane reviewPane = loader.load();
-        UserReviewController controller = loader.getController();
-
-        scrollBox.getChildren().add(reviewPane);
-    }
-
     public void restoreSearchResults() {
 
         scrollBox.getChildren().clear();
@@ -157,6 +143,39 @@ public class ViewController {
             ScrollPage.setFitToHeight(true);
         }
     }
+
+    public void showTitleReview(Title title) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("userReview.fxml"));
+            Pane reviewPane = loader.load();
+            UserReviewController controller = loader.getController();
+
+            controller.setPosterImage(title.getPosterPath());
+            controller.setOverviewField(title.getOverview());
+            controller.setTittleField(title.getName());
+            controller.setReleaseField(title.getReleaseDate());
+            controller.setViewController(this);
+            controller.setTitle(title);
+
+            if (title instanceof TvShow tvShow) {
+                controller.setSeasonBox(tvShow.getAllSeasons());
+                if (!tvShow.getSeasons().isEmpty()) {
+                    controller.setEpisodeBox(tvShow.getSeasons().getFirst().getEpisodeList());
+                }
+                controller.turnVisible();
+            }
+
+            ScrollPage.setFitToHeight(false);
+            ScrollPage.setVvalue(0);
+
+            scrollBox.getChildren().clear();
+            scrollBox.getChildren().add(reviewPane);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void showMovieDetails(Title title) {
         try {
@@ -337,6 +356,45 @@ public class ViewController {
 
 
         } catch (IOException | TmdbException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void showUserReviews() {
+        try {
+            ArrayList<Review> userReviews = user.getReviews();
+
+            scrollBox.getChildren().clear();
+            ScrollPage.setFitToHeight(false);
+
+            for (Review review : userReviews) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("review.fxml"));
+                Pane reviewPane = loader.load();
+                ReviewController controller = loader.getController();
+                controller.setReviewField("\"" + review.getReviewText() + "\"");
+                controller.setWatchedField(review.getReviewDate());
+                controller.setPosterImage(review.getTitle().getPosterPath());
+                controller.setTittleField(review.getTitle().getName());
+                controller.setStarColors(review.getReviewNote());
+
+                if (review instanceof TvReview) {
+                    controller.setInfoTVField(((TvReview) review).getSeasonNumber() + "ª Temporada - " + ((TvReview) review).getEpisodeName());
+                    controller.turnVisible();
+                }
+
+                scrollBox.getChildren().add(reviewPane);
+
+                if(!userReviews.isEmpty()) {
+                    ScrollPage.setFitToHeight(false);
+                }
+                if(userReviews.size() == 1 ){
+                    ScrollPage.setFitToHeight(true);
+                }
+
+            }
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
 

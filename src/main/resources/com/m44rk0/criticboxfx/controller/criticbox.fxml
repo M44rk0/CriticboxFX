@@ -16,7 +16,7 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: linear-gradient(to top, black, #0a0a0a);" stylesheets="@../style/defaultpage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.ViewController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #18181a;" stylesheets="@../style/defaultpage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.ViewController">
    <children>
       <Pane fx:id="wtfPane" layoutX="1051.0" layoutY="110.0" prefHeight="670.0" prefWidth="155.0" style="-fx-background-color: linear-gradient(to left, #1f1e23, #1F1E22, #28272C); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: gray; -fx-border-width: 0.1;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="1051.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="110.0" />
       <HBox fx:id="searchBox" alignment="CENTER_LEFT" layoutX="20.0" layoutY="24.0" prefHeight="80.0" prefWidth="1160.0" spacing="15.0" style="-fx-background-color: linear-gradient(to left, #1f1e23, #1F1E22, #181819, #28272C); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-width: 0.1; -fx-border-color: gray;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
@@ -76,7 +76,7 @@
                   <SVGPath fx:id="search2Button" content="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z" fill="WHITE" scaleX="1.5" scaleY="1.5" />
                </graphic>
             </Button>
-            <Button fx:id="reviewButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="20.0" layoutY="35.0" mnemonicParsing="false" onAction="#showReview" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient( #5EB03E, transparent, transparent, transparent);" styleClass="defaultButton" text="Reviews" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="reviewButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="20.0" layoutY="35.0" mnemonicParsing="false" onAction="#showUserReviews" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient( #5EB03E, transparent, transparent, transparent);" styleClass="defaultButton" text="Reviews" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>

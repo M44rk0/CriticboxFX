@@ -1,0 +1,85 @@
+#reviewButton{
+    -fx-background-color: #44711D;
+    -fx-border-color: #5EB03E;
+    -fx-background-radius: 10 10 10 10;
+    -fx-border-radius: 10 10 10 10;
+    -fx-border-width: 1;
+}
+
+#reviewButton:hover{
+    -fx-scale-y: 1.05;
+    -fx-scale-x: 1.05;
+    -fx-cursor: hand;
+    -fx-border-width: 2;
+}
+
+#reviewButton:pressed{
+    -fx-background-color: rgba(68, 113, 29, 0.4);
+}
+
+#reviewTextArea{
+    -fx-control-inner-background:  #1f1e23; /* Cor de fundo interna */
+    -fx-background-color: #ffffff; /* Cor de fundo externa */
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #bebebe;
+    -fx-border-color: white;
+    -fx-border-width: 1;
+
+}
+
+#returnButton{
+    -fx-blend-mode: screen;
+    -fx-background-color: #4a4a4a;
+    -fx-opacity: 1;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+#returnButton:hover{
+    -fx-blend-mode: none;
+    -fx-opacity: 1;
+    -fx-background-color: #684eda;
+}
+
+#returnButton:pressed{
+    -fx-opacity: 1;
+    -fx-background-color: rgba(31, 30, 35, 0.4);
+    -fx-border-color: white;
+}
+
+
+#episodeBox{
+    -fx-font-family: "Segoe UI"; /* Aplicando a fonte Segoe UI */
+    -fx-font-weight: bold;
+    -fx-font-size: 13;
+    -fx-control-inner-background: #1f1e23;
+    -fx-prompt-text-fill: #929191;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-text-alignment: center;
+}
+
+#seasonBox{
+    -fx-font-family: "Segoe UI"; /* Aplicando a fonte Segoe UI */
+    -fx-font-weight: bold;
+    -fx-font-size: 13;
+    -fx-control-inner-background: #1f1e23;
+    -fx-prompt-text-fill: white;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+#episodeBox .list-cell:selected .text {
+    -fx-font-family: "Segoe UI"; /* Aplicando a fonte Segoe UI */
+    -fx-font-weight: bold;
+    -fx-alignment: center-right;
+    -fx-fill: #FFFFFF; /* Cor do texto selecionado */
+
+}
+
+#seasonBox .list-cell:selected .text {
+    -fx-font-family: "Segoe UI"; /* Aplicando a fonte Segoe UI */
+    -fx-font-weight: bold;
+    -fx-alignment: center-right;
+    -fx-fill: #FFFFFF; /* Cor do texto selecionado */
+}

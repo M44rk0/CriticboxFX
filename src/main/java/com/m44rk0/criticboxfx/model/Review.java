@@ -1,20 +1,34 @@
 package com.m44rk0.criticboxfx.model;
 
 import java.util.Date;
+import java.util.Objects;
 
-public class Review {
+public abstract class Review {
 
     private static Integer reviewCount = 1;
     private Integer reviewID;
-    private Title tittle;
+    private Title title;
     private Integer reviewNote;
+    private String reviewText;
     private Date reviewDate;
 
-    public Review(Title tittle, Integer reviewNote, Date reviewDate) {
+    public Review(Title title, Integer reviewNote, Date reviewDate, String reviewText) {
+
         this.reviewID = reviewCount++;
-        this.tittle = tittle;
+        this.title = title;
         this.reviewNote = reviewNote;
         this.reviewDate = reviewDate;
+        this.reviewText = reviewText;
+
+
+    }
+
+    public String getReviewText() {
+        return reviewText;
+    }
+
+    public void setReviewText(String reviewText) {
+        this.reviewText = reviewText;
     }
 
     public Integer getReviewID() {
@@ -25,12 +39,12 @@ public class Review {
         this.reviewID = reviewID;
     }
 
-    public Title getTittle() {
-        return tittle;
+    public Title getTitle() {
+        return title;
     }
 
-    public void setTittle(Title tittle) {
-        this.tittle = tittle;
+    public void setTitle(Title title) {
+        this.title = title;
     }
 
     public Integer getReviewNote() {
@@ -48,4 +62,16 @@ public class Review {
     public void setReviewDate(Date reviewDate) {
         this.reviewDate = reviewDate;
     }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "reviewID=" + reviewID +
+                ", tittle=" + title +
+                ", reviewNote=" + reviewNote +
+                ", reviewText='" + reviewText + '\'' +
+                ", reviewDate=" + reviewDate +
+                '}';
+    }
+
 }

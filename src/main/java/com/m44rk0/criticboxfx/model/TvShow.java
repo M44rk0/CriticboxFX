@@ -46,6 +46,15 @@ public class TvShow extends Title {
         return seasons;
     }
 
+    public ArrayList<Integer> getAllSeasons(){
+        ArrayList<Integer> seasonNumber = new ArrayList<>();
+        for(Season season : seasons){
+            seasonNumber.add(season.getSeasonNumber());
+        }
+
+        return seasonNumber;
+    }
+
     public Integer getTotalEpisodes() {
         return totalEpisodes;
     }
@@ -74,11 +83,11 @@ public class TvShow extends Title {
             Integer seasonNumber = serie.getSeasons().get(i).getSeasonNumber();
             ArrayList<String> episodes = new ArrayList<>();
 
-            if(serie.getSeasons().get(i).getSeasonNumber() != 0) {
+            if(serie.getSeasons().get(i).getSeasonNumber() != 0 && Search.isReleased(serie.getSeasons().get(i).getAirDate())) {
                 TvSeasonDb tvSeasonDb = tvSeasons.getDetails(seriesDb.getId(), seasonNumber, "pt-BR");
 
                 for (int j = 0; j < tvSeasonDb.getEpisodes().size(); j++) {
-                    episodes.add(tvSeasonDb.getEpisodes().get(j).getName());
+                        episodes.add(tvSeasonDb.getEpisodes().get(j).getName());
                 }
 
             Season season = new Season(seasonNumber, episodes);

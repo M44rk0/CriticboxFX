@@ -197,6 +197,10 @@ public abstract class Title {
         return Objects.hash(name);
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Title{" +
+                "name='" + name + '\'' +
+                '}';
+    }
 }

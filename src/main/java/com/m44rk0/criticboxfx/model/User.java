@@ -43,6 +43,10 @@ public class User {
         favorites.add(tittle);
     }
 
+    public void addReview(Review review){
+        reviews.add(review);
+    }
+
     public void removeFavorite(Title tittle){
         favorites.remove(tittle);
     }
