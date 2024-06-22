@@ -1,4 +1,4 @@
-package com.m44rk0.criticboxfx.model;
+package com.m44rk0.criticboxfx.model.title;
 
 import java.util.ArrayList;
 
@@ -27,4 +27,5 @@ public class Season {
     public void setEpisodeList(ArrayList<String> episodeList) {
         this.episodeList = episodeList;
     }
+
 }

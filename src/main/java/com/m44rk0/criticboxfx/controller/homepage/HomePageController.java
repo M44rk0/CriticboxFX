@@ -1,4 +1,4 @@
-package com.m44rk0.criticboxfx.controller;
+package com.m44rk0.criticboxfx.controller.homepage;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;

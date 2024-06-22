@@ -10,7 +10,7 @@
 <?import javafx.scene.text.TextFlow?>
 
 
-<AnchorPane fx:id="homePagePanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" style="-fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: gray; -fx-border-width: 0.1;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.HomePageController">
+<AnchorPane fx:id="homePagePanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="800.0" style="-fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: gray; -fx-border-width: 0.1;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.homepage.HomePageController">
    <children>
       <VBox fx:id="homePageBox" layoutY="10.0" prefWidth="780.0" spacing="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <children>

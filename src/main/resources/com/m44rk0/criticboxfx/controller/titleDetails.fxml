@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<Pane fx:id="movieDetailsPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="806.0" style="-fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C); -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: lightgray; -fx-border-width: 0.1;" stylesheets="@../style/moviedetails.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.MovieDetailsController">
+<Pane fx:id="movieDetailsPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="806.0" style="-fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C); -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: lightgray; -fx-border-width: 0.1;" stylesheets="@../style/moviedetails.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.details.TitleDetailsController">
    <padding>
       <Insets left="10.0" right="10.0" top="10.0" />
    </padding>
@@ -31,7 +31,7 @@
                   </graphic>
                </Button>
                <FlowPane alignment="TOP_RIGHT" hgap="5.0" layoutX="258.0" prefHeight="300.0" prefWidth="520.0" vgap="5.0">
-                  <TextFlow prefHeight="22.0" prefWidth="522.0" style="-fx-border-color: white;" textAlignment="CENTER">
+                  <TextFlow prefHeight="22.0" prefWidth="522.0" style="-fx-border-color: white; -fx-border-radius: 10 10 0 0;" textAlignment="CENTER">
                      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Titulo" textAlignment="CENTER" wrappingWidth="570.0">
                         <font>
                            <Font name="JetBrains Mono Bold" size="15.0" />
@@ -75,15 +75,15 @@
                         <Blend mode="OVERLAY" opacity="0.5" />
                      </effect>
                   </TextFlow>
-                  <Button id="favoriteButton" fx:id="addFavoriteButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="258.0" textFill="WHITE">
+                  <Button id="favoriteButton" fx:id="addFavoriteButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="10.0" mnemonicParsing="false" onAction="#addFavorite" prefHeight="30.0" prefWidth="258.0" textFill="WHITE">
                      <font>
                         <Font name="Tahoma Bold" size="11.0" />
                      </font>
                      <graphic>
-                        <SVGPath content="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z" fill="WHITE" />
+                        <SVGPath fx:id="favoriteStar" content="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z" fill="WHITE" />
                      </graphic>
                   </Button>
-                  <Button id="reviewButton" fx:id="doReviewButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="10.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="258.0" textFill="WHITE">
+                  <Button id="reviewButton" fx:id="doReviewButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="10.0" mnemonicParsing="false" onAction="#makeReview" prefHeight="30.0" prefWidth="258.0" textFill="WHITE">
                      <font>
                         <Font name="Roboto Mono SemiBold" size="1.0" />
                      </font>
@@ -123,7 +123,7 @@
                      </Text>
                   </children>
                </TextFlow>
-               <TextFlow layoutX="16.0" layoutY="16.0" textAlignment="CENTER">
+               <TextFlow fx:id="durationLabel" layoutX="16.0" layoutY="16.0" textAlignment="CENTER">
                   <padding>
                      <Insets bottom="5.0" top="5.0" />
                   </padding>
@@ -157,7 +157,7 @@
                <Insets left="5.0" right="5.0" />
             </padding>
          </HBox>
-         <VBox prefHeight="0.0" prefWidth="780.0" style="-fx-border-color: white;">
+         <VBox prefHeight="0.0" prefWidth="780.0" style="-fx-border-color: white; -fx-border-radius: 0 0 10 10;">
             <children>
                <FlowPane fx:id="genresFlow" alignment="CENTER_LEFT" hgap="5.0" prefWrapLength="300.0" style="-fx-border-color: transparent transparent white transparent;" vgap="5.0">
                   <children>

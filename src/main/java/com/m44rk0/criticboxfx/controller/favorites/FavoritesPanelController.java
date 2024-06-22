@@ -1,6 +1,7 @@
-package com.m44rk0.criticboxfx.controller;
+package com.m44rk0.criticboxfx.controller.favorites;
 
-import com.m44rk0.criticboxfx.model.Title;
+import com.m44rk0.criticboxfx.controller.ViewController;
+import com.m44rk0.criticboxfx.model.title.Title;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -8,7 +9,7 @@ import javafx.fxml.FXML;
 
 import static com.m44rk0.criticboxfx.App.user;
 
-public class FavoritePanelController {
+public class FavoritesPanelController {
 
     @FXML
     public ImageView favoritePoster;
@@ -17,7 +18,8 @@ public class FavoritePanelController {
     private Button deleteButton;
 
     @FXML
-    public void setPoster(Image image){
+    public void setPoster(String poster){
+        Image image = new Image("https://image.tmdb.org/t/p/original/" + poster, 250, 350, false, false);
         favoritePoster.setImage(image);
     }
 
@@ -27,7 +29,7 @@ public class FavoritePanelController {
     @FXML
     public void removeFavorite(){
         user.removeFavorite(title);
-        mainController.updateFavoritesUI();
+        mainController.showFavorites();
     }
 
     @FXML

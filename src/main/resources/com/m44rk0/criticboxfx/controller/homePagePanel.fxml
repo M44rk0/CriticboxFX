@@ -4,7 +4,7 @@
 <?import javafx.scene.image.ImageView?>
 
 
-<ImageView fx:id="homePagePoster" fitHeight="350.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.HomePanelController">
+<ImageView fx:id="homePagePoster" fitHeight="350.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.homepage.HomePagePanelController">
    <image>
       <Image url="@../../../../../../../../../Downloads/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg" />
    </image>

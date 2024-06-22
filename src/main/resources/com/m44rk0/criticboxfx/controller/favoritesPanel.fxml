@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<Pane stylesheets="@../style/favoritepanel.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.FavoritePanelController">
+<Pane stylesheets="@../style/favoritepanel.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.favorites.FavoritesPanelController">
    <children>
       <ImageView fx:id="favoritePoster" fitHeight="350.0" fitWidth="250.0" onMouseClicked="#showDetails" pickOnBounds="true" styleClass="favoritePoster">
          <image>

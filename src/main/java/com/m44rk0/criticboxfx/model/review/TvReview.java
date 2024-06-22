@@ -1,4 +1,6 @@
-package com.m44rk0.criticboxfx.model;
+package com.m44rk0.criticboxfx.model.review;
+
+import com.m44rk0.criticboxfx.model.title.Title;
 
 import java.util.Date;
 import java.util.Objects;

@@ -1,8 +1,8 @@
 #favoriteButton{
     -fx-background-color:  #FE9900;
     -fx-border-color: yellow;
-    -fx-background-radius: 10 0 0 10;
-    -fx-border-radius: 10 0 0 10;
+    -fx-background-radius: 0 0 0 10;
+    -fx-border-radius: 0 0 0 10;
     -fx-border-width: 1;
 }
 
@@ -21,8 +21,8 @@
 #reviewButton{
     -fx-background-color: #44711D;
     -fx-border-color: #5EB03E;
-    -fx-background-radius: 0 10 10 0;
-    -fx-border-radius: 0 10 10 0;
+    -fx-background-radius: 0 0 10 0;
+    -fx-border-radius: 0 0 10 0;
     -fx-border-width: 1;
 }
 

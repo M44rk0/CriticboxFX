@@ -1,5 +1,6 @@
-package com.m44rk0.criticboxfx.model;
+package com.m44rk0.criticboxfx.model.title;
 
+import com.m44rk0.criticboxfx.model.search.TitleSearcher;
 import info.movito.themoviedbapi.model.tv.core.credits.Credits;
 import info.movito.themoviedbapi.model.tv.season.TvSeasonDb;
 import info.movito.themoviedbapi.model.tv.series.TvSeriesDb;
@@ -17,6 +18,7 @@ public class TvShow extends Title {
     private final ArrayList<Season> seasons;
     private final Integer totalEpisodes;
 
+
     public TvShow(TvSeriesDb movie, Credits credits) throws TmdbException {
         this.tvShowID = movie.getId();
         this.name = movie.getName();
@@ -24,7 +26,6 @@ public class TvShow extends Title {
         this.posterPath = movie.getPosterPath();
         this.releaseDate = movie.getFirstAirDate();
         this.popularity = movie.getPopularity();
-        this.duration = 1;
         this.seasons = getTvShowInfo(movie);
         this.totalEpisodes = getEpisodes();
         this.genres = getTvGenre(movie);
@@ -71,27 +72,28 @@ public class TvShow extends Title {
 
     private ArrayList<Season> getTvShowInfo(TvSeriesDb seriesDb) throws TmdbException {
 
-        TmdbApi apiKey = new TmdbApi(new MovieSearcher().getAPI_KEY());
+        TmdbApi apiKey = new TmdbApi(new TitleSearcher().getAPI_KEY());
 
         TvSeriesDb serie = apiKey.getTvSeries().getDetails(seriesDb.getId(), "pt-BR");
 
         ArrayList<Season> seasons = new ArrayList<>();
         TmdbTvSeasons tvSeasons = apiKey.getTvSeasons();
 
+
         for (int i = 0; i < serie.getSeasons().size(); i++) {
 
             Integer seasonNumber = serie.getSeasons().get(i).getSeasonNumber();
             ArrayList<String> episodes = new ArrayList<>();
 
-            if(serie.getSeasons().get(i).getSeasonNumber() != 0 && Search.isReleased(serie.getSeasons().get(i).getAirDate())) {
+            if(serie.getSeasons().get(i).getSeasonNumber() != 0) {
                 TvSeasonDb tvSeasonDb = tvSeasons.getDetails(seriesDb.getId(), seasonNumber, "pt-BR");
 
                 for (int j = 0; j < tvSeasonDb.getEpisodes().size(); j++) {
                         episodes.add(tvSeasonDb.getEpisodes().get(j).getName());
                 }
 
-            Season season = new Season(seasonNumber, episodes);
-            seasons.add(season);
+                Season season = new Season(seasonNumber, episodes);
+                seasons.add(season);
             }
         }
         return seasons;

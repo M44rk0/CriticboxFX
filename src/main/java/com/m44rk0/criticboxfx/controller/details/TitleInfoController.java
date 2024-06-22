@@ -1,6 +1,8 @@
-package com.m44rk0.criticboxfx.controller;
+package com.m44rk0.criticboxfx.controller.details;
 
-import com.m44rk0.criticboxfx.model.Title;
+import com.m44rk0.criticboxfx.controller.ViewController;
+import com.m44rk0.criticboxfx.model.title.Title;
+import com.m44rk0.criticboxfx.utils.CommonFields;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.control.Button;
@@ -12,11 +14,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.fxml.FXML;
 
-import java.io.IOException;
-
 import static com.m44rk0.criticboxfx.App.user;
 
-public class MovieInfoController {
+public class TitleInfoController implements CommonFields {
 
     @FXML
     private Pane movieDetailsPane;
@@ -95,24 +95,21 @@ public class MovieInfoController {
         } else {
             user.addFavorite(title);
         }
+        setFavoriteStar();
     }
 
-    public void setFillFavoriteStar(String fillFavoriteStar){
-        favoriteStar.setContent(fillFavoriteStar);
-    }
 
     @FXML
     public void showDetails(){
-        mainController.showMovieDetails(title);
+        mainController.showTitleDetails(title);
     }
 
     @FXML
     public void showReview(){
-        mainController.showTitleReview(title);
+        mainController.showCreateReview(title);
     }
 
-    @FXML
-    public void setFavoriteStar() {
+    private void setFavoriteStar() {
         String unfilledStar = "M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z";
         String fillStar = "M17.562 21.56a1 1 0 0 1-.465-.116L12 18.764l-5.097 2.68a1 1 0 0 1-1.45-1.053l.973-5.676-4.124-4.02a1 1 0 0 1 .554-1.705l5.699-.828 2.549-5.164a1.04 1.04 0 0 1 1.793 0l2.548 5.164 5.699.828a1 1 0 0 1 .554 1.705l-4.124 4.02.974 5.676a1 1 0 0 1-.985 1.169Z";
 
@@ -125,6 +122,10 @@ public class MovieInfoController {
         }
 
         favoriteStar.setFill(Color.WHITE);
+    }
+
+    public void setFillFavoriteStar(String fillFavoriteStar){
+        favoriteStar.setContent(fillFavoriteStar);
     }
 
     public void setOverviewField(String overviewField) {

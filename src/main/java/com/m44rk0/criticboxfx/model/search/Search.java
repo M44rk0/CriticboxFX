@@ -1,4 +1,7 @@
-package com.m44rk0.criticboxfx.model;
+package com.m44rk0.criticboxfx.model.search;
+import com.m44rk0.criticboxfx.model.title.Film;
+import com.m44rk0.criticboxfx.model.title.Title;
+import com.m44rk0.criticboxfx.model.title.TvShow;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.model.movies.Credits;
 import info.movito.themoviedbapi.tools.TmdbException;

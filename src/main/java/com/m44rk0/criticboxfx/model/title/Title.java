@@ -1,4 +1,4 @@
-package com.m44rk0.criticboxfx.model;
+package com.m44rk0.criticboxfx.model.title;
 
 import info.movito.themoviedbapi.model.movies.Credits;
 import java.util.*;

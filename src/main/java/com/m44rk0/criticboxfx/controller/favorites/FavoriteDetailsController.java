@@ -1,22 +1,19 @@
-package com.m44rk0.criticboxfx.controller;
+package com.m44rk0.criticboxfx.controller.favorites;
 
-import com.m44rk0.criticboxfx.model.Title;
-import javafx.fxml.FXMLLoader;
+import com.m44rk0.criticboxfx.controller.ViewController;
+import com.m44rk0.criticboxfx.utils.CommonFields;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.TextFlow;
 import javafx.scene.image.Image;
 import javafx.geometry.Insets;
 import javafx.scene.text.Text;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 
-public class MovieDetailsController {
+public class FavoriteDetailsController implements CommonFields {
 
     @FXML
     private Button returnButton;
@@ -47,6 +44,9 @@ public class MovieDetailsController {
 
     @FXML
     private Text durationText;
+
+    @FXML
+    private TextFlow durationLabel;
 
     @FXML
     private TextFlow memberField;
@@ -86,7 +86,7 @@ public class MovieDetailsController {
     @FXML
     void handleReturnButtonClick() {
         if (mainController != null) {
-            mainController.restoreSearchResults();
+            mainController.showFavorites();
         }
     }
 
@@ -176,5 +176,9 @@ public class MovieDetailsController {
         this.posterImage.setImage(poster);
     }
 
+    public void hideDuration(){
+        durationField.setVisible(false);
+        durationLabel.setVisible(false);
+    }
 
 }

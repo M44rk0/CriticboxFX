@@ -1,5 +1,5 @@
-package com.m44rk0.criticboxfx.controller;
-import com.m44rk0.criticboxfx.model.TvReview;
+package com.m44rk0.criticboxfx.controller.review;
+import com.m44rk0.criticboxfx.utils.CommonFields;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ReviewController {
+public class ReviewController implements CommonFields {
 
     @FXML
     private Button editReviewButton;
@@ -80,6 +80,10 @@ public class ReviewController {
         this.tittleText.setText(titleField);
     }
 
+    @Override
+    public void setOverviewField(String overview) {
+    }
+
     public void setReviewField(String overviewField) {
         this.reviewText.setText(overviewField);
     }
@@ -87,6 +91,11 @@ public class ReviewController {
     public void setPosterImage(String posterImage) {
         Image poster = new Image("https://image.tmdb.org/t/p/original/" + posterImage, 250, 350, false, false);
         this.posterImage.setImage(poster);
+    }
+
+    @Override
+    public void setReleaseField(String releaseDate) {
+
     }
 
     public void setInfoTVField(String infoTV){

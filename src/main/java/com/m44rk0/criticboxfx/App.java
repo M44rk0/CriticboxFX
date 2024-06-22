@@ -1,6 +1,6 @@
 package com.m44rk0.criticboxfx;
 
-import com.m44rk0.criticboxfx.model.User;
+import com.m44rk0.criticboxfx.model.user.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import java.io.IOException;

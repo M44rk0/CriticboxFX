@@ -1,10 +1,17 @@
-package com.m44rk0.criticboxfx.controller;
+package com.m44rk0.criticboxfx.controller.review;
 
-import com.m44rk0.criticboxfx.model.*;
+import com.m44rk0.criticboxfx.controller.ViewController;
+import com.m44rk0.criticboxfx.model.review.FilmReview;
+import com.m44rk0.criticboxfx.model.review.Review;
+import com.m44rk0.criticboxfx.model.review.TvReview;
+import com.m44rk0.criticboxfx.model.title.Film;
+import com.m44rk0.criticboxfx.model.title.Season;
+import com.m44rk0.criticboxfx.model.title.Title;
+import com.m44rk0.criticboxfx.model.title.TvShow;
+import com.m44rk0.criticboxfx.utils.AlertMessage;
+import com.m44rk0.criticboxfx.utils.CommonFields;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -16,7 +23,7 @@ import java.util.*;
 
 import static com.m44rk0.criticboxfx.App.user;
 
-public class UserReviewController {
+public class CreateReviewController implements CommonFields {
 
     @FXML
     private Button doReviewButton;
@@ -66,8 +73,8 @@ public class UserReviewController {
     @FXML
     private Text tittleText;
 
-    private List<SVGPath> stars;
     private Title title;
+    private List<SVGPath> stars;
     private int currentRating = 0;
     private ViewController viewController;
 
@@ -132,7 +139,7 @@ public class UserReviewController {
     }
 
 
-    public void setViewController(ViewController viewController) {
+    public void setMainController(ViewController viewController) {
         this.viewController = viewController;
     }
 
@@ -147,11 +154,13 @@ public class UserReviewController {
     @FXML
     public void saveReview(){
 
-        if(getCurrentRating() == 0){
-            System.out.println("Opa amigão, faltou algo aí");
+        if(getCurrentRating() == 0 || reviewArea.getText().isEmpty()){
+
+            AlertMessage.showAlert("Erro de review", "Esquecer de dar a nota meu mano");
+
         }
 
-        if(!containsInReview(title)) {
+        else if(!containsInReview(title)) {
 
             if (title instanceof Film || (title instanceof TvShow &&
                             (episodeBox.getValue() == null || episodeBox.getValue().isEmpty()) &&
@@ -188,13 +197,13 @@ public class UserReviewController {
 
             } else if (review instanceof FilmReview) {
                 if (review.getTitle().equals(title)) {
-                    // Se o título é um filme, retornamos true
+
                     if (review.getTitle() instanceof Film) {
                         return true;
                     }
-                    // Se o título é um TvShow sem temporada e episódio, retornamos true
+
                     else if (review.getTitle() instanceof TvShow) {
-                        // Aqui consideramos que uma review de série sem episódios específicos é um FilmReview
+
                         if ((seasonBox.getValue() == null || seasonBox.getValue() == 0) &&
                                 (episodeBox.getValue() == null || episodeBox.getValue().isEmpty())) {
                             return true;
@@ -205,13 +214,6 @@ public class UserReviewController {
         }
         return false;
     }
-
-
-
-
-
-    //                if (
-
 
     public void turnVisible(){
         seasonBox.setVisible(true);
@@ -236,7 +238,5 @@ public class UserReviewController {
                 updateEpisodeBox(newValue);
             }
         });
-
     }
-
 }

@@ -1,4 +1,5 @@
 module com.m44rk0.criticboxfx {
+
     requires javafx.controls;
     requires javafx.fxml;
     requires info.movito.themoviedbapi;
@@ -6,12 +7,36 @@ module com.m44rk0.criticboxfx {
     requires org.kordamp.ikonli.javafx;
     requires io.github.cdimascio.dotenv.java;
 
-    exports com.m44rk0.criticboxfx.model;
-    exports com.m44rk0.criticboxfx.controller;
-    opens com.m44rk0.criticboxfx.controller to javafx.fxml, javafx.controls;
     exports com.m44rk0.criticboxfx.view;
     opens com.m44rk0.criticboxfx.view to javafx.controls, javafx.fxml;
+
     exports com.m44rk0.criticboxfx;
     opens com.m44rk0.criticboxfx to javafx.controls, javafx.fxml;
-    opens com.m44rk0.criticboxfx.model to javafx.controls, javafx.fxml;
+
+    exports com.m44rk0.criticboxfx.controller.favorites;
+    opens com.m44rk0.criticboxfx.controller.favorites to javafx.controls, javafx.fxml;
+
+    exports com.m44rk0.criticboxfx.controller.review;
+    opens com.m44rk0.criticboxfx.controller.review to javafx.controls, javafx.fxml;
+
+    exports com.m44rk0.criticboxfx.controller.homepage;
+    opens com.m44rk0.criticboxfx.controller.homepage to javafx.controls, javafx.fxml;
+
+    exports com.m44rk0.criticboxfx.controller.details;
+    opens com.m44rk0.criticboxfx.controller.details to javafx.controls, javafx.fxml;
+
+    exports com.m44rk0.criticboxfx.model.title;
+    opens com.m44rk0.criticboxfx.model.title to javafx.controls, javafx.fxml;
+
+    exports com.m44rk0.criticboxfx.model.search;
+    opens com.m44rk0.criticboxfx.model.search to javafx.controls, javafx.fxml;
+
+    exports com.m44rk0.criticboxfx.model.review;
+    opens com.m44rk0.criticboxfx.model.review to javafx.controls, javafx.fxml;
+
+    exports com.m44rk0.criticboxfx.model.user;
+    opens com.m44rk0.criticboxfx.model.user to javafx.controls, javafx.fxml;
+
+    exports com.m44rk0.criticboxfx.controller;
+    opens com.m44rk0.criticboxfx.controller to javafx.controls, javafx.fxml;
 }

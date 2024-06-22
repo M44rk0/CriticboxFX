@@ -1,11 +1,12 @@
-package com.m44rk0.criticboxfx.model;
+package com.m44rk0.criticboxfx.model.search;
 
+import com.m44rk0.criticboxfx.model.title.Title;
 import info.movito.themoviedbapi.tools.TmdbException;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.util.List;
 
-public class MovieSearcher {
+public class TitleSearcher {
 
     private final Dotenv dotenv = Dotenv.load();
     private final String API_KEY = dotenv.get("API_KEY");
