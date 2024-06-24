@@ -6,7 +6,6 @@ import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.TextFlow;
@@ -22,25 +21,13 @@ import static com.m44rk0.criticboxfx.App.user;
 public class TitleDetailsController implements CommonController {
 
     @FXML
-    private Button returnButton;
-
-    @FXML
     private ImageView posterImage;
-
-    @FXML
-    private TextFlow overviewField;
 
     @FXML
     private Text overviewText;
 
     @FXML
-    private TextFlow releaseField;
-
-    @FXML
     private Text releaseText;
-
-    @FXML
-    private TextFlow titleField;
 
     @FXML
     private Text tittleText;
@@ -53,9 +40,6 @@ public class TitleDetailsController implements CommonController {
 
     @FXML
     private TextFlow durationLabel;
-
-    @FXML
-    private TextFlow memberField;
 
     @FXML
     private Text memberText;
@@ -89,10 +73,6 @@ public class TitleDetailsController implements CommonController {
 
     @FXML
     private FlowPane vfxFlow;
-
-    @FXML
-    private Button doReviewButton;
-
     private ViewController mainController;
 
     private Title title;
@@ -118,25 +98,21 @@ public class TitleDetailsController implements CommonController {
 
     @FXML
     public void addFavorite(){
-        if (user.getFavoritesNames().contains(title.getName())) {
+        if (user.getFavorites().contains(title)) {
             user.removeFavorite(title);
         } else {
             user.addFavorite(title);
         }
-        setFavoriteStar();
+        setFavoriteIcon();
     }
 
-    private void setFavoriteStar() {
-        String unfilledStar = "M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z";
-        String fillStar = "M17.562 21.56a1 1 0 0 1-.465-.116L12 18.764l-5.097 2.68a1 1 0 0 1-1.45-1.053l.973-5.676-4.124-4.02a1 1 0 0 1 .554-1.705l5.699-.828 2.549-5.164a1.04 1.04 0 0 1 1.793 0l2.548 5.164 5.699.828a1 1 0 0 1 .554 1.705l-4.124 4.02.974 5.676a1 1 0 0 1-.985 1.169Z";
+    private void setFavoriteIcon() {
+        String unfilledStarIcon = "M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z";
+        String filledStarIcon = "M17.562 21.56a1 1 0 0 1-.465-.116L12 18.764l-5.097 2.68a1 1 0 0 1-1.45-1.053l.973-5.676-4.124-4.02a1 1 0 0 1 .554-1.705l5.699-.828 2.549-5.164a1.04 1.04 0 0 1 1.793 0l2.548 5.164 5.699.828a1 1 0 0 1 .554 1.705l-4.124 4.02.974 5.676a1 1 0 0 1-.985 1.169Z";
 
-        if(favoriteStar.getContent().equals(unfilledStar)){
-            favoriteStar.setContent(fillStar);
-        }
-
-        else if(favoriteStar.getContent().equals(fillStar)){
-            favoriteStar.setContent(unfilledStar);
-        }
+        favoriteStar.setContent(
+                favoriteStar.getContent().equals(unfilledStarIcon) ? filledStarIcon : unfilledStarIcon
+        );
 
         favoriteStar.setFill(Color.WHITE);
     }
@@ -150,7 +126,7 @@ public class TitleDetailsController implements CommonController {
     }
 
     public void setDurationField(Integer durationField){
-        this.durationText.setText(String.valueOf(durationField) + " min");
+        this.durationText.setText(durationField + " min");
     }
 
     public void setReleaseField(String releaseField){
@@ -222,8 +198,6 @@ public class TitleDetailsController implements CommonController {
         durationLabel.setVisible(false);
     }
 
-
-
     private void setFlow(ArrayList<String> members, FlowPane flowPane) {
 
         flowPane.getChildren().clear();
@@ -241,6 +215,5 @@ public class TitleDetailsController implements CommonController {
             flowPane.getChildren().add(memberField);
         }
     }
-
 
 }

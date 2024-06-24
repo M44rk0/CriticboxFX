@@ -40,10 +40,13 @@ public class ViewController {
     private ImageView critic;
 
     @FXML
+    private VBox scrollBox;
+
+    @FXML
     private ScrollPane ScrollPage;
 
     @FXML
-    private VBox scrollBox;
+    private TextField searchField;
 
     @FXML
     private Button favoriteButton;
@@ -63,9 +66,6 @@ public class ViewController {
     @FXML
     private Button searchButton;
 
-    @FXML
-    private TextField searchField;
-
     private final String fillStar = "M17.562 21.56a1 1 0 0 1-.465-.116L12 18.764l-5.097 2.68a1 1 0 0 1-1.45-1.053l.973-5.676-4.124-4.02a1 1 0 0 1 .554-1.705l5.699-.828 2.549-5.164a1.04 1.04 0 0 1 1.793 0l2.548 5.164 5.699.828a1 1 0 0 1 .554 1.705l-4.124 4.02.974 5.676a1 1 0 0 1-.985 1.169Z";
     private final List<Node> searchResultNodes = new ArrayList<>();
     private final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original/";
@@ -81,18 +81,22 @@ public class ViewController {
         performSearch();
     }
 
-    public void performSearch() throws TmdbException{
+    public void performSearch(){
 
-        List<Title> searchResults;
-        TitleSearcher searcher = new TitleSearcher();
-        String searchParameter = searchField.getText();
+        try {
+            List<Title> searchResults;
+            TitleSearcher searcher = new TitleSearcher();
+            String searchParameter = searchField.getText();
 
-        if(searchParameter.isEmpty() || searchParameter.isBlank()){
-            AlertMessage.showAlert("Erro de Busca", "Digite um parâmetro de busca");
+            if (searchParameter.isEmpty() || searchParameter.isBlank()){
+                AlertMessage.showAlert("Erro de Busca", "Digite um parâmetro de busca");
+            } else {
+                searchResults = searcher.search(searchParameter);
+                showSearchResults(searchResults);
+            }
         }
-        else {
-            searchResults = searcher.search(searchParameter);
-            showSearchResults(searchResults);
+        catch (TmdbException e){
+            AlertMessage.showAlert("Erro de Busca", "Erro de Busca");
         }
     }
 
@@ -120,7 +124,7 @@ public class ViewController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("titleInfo.fxml"));
                 Pane movieInfoPane = loader.load();
                 TitleInfoController controller = loader.getController();
-                ArrayList<String> favoriteTittles = user.getFavoritesNames();
+                ArrayList<Title> favorites = user.getFavorites();
 
                 setCommonFields(controller, title);
 
@@ -133,7 +137,7 @@ public class ViewController {
                     controller.turnVisible();
                 }
 
-                if(favoriteTittles.contains(title.getName())){
+                if(favorites.contains(title)){
                     controller.setFillFavoriteStar(fillStar);
                 }
 
@@ -146,7 +150,7 @@ public class ViewController {
                 searchResultNodes.add(movieInfoPane);
             }
             catch (IOException e){
-                e.printStackTrace();
+                AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
             }
         }
 
@@ -168,7 +172,6 @@ public class ViewController {
             controller.setTitle(title);
             controller.setMainController(this);
 
-
             if (title instanceof TvShow tvShow){
                 controller.setSeasonBox(tvShow.getAllSeasons());
                 if (!tvShow.getSeasons().isEmpty()) {
@@ -183,7 +186,7 @@ public class ViewController {
             scrollBox.getChildren().add(reviewPane);
 
         } catch (IOException e) {
-            e.printStackTrace();
+            AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
         }
     }
 
@@ -223,11 +226,11 @@ public class ViewController {
             scrollBox.getChildren().add(movieDetailsPane);
         }
         catch (IOException e){
-            e.printStackTrace();
+            AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
         }
     }
 
-    public void showFavorites() {
+    public void showFavorites(){
         try {
             resetScrollBox();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("favoritesAndWatched.fxml"));
@@ -239,7 +242,7 @@ public class ViewController {
             watchedFlow.getChildren().clear();
 
             List<Title> favorites = user.getFavorites().reversed();
-            for (Title title : favorites) {
+            for (Title title : favorites){
                 FXMLLoader fvLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
                 Pane favoritesPanel = fvLoader.load();
                 FavoritesPanelController favoritePanelController = fvLoader.getController();
@@ -251,7 +254,7 @@ public class ViewController {
             }
 
             List<Title> watched = user.getWatched().reversed();
-            for (Title title : watched) {
+            for (Title title : watched){
                 FXMLLoader fvLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
                 Pane favoritesPanel = fvLoader.load();
                 FavoritesPanelController favoritePanelController = fvLoader.getController();
@@ -266,33 +269,18 @@ public class ViewController {
             if(watched.isEmpty() && favorites.isEmpty() || (watched.size() < 4 && favorites.size() < 4)){
                 ScrollPage.setFitToHeight(true);
             };
+
             scrollBox.getChildren().add(fav);
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-    }
-
-
-
-    public void showMovie(String movieName) throws TmdbException{
-        TitleSearcher searcher = new TitleSearcher();
-        List<Title> movieResult = searcher.searchMovie(movieName);
-        showSearchResults(movieResult);
-    }
-
-    public void showTvShow(String tvName) throws TmdbException{
-        TitleSearcher searcher = new TitleSearcher();
-        List<Title> tvResult = searcher.searchTvShow(tvName);
-        showSearchResults(tvResult);
+        catch (IOException e){
+            AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
+        }
     }
 
     public void showUserReviews(){
             try {
                 resetScrollBox();
-                ArrayList<Review> userReviews = user.getReviews();
+                List<Review> userReviews = user.getReviews().reversed();
 
                 for (Review review : userReviews){
 
@@ -323,8 +311,30 @@ public class ViewController {
                 }
             }
             catch (IOException e){
-                e.printStackTrace();
+                AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
             }
+    }
+
+    public void showMovie(String movieName){
+        try {
+            TitleSearcher searcher = new TitleSearcher();
+            List<Title> movieResult = searcher.searchMovie(movieName);
+            showSearchResults(movieResult);
+        }
+        catch (TmdbException e){
+            AlertMessage.showAlert("Erro de Busca", "Erro de Busca");
+        }
+    }
+
+    public void showTvShow(String tvName){
+        try {
+            TitleSearcher searcher = new TitleSearcher();
+            List<Title> tvResult = searcher.searchTvShow(tvName);
+            showSearchResults(tvResult);
+        }
+        catch (TmdbException e){
+            AlertMessage.showAlert("Erro de Busca", "Erro de Busca");
+        }
     }
 
     private void setCommonFields(CommonController controller, Title title){
@@ -347,14 +357,14 @@ public class ViewController {
         return detailsIsCalledFrom;
     }
 
-    public static String formatDate(String dataString) {
+    public static String formatDate(String dataString){
         DateTimeFormatter input = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter output = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate date = LocalDate.parse(dataString, input);
         return date.format(output);
     }
 
-    public static String dateToYear(String dataString) {
+    public static String dateToYear(String dataString){
         DateTimeFormatter formatoEntrada = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter formatoSaida = DateTimeFormatter.ofPattern("yyyy");
         LocalDate data = LocalDate.parse(dataString, formatoEntrada);
@@ -363,7 +373,7 @@ public class ViewController {
 
     @FXML
     public void initialize(){
-        String imagePath = "src/main/java/com/m44rk0/criticboxfx/images/CriticTest2.png";
+        String imagePath = "src/main/java/com/m44rk0/criticboxfx/images/CriticTest.png";
         Image image = new Image(new File(imagePath).toURI().toString());
         critic.setImage(image);
     }

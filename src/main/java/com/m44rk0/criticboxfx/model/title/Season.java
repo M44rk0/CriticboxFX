@@ -19,7 +19,7 @@ public class Season {
     public ArrayList<String> getEpisodeList() {
         ArrayList<String> episodeList = new ArrayList<>();
         for (Episode episode : episodes) {
-            episodeList.add(episode.getEpisodeName());
+            episodeList.add(episode.episodeName());
         }
         return episodeList;
     }

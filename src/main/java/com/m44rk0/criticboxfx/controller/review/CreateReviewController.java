@@ -17,7 +17,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 
 import java.util.*;
 
@@ -26,25 +25,16 @@ import static com.m44rk0.criticboxfx.App.user;
 public class CreateReviewController implements CommonController {
 
     @FXML
-    private Button doReviewButton;
-
-    @FXML
     private ImageView posterImage;
 
     @FXML
     private TextArea reviewArea;
 
     @FXML
-    private TextFlow overviewField;
-
-    @FXML
     private Text overviewText;
 
     @FXML
-    private TextFlow releaseField;
-
-    @FXML
-    private Text releaseText;
+    private Text tittleText;
 
     @FXML
     private ComboBox<Integer> seasonBox;
@@ -67,15 +57,9 @@ public class CreateReviewController implements CommonController {
     @FXML
     private SVGPath star5;
 
-    @FXML
-    private TextFlow tittleField;
-
-    @FXML
-    private Text tittleText;
-
+    private int currentRating = 0;
     private Title title;
     private List<SVGPath> stars;
-    private int currentRating = 0;
     private ViewController viewController;
 
     private void updateEpisodeBox(int seasonNumber) {
@@ -113,7 +97,6 @@ public class CreateReviewController implements CommonController {
     }
 
     public void setReleaseField(String releaseField){
-        this.releaseText.setText(releaseField);
     }
 
     public void setTittleField(String titleField) {
@@ -141,13 +124,8 @@ public class CreateReviewController implements CommonController {
          this.seasonBox.getItems().addAll(seasons);
     }
 
-
     public void setMainController(ViewController viewController) {
         this.viewController = viewController;
-    }
-
-    public TextArea getReviewArea() {
-        return reviewArea;
     }
 
     public int getCurrentRating() {
@@ -177,19 +155,17 @@ public class CreateReviewController implements CommonController {
                 user.addReview(new TvReview(title, getCurrentRating(), new Date(),
                         reviewArea.getText(), seasonBox.getValue(), episodeBox.getValue()));
             }
-
-            System.out.println(user.getReviews());
             viewController.restoreSearchResults();
         }
         else{
-            System.out.println("Review ja existe seu merda");
+            AlertMessage.showAlert("Review já existe", "Essa Review já existe animal");
         }
 
     }
 
     public boolean containsInReview(Title title) {
 
-        ArrayList<Review> userReviews = user.getReviews();
+        List<Review> userReviews = user.getReviews();
         for (Review review : userReviews) {
             if (review instanceof TvReview tvReview) {
                 if (review.getTitle().equals(title) &&

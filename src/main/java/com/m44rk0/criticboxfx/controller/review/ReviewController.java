@@ -1,11 +1,8 @@
 package com.m44rk0.criticboxfx.controller.review;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -18,20 +15,9 @@ import java.util.Locale;
 
 public class ReviewController implements CommonController {
 
-    @FXML
-    private Button editReviewButton;
-
-    @FXML
-    private Pane movieInfoPane;
 
     @FXML
     private ImageView posterImage;
-
-    @FXML
-    private HBox ratingBox;
-
-    @FXML
-    private TextFlow reviewField;
 
     @FXML
     private Text reviewText;
@@ -52,17 +38,10 @@ public class ReviewController implements CommonController {
     private SVGPath star5;
 
     @FXML
-    private TextFlow tittleField;
-
-    @FXML
     private Text tittleText;
 
     @FXML
-    private TextFlow watchedField;
-
-    @FXML
     private Text watchedText;
-
 
     @FXML
     private TextFlow infoTVField;
@@ -92,7 +71,6 @@ public class ReviewController implements CommonController {
         Image poster = new Image("https://image.tmdb.org/t/p/original/" + posterImage, 250, 360, false, false);
         this.posterImage.setImage(poster);
     }
-
 
     @Override
     public void setReleaseField(String releaseDate) {

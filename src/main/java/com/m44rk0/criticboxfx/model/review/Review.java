@@ -7,11 +7,11 @@ import java.util.Date;
 public abstract class Review {
 
     private static Integer reviewCount = 1;
-    private Integer reviewID;
+    private final Integer reviewID;
+    private final Integer reviewNote;
+    private final String reviewText;
+    private final Date reviewDate;
     private Title title;
-    private Integer reviewNote;
-    private String reviewText;
-    private Date reviewDate;
 
     public Review(Title title, Integer reviewNote, Date reviewDate, String reviewText) {
 
@@ -21,23 +21,14 @@ public abstract class Review {
         this.reviewDate = reviewDate;
         this.reviewText = reviewText;
 
-
     }
 
     public String getReviewText() {
         return reviewText;
     }
 
-    public void setReviewText(String reviewText) {
-        this.reviewText = reviewText;
-    }
-
     public Integer getReviewID() {
         return reviewID;
-    }
-
-    public void setReviewID(Integer reviewID) {
-        this.reviewID = reviewID;
     }
 
     public Title getTitle() {
@@ -52,16 +43,8 @@ public abstract class Review {
         return reviewNote;
     }
 
-    public void setReviewNote(Integer reviewNote) {
-        this.reviewNote = reviewNote;
-    }
-
     public Date getReviewDate() {
         return reviewDate;
-    }
-
-    public void setReviewDate(Date reviewDate) {
-        this.reviewDate = reviewDate;
     }
 
     @Override

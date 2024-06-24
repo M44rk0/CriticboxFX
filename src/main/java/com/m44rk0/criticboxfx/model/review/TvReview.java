@@ -7,8 +7,8 @@ import java.util.Objects;
 
 public class TvReview extends Review{
 
-    private Integer seasonNumber;
-    private String episodeName;
+    private final Integer seasonNumber;
+    private final String episodeName;
 
     public TvReview(Title tittle, Integer reviewNote, Date reviewDate, String reviewText, Integer seasonNumber, String episodeName) {
         super(tittle, reviewNote, reviewDate, reviewText);
@@ -20,29 +20,8 @@ public class TvReview extends Review{
         return seasonNumber;
     }
 
-    public void setSeasonNumber(Integer seasonNumber) {
-        this.seasonNumber = seasonNumber;
-    }
-
     public String getEpisodeName() {
         return episodeName;
-    }
-
-    public void setEpisodeName(String episodeName) {
-        this.episodeName = episodeName;
-    }
-
-    @Override
-    public String toString() {
-        return "Review{" +
-                "reviewID=" + getReviewID() +
-                ", tittle=" + getTitle() +
-                ", reviewNote=" + getReviewNote() +
-                ", reviewText='" + getReviewText() + '\'' +
-                ", reviewDate=" + getReviewDate() +
-                ", episodeName=" + episodeName +
-                ", seasonNumber=" + seasonNumber +
-                '}';
     }
 
     @Override
