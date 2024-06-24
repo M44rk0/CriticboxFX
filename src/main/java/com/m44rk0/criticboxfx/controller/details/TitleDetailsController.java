@@ -2,7 +2,7 @@ package com.m44rk0.criticboxfx.controller.details;
 
 import com.m44rk0.criticboxfx.controller.ViewController;
 import com.m44rk0.criticboxfx.model.title.Title;
-import com.m44rk0.criticboxfx.utils.CommonFields;
+import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -19,7 +19,7 @@ import javafx.fxml.FXML;
 
 import static com.m44rk0.criticboxfx.App.user;
 
-public class TitleDetailsController implements CommonFields {
+public class TitleDetailsController implements CommonController {
 
     @FXML
     private Button returnButton;
@@ -90,6 +90,9 @@ public class TitleDetailsController implements CommonFields {
     @FXML
     private FlowPane vfxFlow;
 
+    @FXML
+    private Button doReviewButton;
+
     private ViewController mainController;
 
     private Title title;
@@ -97,7 +100,12 @@ public class TitleDetailsController implements CommonFields {
     @FXML
     void handleReturnButtonClick() {
         if (mainController != null) {
-            mainController.restoreSearchResults();
+            if(mainController.getDetailsIsCalledFrom() == 1) {
+                mainController.restoreSearchResults();
+            }
+            else if (mainController.getDetailsIsCalledFrom() == 2){
+                mainController.showFavorites();
+                }
         }
     }
 
@@ -198,6 +206,10 @@ public class TitleDetailsController implements CommonFields {
         this.posterImage.setImage(poster);
     }
 
+    public void setFillFavoriteStar(String fillFavoriteStar){
+        favoriteStar.setContent(fillFavoriteStar);
+    }
+
     private void copyTextStyles(Text source, Text target) {
         target.setFont(source.getFont());
         target.setFill(source.getFill());
@@ -209,6 +221,8 @@ public class TitleDetailsController implements CommonFields {
         durationField.setVisible(false);
         durationLabel.setVisible(false);
     }
+
+
 
     private void setFlow(ArrayList<String> members, FlowPane flowPane) {
 

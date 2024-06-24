@@ -1,6 +1,9 @@
 package com.m44rk0.criticboxfx.model.title;
 
 import info.movito.themoviedbapi.model.movies.Credits;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public abstract class Title {

@@ -2,22 +2,30 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-
-<Pane fx:id="movieInfoPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="370.0" prefWidth="806.0" style="-fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: lightgray; -fx-border-width: 0.1;" stylesheets="@../style/review.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.review.ReviewController">
+<Pane fx:id="movieInfoPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="370.0" prefWidth="806.0" style="-fx-background-radius: 10; -fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C); -fx-border-radius: 10;" stylesheets="@../style/review.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.review.ReviewController">
     <children>
-        <ImageView fx:id="posterImage" fitHeight="350.0" fitWidth="250.0" layoutX="543.2000122070312" layoutY="10.199999809265137" pickOnBounds="true" styleClass="poster">
+        <ImageView fx:id="posterImage" fitHeight="360.0" fitWidth="250.0" layoutX="549.2000122070312" layoutY="5.199999809265137" pickOnBounds="true" styleClass="poster">
             <image>
                 <Image url="@../../../../../../../../../Downloads/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg" />
             </image>
+         <effect>
+            <InnerShadow choke="1.0" height="10.0" radius="4.5" width="10.0">
+               <color>
+                  <Color red="1.0" green="1.0" blue="1.0" opacity="0.8015267252922058" />
+               </color>
+            </InnerShadow>
+         </effect>
         </ImageView>
         <Button id="reviewButton" fx:id="editReviewButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="10.0" layoutX="744.0" layoutY="14.0" mnemonicParsing="false" opacity="0.3" prefHeight="45.0" prefWidth="38.0" text="..." textFill="WHITE">
             <font>
@@ -27,19 +35,19 @@
                 <SVGPath content="M3,8H21a1,1,0,0,0,0-2H3A1,1,0,0,0,3,8Zm18,8H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Zm0-5H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z" fill="WHITE" />
             </graphic>
         </Button>
-        <TextFlow fx:id="tittleField" blendMode="SCREEN" layoutX="6.0" layoutY="10.0" maxWidth="-Infinity" prefHeight="44.0" prefWidth="531.0" style="-fx-border-color: #2b2b2d; -fx-border-radius: 5; -fx-background-radius: 5;">
+        <TextFlow fx:id="tittleField" blendMode="SCREEN" layoutX="6.0" layoutY="5.0" maxWidth="-Infinity" prefHeight="51.0" prefWidth="537.0" style="-fx-border-color: gray #2b2b2d  #2b2b2d  gray; -fx-border-radius: 10 0 0 0; -fx-background-radius: 2; -fx-border-width: 0.5;">
             <padding>
-                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                <Insets bottom="10.0" left="20.0" right="20.0" top="15.0" />
             </padding>
             <children>
-                <Text fx:id="tittleText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Vingadores: Guerra Infinita" wrappingWidth="394.79994201660156">
+                <Text fx:id="tittleText" fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Vingadores: Guerra Infinita">
                     <font>
                         <Font name="Segoe UI Bold" size="15.0" />
                     </font>
                 </Text>
             </children>
         </TextFlow>
-        <HBox fx:id="ratingBox" layoutX="403.0" layoutY="22.0" spacing="5.0">
+        <HBox fx:id="ratingBox" layoutX="409.0" layoutY="22.0" spacing="5.0">
             <children>
                 <SVGPath fx:id="star1" content="M22,10.1c0.1-0.5-0.3-1.1-0.8-1.1l-5.7-0.8L12.9,3c-0.1-0.2-0.2-0.3-0.4-0.4C12,2.3,11.4,2.5,11.1,3L8.6,8.2L2.9,9C2.6,9,2.4,9.1,2.3,9.3c-0.4,0.4-0.4,1,0,1.4l4.1,4l-1,5.7c0,0.2,0,0.4,0.1,0.6c0.3,0.5,0.9,0.7,1.4,0.4l5.1-2.7l5.1,2.7c0.1,0.1,0.3,0.1,0.5,0.1l0,0c0.1,0,0.1,0,0.2,0c0.5-0.1,0.9-0.6,0.8-1.2l-1-5.7l4.1-4C21.9,10.5,22,10.3,22,10.1z" fill="WHITE" />
                 <SVGPath fx:id="star2" content="M22,10.1c0.1-0.5-0.3-1.1-0.8-1.1l-5.7-0.8L12.9,3c-0.1-0.2-0.2-0.3-0.4-0.4C12,2.3,11.4,2.5,11.1,3L8.6,8.2L2.9,9C2.6,9,2.4,9.1,2.3,9.3c-0.4,0.4-0.4,1,0,1.4l4.1,4l-1,5.7c0,0.2,0,0.4,0.1,0.6c0.3,0.5,0.9,0.7,1.4,0.4l5.1-2.7l5.1,2.7c0.1,0.1,0.3,0.1,0.5,0.1l0,0c0.1,0,0.1,0,0.2,0c0.5-0.1,0.9-0.6,0.8-1.2l-1-5.7l4.1-4C21.9,10.5,22,10.3,22,10.1z" fill="WHITE" />
@@ -48,24 +56,24 @@
                 <SVGPath fx:id="star5" content="M22,10.1c0.1-0.5-0.3-1.1-0.8-1.1l-5.7-0.8L12.9,3c-0.1-0.2-0.2-0.3-0.4-0.4C12,2.3,11.4,2.5,11.1,3L8.6,8.2L2.9,9C2.6,9,2.4,9.1,2.3,9.3c-0.4,0.4-0.4,1,0,1.4l4.1,4l-1,5.7c0,0.2,0,0.4,0.1,0.6c0.3,0.5,0.9,0.7,1.4,0.4l5.1-2.7l5.1,2.7c0.1,0.1,0.3,0.1,0.5,0.1l0,0c0.1,0,0.1,0,0.2,0c0.5-0.1,0.9-0.6,0.8-1.2l-1-5.7l4.1-4C21.9,10.5,22,10.3,22,10.1z" fill="WHITE" />
             </children>
         </HBox>
-        <TextFlow fx:id="reviewField" blendMode="SCREEN" layoutX="6.0" layoutY="105.0" lineSpacing="3.0" prefHeight="254.0" prefWidth="531.0" style="-fx-border-color: #2b2b2d; -fx-border-radius: 10; -fx-background-radius: 10; -fx-border-width: 1;">
+        <TextFlow fx:id="reviewField" blendMode="SCREEN" layoutX="6.0" layoutY="96.0" lineSpacing="3.0" prefHeight="268.0" prefWidth="537.0" style="-fx-border-color: gray #2b2b2d  #2b2b2d  gray; -fx-border-radius: 0 0 0 10; -fx-background-radius: 10; -fx-border-width: 0.5;">
             <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </padding>
             <children>
-                <Text fx:id="reviewText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Achei bem bosta, slc thanos roxão&quot;">
+                <Text fx:id="reviewText" fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="&quot;Achei bem bosta, slc thanos roxão&quot;">
                     <font>
                         <Font name="Segoe UI Italic" size="16.0" />
                     </font>
                 </Text>
             </children>
         </TextFlow>
-        <TextFlow fx:id="watchedField" blendMode="SCREEN" layoutX="6.0" layoutY="61.0" maxWidth="-Infinity" prefHeight="35.0" style="-fx-border-color: #2b2b2d; -fx-border-radius: 5; -fx-background-radius: 5;">
+        <TextFlow fx:id="watchedField" blendMode="SCREEN" layoutX="6.0" layoutY="62.0" maxWidth="-Infinity" prefWidth="537.0" style="-fx-border-color: gray #2b2b2d  #2b2b2d  gray; -fx-border-radius: 0; -fx-background-radius: 0; -fx-border-width: 0.5;">
             <padding>
-                <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
             </padding>
             <children>
-                <Text fx:id="watchedText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Assistido em 23 de Abril de 2024" wrappingWidth="394.79994201660156">
+                <Text fx:id="watchedText" fill="#ffffff80" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Assistido em 23 de Abril de 2024" wrappingWidth="394.79994201660156">
                     <font>
                         <Font name="Segoe UI Bold" size="12.0" />
                     </font>
@@ -77,7 +85,7 @@
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding>
             <children>
-                <Text fx:id="infoTVText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Batalha dos Bastardos">
+                <Text fx:id="infoTVText" fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Batalha dos Bastardos">
                     <font>
                         <Font name="Segoe UI Bold" size="12.0" />
                     </font>

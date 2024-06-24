@@ -7,20 +7,35 @@
 
 .tab-header-area .tab-header-background {
     -fx-background-color: -fx-primary-color;
+    -fx-border-color: gray gray transparent gray;
+    -fx-border-width: 0.1;
+
 }
 .tab-pane .tab:selected {
     -fx-background-color: -fx-secondary-color;
+    -fx-border-color: gray gray transparent gray;
+    -fx-border-width: 0.1;
     -fx-background-insets: 0 0 0 0;
     -fx-background-radius: 0 0 0 0;
 }
-.tab .tab-label {
+#favoritesTab .tab-label {
     -fx-alignment: CENTER;
-    -fx-text-fill: white;
+    -fx-text-fill: yellow;
     -fx-font-weight: bold;
     -fx-font-family: "Segoe UI";
     -fx-font-size: 16;
     -fx-padding: 0 40 0 40;
 }
+
+#watchedTab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: lightseagreen;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16;
+    -fx-padding: 0 40 0 40;
+}
+
 .tab-pane:top *.tab-header-area {
     -fx-padding: 0 0 0 0;
 

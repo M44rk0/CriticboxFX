@@ -19,12 +19,29 @@
 
 #reviewTextArea{
     -fx-control-inner-background:  #1f1e23; /* Cor de fundo interna */
-    -fx-background-color: #ffffff; /* Cor de fundo externa */
-    -fx-text-fill: white;
+    -fx-background-color: #1e1d21; /* Cor de fundo externa */
+    -fx-text-fill: #ffffff;
     -fx-prompt-text-fill: #bebebe;
-    -fx-border-color: white;
-    -fx-border-width: 1;
+    -fx-border-color:   gray;
+    -fx-border-width: 0.5;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
 
+}
+.text-area {
+    -fx-background-color: #232327;
+}
+.text-area .content {
+    -fx-background-color: #232327;
+    -fx-padding: 20 20 20 20;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+.text-area:focused .content {
+    -fx-background-color: #232327;
+    -fx-padding: 20 20 20 20;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
 }
 
 #returnButton{

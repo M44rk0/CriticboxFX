@@ -1,5 +1,5 @@
 package com.m44rk0.criticboxfx.controller.review;
-import com.m44rk0.criticboxfx.utils.CommonFields;
+import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ReviewController implements CommonFields {
+public class ReviewController implements CommonController {
 
     @FXML
     private Button editReviewButton;
@@ -89,9 +89,10 @@ public class ReviewController implements CommonFields {
     }
 
     public void setPosterImage(String posterImage) {
-        Image poster = new Image("https://image.tmdb.org/t/p/original/" + posterImage, 250, 350, false, false);
+        Image poster = new Image("https://image.tmdb.org/t/p/original/" + posterImage, 250, 360, false, false);
         this.posterImage.setImage(poster);
     }
+
 
     @Override
     public void setReleaseField(String releaseDate) {

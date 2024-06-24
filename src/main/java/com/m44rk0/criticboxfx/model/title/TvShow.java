@@ -1,5 +1,6 @@
 package com.m44rk0.criticboxfx.model.title;
 
+import com.m44rk0.criticboxfx.model.search.Search;
 import com.m44rk0.criticboxfx.model.search.TitleSearcher;
 import info.movito.themoviedbapi.model.tv.core.credits.Credits;
 import info.movito.themoviedbapi.model.tv.season.TvSeasonDb;
@@ -17,7 +18,6 @@ public class TvShow extends Title {
     private final Integer tvShowID;
     private final ArrayList<Season> seasons;
     private final Integer totalEpisodes;
-
 
     public TvShow(TvSeriesDb movie, Credits credits) throws TmdbException {
         this.tvShowID = movie.getId();
@@ -71,29 +71,34 @@ public class TvShow extends Title {
     }
 
     private ArrayList<Season> getTvShowInfo(TvSeriesDb seriesDb) throws TmdbException {
-
         TmdbApi apiKey = new TmdbApi(new TitleSearcher().getAPI_KEY());
-
         TvSeriesDb serie = apiKey.getTvSeries().getDetails(seriesDb.getId(), "pt-BR");
 
         ArrayList<Season> seasons = new ArrayList<>();
         TmdbTvSeasons tvSeasons = apiKey.getTvSeasons();
 
-
         for (int i = 0; i < serie.getSeasons().size(); i++) {
+            String seasonAirDate = serie.getSeasons().get(i).getAirDate();
 
-            Integer seasonNumber = serie.getSeasons().get(i).getSeasonNumber();
-            ArrayList<String> episodes = new ArrayList<>();
+            if (Search.isReleased(seasonAirDate)) {
+                Integer seasonNumber = serie.getSeasons().get(i).getSeasonNumber();
+                ArrayList<Episode> episodes = new ArrayList<>();
 
-            if(serie.getSeasons().get(i).getSeasonNumber() != 0) {
-                TvSeasonDb tvSeasonDb = tvSeasons.getDetails(seriesDb.getId(), seasonNumber, "pt-BR");
+                if (seasonNumber != 0) {
+                    TvSeasonDb tvSeasonDb = tvSeasons.getDetails(seriesDb.getId(), seasonNumber, "pt-BR");
 
-                for (int j = 0; j < tvSeasonDb.getEpisodes().size(); j++) {
-                        episodes.add(tvSeasonDb.getEpisodes().get(j).getName());
+                    for (int j = 0; j < tvSeasonDb.getEpisodes().size(); j++) {
+                        String episodeAirDate = tvSeasonDb.getEpisodes().get(j).getAirDate();
+
+                        if (Search.isReleased(episodeAirDate)) {
+                            Episode episode = new Episode(tvSeasonDb.getEpisodes().get(j).getName(), tvSeasonDb.getEpisodes().get(j).getRuntime());
+                            episodes.add(episode);
+                        }
+                    }
+
+                    Season season = new Season(seasonNumber, episodes);
+                    seasons.add(season);
                 }
-
-                Season season = new Season(seasonNumber, episodes);
-                seasons.add(season);
             }
         }
         return seasons;
@@ -120,7 +125,6 @@ public class TvShow extends Title {
         }
         return crew;
     }
-
 
     protected ArrayList<String> getProducers(info.movito.themoviedbapi.model.tv.core.credits.Credits credits){
         ArrayList<String> producers = new ArrayList<>();
@@ -200,7 +204,6 @@ public class TvShow extends Title {
         }
         return sound;
     }
-
 
     private Integer getEpisodes(){
         int episodeCount = 0;

@@ -2,8 +2,7 @@ package com.m44rk0.criticboxfx.controller;
 
 import com.m44rk0.criticboxfx.controller.details.TitleDetailsController;
 import com.m44rk0.criticboxfx.controller.details.TitleInfoController;
-import com.m44rk0.criticboxfx.controller.favorites.FavoriteDetailsController;
-import com.m44rk0.criticboxfx.controller.favorites.FavoritesController;
+import com.m44rk0.criticboxfx.controller.favorites.FavAndWatchController;
 import com.m44rk0.criticboxfx.controller.favorites.FavoritesPanelController;
 import com.m44rk0.criticboxfx.controller.review.CreateReviewController;
 import com.m44rk0.criticboxfx.controller.review.ReviewController;
@@ -13,17 +12,23 @@ import com.m44rk0.criticboxfx.model.search.TitleSearcher;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.model.title.TvShow;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
-import com.m44rk0.criticboxfx.utils.CommonFields;
+import com.m44rk0.criticboxfx.utils.CommonController;
 import info.movito.themoviedbapi.tools.TmdbException;
+import javafx.scene.effect.BlurType;
+import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.fxml.FXML;
+import javafx.scene.paint.Color;
+
 import java.util.List;
 import java.io.File;
 
@@ -61,8 +66,10 @@ public class ViewController {
     @FXML
     private TextField searchField;
 
+    private final String fillStar = "M17.562 21.56a1 1 0 0 1-.465-.116L12 18.764l-5.097 2.68a1 1 0 0 1-1.45-1.053l.973-5.676-4.124-4.02a1 1 0 0 1 .554-1.705l5.699-.828 2.549-5.164a1.04 1.04 0 0 1 1.793 0l2.548 5.164 5.699.828a1 1 0 0 1 .554 1.705l-4.124 4.02.974 5.676a1 1 0 0 1-.985 1.169Z";
     private final List<Node> searchResultNodes = new ArrayList<>();
     private final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original/";
+    private Integer detailsIsCalledFrom = 0;
 
     @FXML
     public void searchButtonResults(){
@@ -110,7 +117,6 @@ public class ViewController {
 
         for(Title title : searchResults){
             try {
-                String fillStar = "M17.562 21.56a1 1 0 0 1-.465-.116L12 18.764l-5.097 2.68a1 1 0 0 1-1.45-1.053l.973-5.676-4.124-4.02a1 1 0 0 1 .554-1.705l5.699-.828 2.549-5.164a1.04 1.04 0 0 1 1.793 0l2.548 5.164 5.699.828a1 1 0 0 1 .554 1.705l-4.124 4.02.974 5.676a1 1 0 0 1-.985 1.169Z";
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("titleInfo.fxml"));
                 Pane movieInfoPane = loader.load();
                 TitleInfoController controller = loader.getController();
@@ -129,6 +135,11 @@ public class ViewController {
 
                 if(favoriteTittles.contains(title.getName())){
                     controller.setFillFavoriteStar(fillStar);
+                }
+
+                if(user.getWatched().contains(title)){
+                    String watchedEye = "M10.94,6.08A6.93,6.93,0,0,1,12,6c3.18,0,6.17,2.29,7.91,6a15.23,15.23,0,0,1-.9,1.64,1,1,0,0,0-.16.55,1,1,0,0,0,1.86.5,15.77,15.77,0,0,0,1.21-2.3,1,1,0,0,0,0-.79C19.9,6.91,16.1,4,12,4a7.77,7.77,0,0,0-1.4.12,1,1,0,1,0,.34,2ZM3.71,2.29A1,1,0,0,0,2.29,3.71L5.39,6.8a14.62,14.62,0,0,0-3.31,4.8,1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20a9.26,9.26,0,0,0,5.05-1.54l3.24,3.25a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Zm6.36,9.19,2.45,2.45A1.81,1.81,0,0,1,12,14a2,2,0,0,1-2-2A1.81,1.81,0,0,1,10.07,11.48ZM12,18c-3.18,0-6.17-2.29-7.9-6A12.09,12.09,0,0,1,6.8,8.21L8.57,10A4,4,0,0,0,14,15.43L15.59,17A7.24,7.24,0,0,1,12,18Z";
+                    controller.setWatchedIcon(watchedEye);
                 }
 
                 scrollBox.getChildren().add(movieInfoPane);
@@ -150,7 +161,9 @@ public class ViewController {
             Pane reviewPane = loader.load();
             CreateReviewController controller = loader.getController();
 
-            setCommonFields(controller, title);
+            controller.setTittleField(title.getName() + " (" + dateToYear(title.getReleaseDate()) + ")");
+            controller.setOverviewField(title.getOverview());
+            controller.setPosterImage(title.getPosterPath());
 
             controller.setTitle(title);
             controller.setMainController(this);
@@ -166,6 +179,7 @@ public class ViewController {
 
             resetScrollBox();
             ScrollPage.setVvalue(0);
+            ScrollPage.setFitToHeight(true);
             scrollBox.getChildren().add(reviewPane);
 
         } catch (IOException e) {
@@ -179,6 +193,7 @@ public class ViewController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("titleDetails.fxml"));
             Pane movieDetailsPane = loader.load();
             TitleDetailsController controller = loader.getController();
+
             resetScrollBox();
             ScrollPage.setVvalue(0);
 
@@ -201,6 +216,10 @@ public class ViewController {
                 controller.hideDuration();
             }
 
+            if(user.getFavorites().contains(title)){
+                controller.setFillFavoriteStar(fillStar);
+            }
+
             scrollBox.getChildren().add(movieDetailsPane);
         }
         catch (IOException e){
@@ -208,74 +227,55 @@ public class ViewController {
         }
     }
 
-    public void showFavoriteDetails(Title title){
+    public void showFavorites() {
         try {
             resetScrollBox();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("favoritesAndWatched.fxml"));
+            TabPane fav = loader.load();
+            FavAndWatchController controller = loader.getController();
+            FlowPane favoritesFlow = controller.getFavoritesFlow();
+            FlowPane watchedFlow = controller.getWatchedFlow();
+            favoritesFlow.getChildren().clear();
+            watchedFlow.getChildren().clear();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("favoriteDetails.fxml"));
-            Pane movieDetailsPane = loader.load();
-            FavoriteDetailsController controller = loader.getController();
-
-            setCommonFields(controller, title);
-
-            controller.setMainController(this);
-            controller.setDurationField(title.getDuration());
-            controller.setGenreFlow(title.getGenres());
-            controller.setDirectorFlow(title.getDirectors());
-            controller.setCastFlow(title.getCast());
-            controller.setWriterFlow(title.getWriters());
-            controller.setProducerFlow(title.getProducers());
-            controller.setArtDirectFlow(title.getArtDirection());
-            controller.setSoundFlow(title.getSoundTeam());
-            controller.setCameraFlow(title.getPhotographyTeam());
-            controller.setVfxFlow(title.getVisualEffectsTeam());
-
-            if(title instanceof TvShow){
-                controller.hideDuration();
+            List<Title> favorites = user.getFavorites().reversed();
+            for (Title title : favorites) {
+                FXMLLoader fvLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
+                Pane favoritesPanel = fvLoader.load();
+                FavoritesPanelController favoritePanelController = fvLoader.getController();
+                favoritePanelController.setMainController(this);
+                favoritePanelController.setPoster(title.getPosterPath());
+                favoritePanelController.setTitle(title);
+                favoritesPanel.setEffect(new InnerShadow(BlurType.GAUSSIAN, Color.WHITE, 2.0, 0.89, 0.0, 0.0));
+                favoritesFlow.getChildren().add(favoritesPanel);
             }
 
-            scrollBox.getChildren().add(movieDetailsPane);
+            List<Title> watched = user.getWatched().reversed();
+            for (Title title : watched) {
+                FXMLLoader fvLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
+                Pane favoritesPanel = fvLoader.load();
+                FavoritesPanelController favoritePanelController = fvLoader.getController();
 
-            ScrollPage.setVvalue(0);
+                favoritePanelController.setMainController(this);
+                favoritePanelController.setPoster(title.getPosterPath());
+                favoritePanelController.setTitle(title);
+                favoritesPanel.setEffect(new InnerShadow(BlurType.GAUSSIAN, Color.WHITE, 2.0, 0.89, 0.0, 0.0));
+                watchedFlow.getChildren().add(favoritesPanel);
+            }
 
-        } catch (IOException e){
+            if(watched.isEmpty() && favorites.isEmpty() || (watched.size() < 4 && favorites.size() < 4)){
+                ScrollPage.setFitToHeight(true);
+            };
+            scrollBox.getChildren().add(fav);
+
+
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void showFavorites(){
-            try {
 
-                resetScrollBox();
-
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("favorites.fxml"));
-                FavoritesController controller = loader.getController();
-                FlowPane favoritesPane = loader.load();
-
-                List<Title> favorites = user.getFavorites();
-
-                for (Title title : favorites) {
-                    FXMLLoader fvLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
-                    Pane favoritesPanel = fvLoader.load();
-                    FavoritesPanelController favoritePanelController = fvLoader.getController();
-
-                    favoritePanelController.setMainController(this);
-                    favoritePanelController.setPoster(title.getPosterPath());
-                    favoritePanelController.setTitle(title);
-
-                    favoritesPane.getChildren().add(favoritesPanel);
-                }
-
-                if (favorites.size() < 4) {
-                    ScrollPage.setFitToHeight(true);
-                }
-
-                scrollBox.getChildren().add(favoritesPane);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-    }
 
     public void showMovie(String movieName) throws TmdbException{
         TitleSearcher searcher = new TitleSearcher();
@@ -291,6 +291,7 @@ public class ViewController {
 
     public void showUserReviews(){
             try {
+                resetScrollBox();
                 ArrayList<Review> userReviews = user.getReviews();
 
                 for (Review review : userReviews){
@@ -320,23 +321,44 @@ public class ViewController {
                     }
 
                 }
-                resetScrollBox();
             }
             catch (IOException e){
                 e.printStackTrace();
             }
     }
 
-    private void setCommonFields(CommonFields controller, Title title){
+    private void setCommonFields(CommonController controller, Title title){
         controller.setTittleField(title.getName());
         controller.setOverviewField(title.getOverview());
         controller.setPosterImage(title.getPosterPath());
-        controller.setReleaseField(title.getReleaseDate());
+        controller.setReleaseField(formatDate(title.getReleaseDate()));
     }
 
     private void resetScrollBox(){
         scrollBox.getChildren().clear();
         ScrollPage.setFitToHeight(false);
+    }
+
+    public void setDetailsIsCalledFrom(Integer detailsIsCalledFrom) {
+        this.detailsIsCalledFrom = detailsIsCalledFrom;
+    }
+
+    public Integer getDetailsIsCalledFrom() {
+        return detailsIsCalledFrom;
+    }
+
+    public static String formatDate(String dataString) {
+        DateTimeFormatter input = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter output = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        LocalDate date = LocalDate.parse(dataString, input);
+        return date.format(output);
+    }
+
+    public static String dateToYear(String dataString) {
+        DateTimeFormatter formatoEntrada = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatoSaida = DateTimeFormatter.ofPattern("yyyy");
+        LocalDate data = LocalDate.parse(dataString, formatoEntrada);
+        return data.format(formatoSaida);
     }
 
     @FXML

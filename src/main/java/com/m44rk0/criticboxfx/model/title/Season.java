@@ -4,28 +4,25 @@ import java.util.ArrayList;
 
 public class Season {
 
-    private Integer seasonNumber;
-    private ArrayList<String> episodeList;
+    private final Integer seasonNumber;
+    private final ArrayList<Episode> episodes;
 
-    public Season(Integer seasonNumber, ArrayList<String> episodeList) {
+    public Season(Integer seasonNumber, ArrayList<Episode> episodes) {
         this.seasonNumber = seasonNumber;
-        this.episodeList = episodeList;
+        this.episodes = episodes;
     }
 
     public Integer getSeasonNumber() {
         return seasonNumber;
     }
 
-    public void setSeasonNumber(Integer seasonNumber) {
-        this.seasonNumber = seasonNumber;
-    }
-
     public ArrayList<String> getEpisodeList() {
+        ArrayList<String> episodeList = new ArrayList<>();
+        for (Episode episode : episodes) {
+            episodeList.add(episode.getEpisodeName());
+        }
         return episodeList;
     }
 
-    public void setEpisodeList(ArrayList<String> episodeList) {
-        this.episodeList = episodeList;
-    }
-
 }
+

@@ -14,6 +14,7 @@ public class User {
     private String password;
     private ArrayList<Title> favorites;
     private ArrayList<Review> reviews;
+    private ArrayList<Title> watched;
 
     public User(String name, String username, String password) {
         this.userID = userCount++;
@@ -22,6 +23,7 @@ public class User {
         this.password = password;
         this.favorites = new ArrayList<>();
         this.reviews = new ArrayList<>();
+        this.watched = new ArrayList<>();
     }
 
     public ArrayList<String> getFavoritesNames() {
@@ -46,12 +48,21 @@ public class User {
         favorites.add(tittle);
     }
 
-    public void addReview(Review review){
-        reviews.add(review);
-    }
 
     public void removeFavorite(Title tittle){
         favorites.remove(tittle);
+    }
+
+    public void addWatched(Title tittle){
+        watched.add(tittle);
+    }
+
+    public void removeWatched(Title tittle){
+        watched.remove(tittle);
+    }
+
+    public void addReview(Review review){
+        reviews.add(review);
     }
 
     public Integer getUserID() {
@@ -102,4 +113,11 @@ public class User {
         this.reviews = reviews;
     }
 
+    public ArrayList<Title> getWatched() {
+        return watched;
+    }
+
+    public void setWatched(ArrayList<Title> watched) {
+        this.watched = watched;
+    }
 }

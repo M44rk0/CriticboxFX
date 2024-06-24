@@ -198,6 +198,9 @@ public class Search {
     }
 
     public static boolean isReleased(String releaseDate) {
+        if (releaseDate == null) {
+            return false;
+        }
         try {
             LocalDate release = LocalDate.parse(releaseDate, DATE_FORMATTER);
             LocalDate today = LocalDate.now();

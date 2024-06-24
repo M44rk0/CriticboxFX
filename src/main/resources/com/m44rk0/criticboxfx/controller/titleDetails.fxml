@@ -3,12 +3,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -24,6 +26,13 @@
             <children>
                <ImageView fx:id="posterImage" fitHeight="350.0" fitWidth="250.0" pickOnBounds="true">
                   <Image url="@../../../../../../../../../Downloads/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg" />
+                  <effect>
+                     <InnerShadow blurType="GAUSSIAN" choke="0.89" height="5.0" radius="2.0" width="5.0">
+                        <color>
+                           <Color red="1.0" green="1.0" blue="1.0" />
+                        </color>
+                     </InnerShadow>
+                  </effect>
                </ImageView>
                <Button id="returnButton" fx:id="returnButton" layoutX="4.0" layoutY="4.0" mnemonicParsing="false" onAction="#handleReturnButtonClick" prefHeight="30.0" prefWidth="40.0" textAlignment="CENTER">
                   <graphic>
@@ -31,16 +40,16 @@
                   </graphic>
                </Button>
                <FlowPane alignment="TOP_RIGHT" hgap="5.0" layoutX="258.0" prefHeight="300.0" prefWidth="520.0" vgap="5.0">
-                  <TextFlow prefHeight="22.0" prefWidth="522.0" style="-fx-border-color: white; -fx-border-radius: 10 10 0 0;" textAlignment="CENTER">
-                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Titulo" textAlignment="CENTER" wrappingWidth="570.0">
+                  <TextFlow prefHeight="22.0" prefWidth="522.0" style="-fx-border-color: white; -fx-border-radius: 0 10 0 0;" textAlignment="CENTER">
+                     <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Titulo" textAlignment="CENTER" wrappingWidth="570.0">
                         <font>
                            <Font name="JetBrains Mono Bold" size="15.0" />
                         </font>
                      </Text>
                   </TextFlow>
-                  <TextFlow fx:id="tittleField" blendMode="SCREEN" maxWidth="-Infinity" prefHeight="30.0" prefWidth="522.0" style="-fx-border-color: #2b2b2d; -fx-border-radius: 5; -fx-background-color: #1f1e23; -fx-background-radius: 5;" textAlignment="CENTER">
+                  <TextFlow fx:id="tittleField" blendMode="SCREEN" maxWidth="-Infinity" prefHeight="30.0" prefWidth="522.0" style="-fx-border-color: gray #2b2b2d  #2b2b2d  gray; -fx-border-radius: 5; -fx-background-color: #1f1e23; -fx-background-radius: 5; -fx-border-width: 0.5;" textAlignment="CENTER">
                      <children>
-                        <Text fx:id="tittleText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Vingadores: Guerra Infinita" wrappingWidth="394.79994201660156">
+                        <Text fx:id="tittleText" fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Vingadores: Guerra Infinita" wrappingWidth="394.79994201660156">
                            <font>
                               <Font name="Segoe UI Bold" size="16.0" />
                            </font>
@@ -54,22 +63,22 @@
                      </effect>
                   </TextFlow>
                   <TextFlow layoutX="10.0" layoutY="10.0" prefHeight="22.0" prefWidth="522.0" style="-fx-border-color: white;" textAlignment="CENTER">
-                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Visão Geral" textAlignment="CENTER" wrappingWidth="570.0">
+                     <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Visão Geral" textAlignment="CENTER" wrappingWidth="570.0">
                         <font>
                            <Font name="JetBrains Mono Bold" size="15.0" />
                         </font>
                      </Text>
                   </TextFlow>
-                  <TextFlow fx:id="overviewField" blendMode="SCREEN" lineSpacing="3.0" prefHeight="217.0" prefWidth="522.0" style="-fx-border-color: #2b2b2d; -fx-border-radius: 5; -fx-background-color: #1f1e23; -fx-background-radius: 5;">
+                  <TextFlow fx:id="overviewField" blendMode="SCREEN" lineSpacing="3.0" prefHeight="221.0" prefWidth="522.0" style="-fx-border-color: gray #2b2b2d  #2b2b2d  gray; -fx-border-radius: 5; -fx-background-color: #1f1e23; -fx-background-radius: 5; -fx-border-width: 0.5;" textAlignment="JUSTIFY">
                      <children>
-                        <Text fx:id="overviewText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Homem de Ferro, Thor, Hulk e os Vingadores se unem para combater seu inimigo mais poderoso, o maligno Thanos. Em uma missão para coletar todas as seis pedras infinitas, Thanos planeja usá-las para infligir sua vontade maléfica sobre a realidade.">
+                        <Text fx:id="overviewText" fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Homem de Ferro, Thor, Hulk e os Vingadores se unem para combater seu inimigo mais poderoso, o maligno Thanos. Em uma missão para coletar todas as seis pedras infinitas, Thanos planeja usá-las para infligir sua vontade maléfica sobre a realidade.">
                            <font>
                               <Font name="SansSerif Bold" size="16.0" />
                            </font>
                         </Text>
                      </children>
                      <padding>
-                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                      </padding>
                      <effect>
                         <Blend mode="OVERLAY" opacity="0.5" />
@@ -98,7 +107,7 @@
             <children>
                <TextFlow textAlignment="CENTER">
                   <children>
-                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Lançamento" textAlignment="CENTER" wrappingWidth="570.0">
+                     <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Lançamento" textAlignment="CENTER" wrappingWidth="570.0">
                         <font>
                            <Font name="JetBrains Mono Bold" size="15.0" />
                         </font>
@@ -116,7 +125,7 @@
                      <Insets />
                   </HBox.margin>
                   <children>
-                     <Text fx:id="releaseText" blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="25/04/2018">
+                     <Text fx:id="releaseText" blendMode="SCREEN" fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="25/04/2018">
                         <font>
                            <Font name="JetBrains Mono Bold" size="15.0" />
                         </font>
@@ -128,7 +137,7 @@
                      <Insets bottom="5.0" top="5.0" />
                   </padding>
                   <children>
-                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Duração" textAlignment="CENTER" wrappingWidth="570.0">
+                     <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Duração" textAlignment="CENTER" wrappingWidth="570.0">
                         <font>
                            <Font name="JetBrains Mono Bold" size="15.0" />
                         </font>
@@ -140,7 +149,7 @@
                      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                   </padding>
                   <children>
-                     <Text fx:id="durationText" blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="145 min">
+                     <Text fx:id="durationText" blendMode="SCREEN" fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="145 min">
                         <font>
                            <Font name="JetBrains Mono Bold" size="15.0" />
                         </font>
@@ -161,7 +170,7 @@
             <children>
                <FlowPane fx:id="genresFlow" alignment="CENTER_LEFT" hgap="5.0" prefWrapLength="300.0" style="-fx-border-color: transparent transparent white transparent;" vgap="5.0">
                   <children>
-                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Genero" textAlignment="CENTER" wrappingWidth="67.0">
+                     <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Genero" textAlignment="CENTER" wrappingWidth="67.0">
                         <font>
                            <Font name="JetBrains Mono Bold" size="15.0" />
                         </font>
@@ -171,7 +180,7 @@
                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                         </padding>
                         <children>
-                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Ação">
+                           <Text blendMode="SCREEN" fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Ação">
                               <font>
                                  <Font name="JetBrains Mono Bold" size="15.0" />
                               </font>
@@ -183,7 +192,7 @@
                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                         </padding>
                         <children>
-                           <Text blendMode="SCREEN" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
+                           <Text blendMode="SCREEN" fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Aventura">
                               <font>
                                  <Font name="JetBrains Mono Bold" size="15.0" />
                               </font>
@@ -200,7 +209,7 @@
                </FlowPane>
                <TextFlow prefWidth="780.0" style="-fx-border-width: 1;" textAlignment="CENTER">
                   <children>
-                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Direção" textAlignment="CENTER" wrappingWidth="570.0">
+                     <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Direção" textAlignment="CENTER" wrappingWidth="570.0">
                         <font>
                            <Font name="JetBrains Mono Bold" size="15.0" />
                         </font>
@@ -231,7 +240,7 @@
                </FlowPane>
                <TextFlow prefWidth="780.0" style="-fx-border-width: 1;" textAlignment="CENTER">
                   <children>
-                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Elenco" textAlignment="CENTER" wrappingWidth="570.0">
+                     <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Elenco" textAlignment="CENTER" wrappingWidth="570.0">
                         <font>
                            <Font name="JetBrains Mono Bold" size="15.0" />
                         </font>
@@ -322,7 +331,7 @@
                </FlowPane>
                <TextFlow prefWidth="780.0" style="-fx-border-width: 1;" textAlignment="CENTER">
                   <children>
-                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Escritores | Escritores Originais" textAlignment="CENTER" wrappingWidth="570.0">
+                     <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Escritores | Escritores Originais" textAlignment="CENTER" wrappingWidth="570.0">
                         <font>
                            <Font name="JetBrains Mono Bold" size="15.0" />
                         </font>
@@ -392,7 +401,7 @@
                      <Insets bottom="5.0" top="5.0" />
                   </padding>
                   <children>
-                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Produtores | Produtores Executivos" textAlignment="CENTER" wrappingWidth="570.0">
+                     <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Produtores | Produtores Executivos" textAlignment="CENTER" wrappingWidth="570.0">
                         <font>
                            <Font name="JetBrains Mono Bold" size="15.0" />
                         </font>
@@ -468,7 +477,7 @@
                </FlowPane>
                <TextFlow prefWidth="780.0" style="-fx-border-width: 1;" textAlignment="CENTER">
                   <children>
-                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Direção de Arte" textAlignment="CENTER" wrappingWidth="570.0">
+                     <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Direção de Arte" textAlignment="CENTER" wrappingWidth="570.0">
                         <font>
                            <Font name="JetBrains Mono Bold" size="15.0" />
                         </font>
@@ -535,7 +544,7 @@
                </FlowPane>
                <TextFlow layoutX="11.0" layoutY="366.0" prefWidth="780.0" style="-fx-border-width: 1;" textAlignment="CENTER">
                   <children>
-                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Som" textAlignment="CENTER" wrappingWidth="570.0">
+                     <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Som" textAlignment="CENTER" wrappingWidth="570.0">
                         <font>
                            <Font name="JetBrains Mono Bold" size="15.0" />
                         </font>
@@ -590,7 +599,7 @@
                </FlowPane>
                <TextFlow layoutX="11.0" layoutY="436.0" prefWidth="780.0" style="-fx-border-width: 1;" textAlignment="CENTER">
                   <children>
-                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Camera | Fotográfia" textAlignment="CENTER" wrappingWidth="570.0">
+                     <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Camera | Fotográfia" textAlignment="CENTER" wrappingWidth="570.0">
                         <font>
                            <Font name="JetBrains Mono Bold" size="15.0" />
                         </font>
@@ -645,7 +654,7 @@
                </FlowPane>
                <TextFlow layoutX="11.0" layoutY="506.0" prefWidth="780.0" style="-fx-border-width: 1;" textAlignment="CENTER">
                   <children>
-                     <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Efeitos Visuais" textAlignment="CENTER" wrappingWidth="570.0">
+                     <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Efeitos Visuais" textAlignment="CENTER" wrappingWidth="570.0">
                         <font>
                            <Font name="JetBrains Mono Bold" size="15.0" />
                         </font>

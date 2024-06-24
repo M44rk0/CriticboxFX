@@ -9,7 +9,7 @@ import com.m44rk0.criticboxfx.model.title.Season;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.model.title.TvShow;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
-import com.m44rk0.criticboxfx.utils.CommonFields;
+import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -23,7 +23,7 @@ import java.util.*;
 
 import static com.m44rk0.criticboxfx.App.user;
 
-public class CreateReviewController implements CommonFields {
+public class CreateReviewController implements CommonController {
 
     @FXML
     private Button doReviewButton;
@@ -121,6 +121,9 @@ public class CreateReviewController implements CommonFields {
     }
 
     public void setOverviewField(String overviewField) {
+        if (overviewField.length() > 540) {
+            overviewField = overviewField.substring(0, 537) + "...";
+        }
         this.overviewText.setText(overviewField);
     }
 
@@ -184,7 +187,7 @@ public class CreateReviewController implements CommonFields {
 
     }
 
-    private boolean containsInReview(Title title) {
+    public boolean containsInReview(Title title) {
 
         ArrayList<Review> userReviews = user.getReviews();
         for (Review review : userReviews) {
@@ -236,6 +239,12 @@ public class CreateReviewController implements CommonFields {
         seasonBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 updateEpisodeBox(newValue);
+            }
+        });
+
+        reviewArea.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.length() > 456) {
+                reviewArea.setText(oldValue);
             }
         });
     }

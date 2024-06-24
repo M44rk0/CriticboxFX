@@ -2,29 +2,27 @@ package com.m44rk0.criticboxfx.controller.favorites;
 
 import com.m44rk0.criticboxfx.controller.ViewController;
 import com.m44rk0.criticboxfx.model.title.Title;
+import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.scene.image.ImageView;
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.fxml.FXML;
 
+import static com.m44rk0.criticboxfx.App.main;
 import static com.m44rk0.criticboxfx.App.user;
 
-public class FavoritesPanelController {
+public class FavoritesPanelController implements CommonController {
 
     @FXML
     public ImageView favoritePoster;
 
-    @FXML
-    private Button deleteButton;
+    private Title title;
+    private ViewController mainController;
 
     @FXML
     public void setPoster(String poster){
         Image image = new Image("https://image.tmdb.org/t/p/original/" + poster, 250, 350, false, false);
         favoritePoster.setImage(image);
     }
-
-    private Title title;
-    private ViewController mainController;
 
     @FXML
     public void removeFavorite(){
@@ -34,7 +32,8 @@ public class FavoritesPanelController {
 
     @FXML
     public void showDetails(){
-        mainController.showFavoriteDetails(title);
+        mainController.showTitleDetails(title);
+        mainController.setDetailsIsCalledFrom(2);
     }
 
     public void setTitle(Title title){
@@ -46,4 +45,23 @@ public class FavoritesPanelController {
     }
 
 
+    @Override
+    public void setTittleField(String title) {
+
+    }
+
+    @Override
+    public void setOverviewField(String overview) {
+
+    }
+
+    @Override
+    public void setPosterImage(String posterPath) {
+
+    }
+
+    @Override
+    public void setReleaseField(String releaseDate) {
+
+    }
 }
