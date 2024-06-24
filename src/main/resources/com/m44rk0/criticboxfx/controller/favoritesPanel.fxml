@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
 
 <Pane stylesheets="@../style/favoritepanel.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.favorites.FavoritesPanelController">
    <children>
@@ -14,6 +16,13 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
+         <effect>
+            <InnerShadow blurType="GAUSSIAN" choke="0.89" height="6.0" radius="2.5" width="6.0">
+               <color>
+                  <Color red="1.0" green="1.0" blue="1.0" />
+               </color>
+            </InnerShadow>
+         </effect>
       </ImageView>
    </children>
 </Pane>

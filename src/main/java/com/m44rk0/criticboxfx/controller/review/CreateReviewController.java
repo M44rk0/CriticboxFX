@@ -62,17 +62,6 @@ public class CreateReviewController implements CommonController {
     private List<SVGPath> stars;
     private ViewController viewController;
 
-    private void updateEpisodeBox(int seasonNumber) {
-        if (title instanceof TvShow tvShow) {
-            for (Season season : tvShow.getSeasons()) {
-                if (season.getSeasonNumber() == seasonNumber) {
-                    setEpisodeBox(season.getEpisodeList());
-                    break;
-                }
-            }
-        }
-    }
-
     @FXML
     void ReturnButtonClick() {
         if (viewController != null) {
@@ -80,65 +69,19 @@ public class CreateReviewController implements CommonController {
         }
     }
 
-    public void setTitle(Title title) {
-        this.title = title;
-    }
-
-    private void setRating(int rating) {
-        currentRating = rating;
-
-        for (int i = 0; i < stars.size(); i++) {
-            if (i < rating) {
-                stars.get(i).setFill(Color.YELLOW);
-            } else {
-                stars.get(i).setFill(Color.GRAY);
-            }
-        }
-    }
-
-    public void setReleaseField(String releaseField){
-    }
-
-    public void setTittleField(String titleField) {
-        this.tittleText.setText(titleField);
-    }
-
-    public void setOverviewField(String overviewField) {
-        if (overviewField.length() > 540) {
-            overviewField = overviewField.substring(0, 537) + "...";
-        }
-        this.overviewText.setText(overviewField);
-    }
-
-    public void setPosterImage(String posterImage) {
-        Image poster = new Image("https://image.tmdb.org/t/p/original/" + posterImage, 250, 350, false, false);
-        this.posterImage.setImage(poster);
-    }
-
-    public void setEpisodeBox(ArrayList<String> episodes) {
-        this.episodeBox.getItems().clear();
-        this.episodeBox.getItems().addAll(episodes);
-    }
-
-    public void setSeasonBox(ArrayList<Integer> seasons) {
-         this.seasonBox.getItems().addAll(seasons);
-    }
-
-    public void setMainController(ViewController viewController) {
-        this.viewController = viewController;
-    }
-
-    public int getCurrentRating() {
-        return currentRating;
-    }
-
     @FXML
     public void saveReview(){
 
-        if(getCurrentRating() == 0 || reviewArea.getText().isEmpty()){
+        if (getCurrentRating() == 0 && reviewArea.getText().isBlank()){
+            AlertMessage.showAlert("Erro de Review", "Esqueceu foi de tudo po, ta de sacanagem?");
+        }
 
-            AlertMessage.showAlert("Erro de review", "Esquecer de dar a nota meu mano");
+        else if(getCurrentRating() == 0){
+            AlertMessage.showAlert("Erro de Review", "Esquecer de dar a nota meu mano");
+        }
 
+        else if(reviewArea.getText().isEmpty()){
+            AlertMessage.showAlert("Erro de Review", "Esqueceu da avaliação irmão");
         }
 
         else if(!containsInReview(title)) {
@@ -199,6 +142,69 @@ public class CreateReviewController implements CommonController {
         episodeBox.setVisible(true);
     }
 
+    public void setPosterImage(String posterImage) {
+        Image poster = new Image("https://image.tmdb.org/t/p/original/" + posterImage, 250, 350, false, false);
+        this.posterImage.setImage(poster);
+    }
+
+    public void setOverviewField(String overviewField) {
+        if (overviewField.length() > 540) {
+            overviewField = overviewField.substring(0, 537) + "...";
+        }
+        this.overviewText.setText(overviewField);
+    }
+
+    public void setTittleField(String titleField) {
+        this.tittleText.setText(titleField);
+    }
+
+    public void setReleaseField(String releaseField){
+    }
+
+    public void setMainController(ViewController viewController) {
+        this.viewController = viewController;
+    }
+
+    public void setTitle(Title title) {
+        this.title = title;
+    }
+
+    public void setEpisodeBox(ArrayList<String> episodes) {
+        this.episodeBox.getItems().clear();
+        this.episodeBox.getItems().addAll(episodes);
+    }
+
+    public void setSeasonBox(ArrayList<Integer> seasons) {
+         this.seasonBox.getItems().addAll(seasons);
+    }
+
+    public int getCurrentRating() {
+        return currentRating;
+    }
+
+    private void updateEpisodeBox(int seasonNumber) {
+        if (title instanceof TvShow tvShow) {
+            for (Season season : tvShow.getSeasons()) {
+                if (season.getSeasonNumber() == seasonNumber) {
+                    setEpisodeBox(season.getEpisodeList());
+                    break;
+                }
+            }
+        }
+    }
+
+    private void setSelectedRating(int rating) {
+        currentRating = rating;
+
+        for (int i = 0; i < stars.size(); i++) {
+            if (i < rating) {
+                stars.get(i).setFill(Color.YELLOW);
+            } else {
+                stars.get(i).setFill(Color.GRAY);
+            }
+        }
+    }
+
     @FXML
     public void initialize() {
 
@@ -209,7 +215,7 @@ public class CreateReviewController implements CommonController {
 
         for (int i = 0; i < stars.size(); i++) {
             final int rating = i + 1;
-            stars.get(i).setOnMouseClicked(event -> setRating(rating));
+            stars.get(i).setOnMouseClicked(event -> setSelectedRating(rating));
         }
 
         seasonBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {

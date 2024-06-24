@@ -23,7 +23,7 @@
          <children>
             <ImageView id="logo" fx:id="critic" fitHeight="43.0" fitWidth="185.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../../java/com/m44rk0/criticboxfx/images/CriticTest.png" />
+                  <Image url="@../../../../../java/com/m44rk0/criticboxfx/images/Critic.png" />
                </image>
                <HBox.margin>
                   <Insets left="10.0" />
@@ -33,7 +33,7 @@
                </viewport>
             </ImageView>
             <TextField fx:id="searchField" alignment="CENTER" focusTraversable="false" prefHeight="40.0" prefWidth="800.0" promptText="Digite um filme ou série...." style="-fx-background-color: white;" />
-            <Button fx:id="searchButton1" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" defaultButton="true" focusTraversable="false" graphicTextGap="0.0" mnemonicParsing="false" onAction="#searchButton" prefHeight="40.0" prefWidth="140.0" style="-fx-border-color: linear-gradient( to bottom, gray, gray, transparent, transparent);" styleClass="defaultButton" text="Pesquisar" textFill="WHITE">
+            <Button fx:id="searchButton1" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" defaultButton="true" focusTraversable="false" graphicTextGap="0.0" mnemonicParsing="false" onAction="#searchButtonAction" prefHeight="40.0" prefWidth="140.0" style="-fx-border-color: linear-gradient( to bottom, gray, gray, transparent, transparent);" styleClass="defaultButton" text="Pesquisar" textFill="WHITE">
                <font>
                   <Font name="Roboto Mono SemiBold" size="16.0" />
                </font>
@@ -62,7 +62,7 @@
                   <Insets />
                </VBox.margin>
             </Button>
-            <Button fx:id="searchButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="20.0" layoutY="109.0" mnemonicParsing="false" onAction="#searchButtonResults" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient( gray, transparent, transparent, transparent);" styleClass="defaultButton" text="Reviews" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="searchButtonAction" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="20.0" layoutY="109.0" mnemonicParsing="false" onAction="#restoreSearchButtonAction" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient( gray, transparent, transparent, transparent);" styleClass="defaultButton" text="Reviews" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -76,7 +76,7 @@
                   <SVGPath fx:id="search2Button" content="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z" fill="WHITE" scaleX="1.5" scaleY="1.5" />
                </graphic>
             </Button>
-            <Button fx:id="reviewButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="20.0" layoutY="35.0" mnemonicParsing="false" onAction="#showUserReviews" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient( #5EB03E, transparent, transparent, transparent);" styleClass="defaultButton" text="Reviews" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="reviewButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="20.0" layoutY="35.0" mnemonicParsing="false" onAction="#reviewButtonAction" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient( #5EB03E, transparent, transparent, transparent);" styleClass="defaultButton" text="Reviews" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -90,7 +90,7 @@
                   <SVGPath content="M6.77,9.15l5.44-5.44a1,1,0,1,0-1.42-1.42L6.06,7,4.21,5.17A1,1,0,0,0,2.79,6.59L5.35,9.15a1,1,0,0,0,1.42,0ZM18.5,6H13a1,1,0,0,0,0,2h5.5a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H8.5a1,1,0,0,1-1-1V12.5a1,1,0,0,0-2,0V16a3,3,0,0,0,3,3h8.36l3,2.73a1,1,0,0,0,.68.27,1.1,1.1,0,0,0,.4-.08,1,1,0,0,0,.6-.92V9A3,3,0,0,0,18.5,6Z" fill="WHITE" scaleX="1.5" scaleY="1.5" />
                </graphic>
             </Button>
-            <Button fx:id="favoriteButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="10.0" layoutY="304.0" mnemonicParsing="false" onAction="#showFavorites" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient(yellow, transparent, transparent, transparent);" styleClass="defaultButton" text="Favoritos" textFill="WHITE" textOverrun="CLIP" wrapText="true">
+            <Button fx:id="favoriteButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="10.0" layoutY="304.0" mnemonicParsing="false" onAction="#favoritesButtonAction" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient(yellow, transparent, transparent, transparent);" styleClass="defaultButton" text="Favoritos" textFill="WHITE" textOverrun="CLIP" wrapText="true">
                <font>
                   <Font name="Roboto Mono Bold" size="20.0" />
                </font>
@@ -130,7 +130,7 @@
             <Insets bottom="25.0" left="10.0" right="10.0" top="25.0" />
          </padding>
       </VBox>
-      <ScrollPane fx:id="ScrollPage" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" prefHeight="670.0" style="-fx-background-color: #18181a;" vbarPolicy="NEVER" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="229.0" AnchorPane.rightAnchor="191.0" AnchorPane.topAnchor="110.0">
+      <ScrollPane fx:id="scrollPage" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" prefHeight="670.0" style="-fx-background-color: #18181a;" vbarPolicy="NEVER" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="229.0" AnchorPane.rightAnchor="191.0" AnchorPane.topAnchor="110.0">
          <effect>
             <Blend />
          </effect>

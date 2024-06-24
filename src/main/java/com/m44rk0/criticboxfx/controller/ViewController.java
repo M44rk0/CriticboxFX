@@ -14,8 +14,6 @@ import com.m44rk0.criticboxfx.model.title.TvShow;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import info.movito.themoviedbapi.tools.TmdbException;
-import javafx.scene.effect.BlurType;
-import javafx.scene.effect.InnerShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.image.Image;
@@ -27,7 +25,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javafx.scene.Node;
 import javafx.fxml.FXML;
-import javafx.scene.paint.Color;
 
 import java.util.List;
 import java.io.File;
@@ -43,46 +40,36 @@ public class ViewController {
     private VBox scrollBox;
 
     @FXML
-    private ScrollPane ScrollPage;
+    private ScrollPane scrollPage;
 
     @FXML
     private TextField searchField;
 
-    @FXML
-    private Button favoriteButton;
-
-    @FXML
-    private Button friendsButton;
-
-    @FXML
-    private Button homeButton;
-
-    @FXML
-    private Button profileButton;
-
-    @FXML
-    private Button reviewButton;
-
-    @FXML
-    private Button searchButton;
-
     private final String fillStar = "M17.562 21.56a1 1 0 0 1-.465-.116L12 18.764l-5.097 2.68a1 1 0 0 1-1.45-1.053l.973-5.676-4.124-4.02a1 1 0 0 1 .554-1.705l5.699-.828 2.549-5.164a1.04 1.04 0 0 1 1.793 0l2.548 5.164 5.699.828a1 1 0 0 1 .554 1.705l-4.124 4.02.974 5.676a1 1 0 0 1-.985 1.169Z";
     private final List<Node> searchResultNodes = new ArrayList<>();
-    private final String IMAGE_BASE_URL = "https://image.tmdb.org/t/p/original/";
     private Integer detailsIsCalledFrom = 0;
 
     @FXML
-    public void searchButtonResults(){
+    private void restoreSearchButtonAction(){
         restoreSearchResults();
     }
 
     @FXML
-    void searchButton() throws TmdbException{
+    private void searchButtonAction(){
         performSearch();
     }
 
-    public void performSearch(){
+    @FXML
+    private void reviewButtonAction(){
+        showUserReviews();
+    }
 
+    @FXML
+    private void favoritesButtonAction(){
+        showFavorites();
+    }
+
+    public void performSearch(){
         try {
             List<Title> searchResults;
             TitleSearcher searcher = new TitleSearcher();
@@ -105,10 +92,10 @@ public class ViewController {
         scrollBox.getChildren().clear();
 
         if(!searchResultNodes.isEmpty()){
-            ScrollPage.setFitToHeight(false);
+            scrollPage.setFitToHeight(false);
         }
         if(searchResultNodes.size() == 1 ){
-            ScrollPage.setFitToHeight(true);
+            scrollPage.setFitToHeight(true);
         }
 
         scrollBox.getChildren().addAll(searchResultNodes);
@@ -132,8 +119,8 @@ public class ViewController {
                 controller.setTitle(title);
 
                 if(title instanceof TvShow){
-                    controller.setSeasonField(String.valueOf(((TvShow) title).getSeasons().size()) + " Temporada(s)");
-                    controller.setEpisodesField(String.valueOf(((TvShow) title).getTotalEpisodes()) + " Episódio(s)");
+                    controller.setSeasonField(((TvShow) title).getSeasons().size() + " Temporada(s)");
+                    controller.setEpisodesField(((TvShow) title).getTotalEpisodes() + " Episódio(s)");
                     controller.turnVisible();
                 }
 
@@ -155,7 +142,7 @@ public class ViewController {
         }
 
         if(searchResults.size() == 1){
-            ScrollPage.setFitToHeight(true);
+            scrollPage.setFitToHeight(true);
         }
     }
 
@@ -180,9 +167,9 @@ public class ViewController {
                 controller.turnVisible();
             }
 
-            resetScrollBox();
-            ScrollPage.setVvalue(0);
-            ScrollPage.setFitToHeight(true);
+            scrollBox.getChildren().clear();
+            scrollPage.setVvalue(0);
+            scrollPage.setFitToHeight(true);
             scrollBox.getChildren().add(reviewPane);
 
         } catch (IOException e) {
@@ -190,15 +177,15 @@ public class ViewController {
         }
     }
 
-
     public void showTitleDetails(Title title){
         try {
+            resetScrollBox();
+            scrollPage.setVvalue(0);
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("titleDetails.fxml"));
             Pane movieDetailsPane = loader.load();
             TitleDetailsController controller = loader.getController();
 
-            resetScrollBox();
-            ScrollPage.setVvalue(0);
 
             setCommonFields(controller, title);
 
@@ -243,32 +230,29 @@ public class ViewController {
 
             List<Title> favorites = user.getFavorites().reversed();
             for (Title title : favorites){
-                FXMLLoader fvLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
-                Pane favoritesPanel = fvLoader.load();
-                FavoritesPanelController favoritePanelController = fvLoader.getController();
+                FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
+                Pane favoritesPanel = fpLoader.load();
+                FavoritesPanelController favoritePanelController = fpLoader.getController();
                 favoritePanelController.setMainController(this);
                 favoritePanelController.setPoster(title.getPosterPath());
                 favoritePanelController.setTitle(title);
-                favoritesPanel.setEffect(new InnerShadow(BlurType.GAUSSIAN, Color.WHITE, 2.0, 0.89, 0.0, 0.0));
                 favoritesFlow.getChildren().add(favoritesPanel);
             }
 
             List<Title> watched = user.getWatched().reversed();
             for (Title title : watched){
-                FXMLLoader fvLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
-                Pane favoritesPanel = fvLoader.load();
-                FavoritesPanelController favoritePanelController = fvLoader.getController();
-
+                FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
+                Pane favoritesPanel = fpLoader.load();
+                FavoritesPanelController favoritePanelController = fpLoader.getController();
                 favoritePanelController.setMainController(this);
                 favoritePanelController.setPoster(title.getPosterPath());
                 favoritePanelController.setTitle(title);
-                favoritesPanel.setEffect(new InnerShadow(BlurType.GAUSSIAN, Color.WHITE, 2.0, 0.89, 0.0, 0.0));
                 watchedFlow.getChildren().add(favoritesPanel);
             }
 
             if(watched.isEmpty() && favorites.isEmpty() || (watched.size() < 4 && favorites.size() < 4)){
-                ScrollPage.setFitToHeight(true);
-            };
+                scrollPage.setFitToHeight(true);
+            }
 
             scrollBox.getChildren().add(fav);
         }
@@ -279,10 +263,10 @@ public class ViewController {
 
     public void showUserReviews(){
             try {
-                resetScrollBox();
+                scrollBox.getChildren().clear();
                 List<Review> userReviews = user.getReviews().reversed();
 
-                for (Review review : userReviews){
+                for (Review review : userReviews) {
 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("userReview.fxml"));
                     Pane reviewPane = loader.load();
@@ -292,49 +276,26 @@ public class ViewController {
                     controller.setWatchedField(review.getReviewDate());
                     controller.setPosterImage(review.getTitle().getPosterPath());
                     controller.setTittleField(review.getTitle().getName());
-                    controller.setStarColors(review.getReviewNote());
+                    controller.setSelectedRating(review.getReviewNote());
 
-                    if (review instanceof TvReview){
+                    if (review instanceof TvReview) {
                         controller.setInfoTVField(((TvReview) review).getSeasonNumber() + "ª Temporada - " + ((TvReview) review).getEpisodeName());
                         controller.turnVisible();
                     }
 
                     scrollBox.getChildren().add(reviewPane);
 
-                    if(!userReviews.isEmpty()){
-                        ScrollPage.setFitToHeight(false);
+                    if (!userReviews.isEmpty()) {
+                        scrollPage.setFitToHeight(false);
                     }
-                    if(userReviews.size() == 1 ){
-                        ScrollPage.setFitToHeight(true);
+                    if (userReviews.size() == 1) {
+                        scrollPage.setFitToHeight(true);
                     }
 
                 }
-            }
-            catch (IOException e){
+            } catch (IOException e) {
                 AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
             }
-    }
-
-    public void showMovie(String movieName){
-        try {
-            TitleSearcher searcher = new TitleSearcher();
-            List<Title> movieResult = searcher.searchMovie(movieName);
-            showSearchResults(movieResult);
-        }
-        catch (TmdbException e){
-            AlertMessage.showAlert("Erro de Busca", "Erro de Busca");
-        }
-    }
-
-    public void showTvShow(String tvName){
-        try {
-            TitleSearcher searcher = new TitleSearcher();
-            List<Title> tvResult = searcher.searchTvShow(tvName);
-            showSearchResults(tvResult);
-        }
-        catch (TmdbException e){
-            AlertMessage.showAlert("Erro de Busca", "Erro de Busca");
-        }
     }
 
     private void setCommonFields(CommonController controller, Title title){
@@ -346,7 +307,7 @@ public class ViewController {
 
     private void resetScrollBox(){
         scrollBox.getChildren().clear();
-        ScrollPage.setFitToHeight(false);
+        scrollPage.setFitToHeight(false);
     }
 
     public void setDetailsIsCalledFrom(Integer detailsIsCalledFrom) {
@@ -373,7 +334,7 @@ public class ViewController {
 
     @FXML
     public void initialize(){
-        String imagePath = "src/main/java/com/m44rk0/criticboxfx/images/CriticTest.png";
+        String imagePath = "src/main/java/com/m44rk0/criticboxfx/images/Critic.png";
         Image image = new Image(new File(imagePath).toURI().toString());
         critic.setImage(image);
     }

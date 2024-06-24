@@ -51,30 +51,32 @@ public class ReviewController implements CommonController {
 
     private List<SVGPath> stars;
 
-    public void setWatchedField(Date reviewDate){
-        this.watchedText.setText(formatDate(reviewDate));
-    }
-
-    public void setTittleField(String titleField) {
-        this.tittleText.setText(titleField);
-    }
 
     @Override
-    public void setOverviewField(String overview) {
-    }
-
-    public void setReviewField(String overviewField) {
-        this.reviewText.setText(overviewField);
-    }
-
     public void setPosterImage(String posterImage) {
         Image poster = new Image("https://image.tmdb.org/t/p/original/" + posterImage, 250, 360, false, false);
         this.posterImage.setImage(poster);
     }
 
     @Override
-    public void setReleaseField(String releaseDate) {
+    public void setOverviewField(String overview) {
+    }
 
+    @Override
+    public void setTittleField(String titleField) {
+        this.tittleText.setText(titleField);
+    }
+
+    @Override
+    public void setReleaseField(String releaseDate) {
+    }
+
+    public void setWatchedField(Date reviewDate){
+        this.watchedText.setText(formatDate(reviewDate));
+    }
+
+    public void setReviewField(String overviewField) {
+        this.reviewText.setText(overviewField);
     }
 
     public void setInfoTVField(String infoTV){
@@ -85,7 +87,7 @@ public class ReviewController implements CommonController {
         infoTVField.setVisible(true);
     }
 
-    public static String formatDate(Date date) {
+    private String formatDate(Date date) {
 
         SimpleDateFormat format = new SimpleDateFormat("dd 'de' MMM 'de' yyyy", new Locale("pt", "BR"));
 
@@ -94,7 +96,7 @@ public class ReviewController implements CommonController {
         return "Assistido em " + dataFormatada;
     }
 
-    public void setStarColors(int rating) {
+    public void setSelectedRating(int rating) {
         for (int i = 0; i < stars.size(); i++) {
             if (i < rating) {
                 stars.get(i).setFill(javafx.scene.paint.Color.YELLOW);
