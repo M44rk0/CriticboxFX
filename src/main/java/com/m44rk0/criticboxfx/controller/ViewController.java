@@ -50,13 +50,13 @@ public class ViewController {
     private Integer detailsIsCalledFrom = 0;
 
     @FXML
-    private void restoreSearchButtonAction(){
-        restoreSearchResults();
+    private void searchButtonAction(){
+        performSearch();
     }
 
     @FXML
-    private void searchButtonAction(){
-        performSearch();
+    private void restoreSearchButtonAction(){
+        restoreSearchResults();
     }
 
     @FXML
@@ -85,20 +85,6 @@ public class ViewController {
         catch (TmdbException e){
             AlertMessage.showAlert("Erro de Busca", "Erro de Busca");
         }
-    }
-
-    public void restoreSearchResults(){
-
-        scrollBox.getChildren().clear();
-
-        if(!searchResultNodes.isEmpty()){
-            scrollPage.setFitToHeight(false);
-        }
-        if(searchResultNodes.size() == 1 ){
-            scrollPage.setFitToHeight(true);
-        }
-
-        scrollBox.getChildren().addAll(searchResultNodes);
     }
 
     public void showSearchResults(List<Title> searchResults){
@@ -143,6 +129,101 @@ public class ViewController {
 
         if(searchResults.size() == 1){
             scrollPage.setFitToHeight(true);
+        }
+    }
+
+    public void restoreSearchResults(){
+
+        scrollBox.getChildren().clear();
+
+        if(!searchResultNodes.isEmpty()){
+            scrollPage.setFitToHeight(false);
+        }
+        if(searchResultNodes.size() == 1 ){
+            scrollPage.setFitToHeight(true);
+        }
+
+        scrollBox.getChildren().addAll(searchResultNodes);
+    }
+
+    public void showUserReviews(){
+        try {
+            scrollBox.getChildren().clear();
+            List<Review> userReviews = user.getReviews().reversed();
+
+            for (Review review : userReviews) {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("userReview.fxml"));
+                Pane reviewPane = loader.load();
+                ReviewController controller = loader.getController();
+
+                controller.setReviewField("\"" + review.getReviewText() + "\"");
+                controller.setWatchedField(review.getReviewDate());
+                controller.setPosterImage(review.getTitle().getPosterPath());
+                controller.setTittleField(review.getTitle().getName());
+                controller.setSelectedRating(review.getReviewNote());
+
+                if (review instanceof TvReview) {
+                    controller.setInfoTVField(((TvReview) review).getSeasonNumber() + "ª Temporada - " + ((TvReview) review).getEpisodeName());
+                    controller.turnVisible();
+                }
+
+                scrollBox.getChildren().add(reviewPane);
+
+                if (!userReviews.isEmpty()) {
+                    scrollPage.setFitToHeight(false);
+                }
+                if (userReviews.size() == 1) {
+                    scrollPage.setFitToHeight(true);
+                }
+
+            }
+        } catch (IOException e) {
+            AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
+        }
+    }
+
+    public void showFavorites(){
+        try {
+            resetScrollBox();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("favoritesAndWatched.fxml"));
+            TabPane fav = loader.load();
+            FavAndWatchController controller = loader.getController();
+            FlowPane favoritesFlow = controller.getFavoritesFlow();
+            FlowPane watchedFlow = controller.getWatchedFlow();
+            favoritesFlow.getChildren().clear();
+            watchedFlow.getChildren().clear();
+
+            List<Title> favorites = user.getFavorites().reversed();
+            for (Title title : favorites){
+                FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
+                Pane favoritesPanel = fpLoader.load();
+                FavoritesPanelController favoritePanelController = fpLoader.getController();
+                favoritePanelController.setMainController(this);
+                favoritePanelController.setPoster(title.getPosterPath());
+                favoritePanelController.setTitle(title);
+                favoritesFlow.getChildren().add(favoritesPanel);
+            }
+
+            List<Title> watched = user.getWatched().reversed();
+            for (Title title : watched){
+                FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
+                Pane favoritesPanel = fpLoader.load();
+                FavoritesPanelController favoritePanelController = fpLoader.getController();
+                favoritePanelController.setMainController(this);
+                favoritePanelController.setPoster(title.getPosterPath());
+                favoritePanelController.setTitle(title);
+                watchedFlow.getChildren().add(favoritesPanel);
+            }
+
+            if(watched.isEmpty() && favorites.isEmpty() || (watched.size() < 4 && favorites.size() < 4)){
+                scrollPage.setFitToHeight(true);
+            }
+
+            scrollBox.getChildren().add(fav);
+        }
+        catch (IOException e){
+            AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
         }
     }
 
@@ -215,87 +296,6 @@ public class ViewController {
         catch (IOException e){
             AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
         }
-    }
-
-    public void showFavorites(){
-        try {
-            resetScrollBox();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("favoritesAndWatched.fxml"));
-            TabPane fav = loader.load();
-            FavAndWatchController controller = loader.getController();
-            FlowPane favoritesFlow = controller.getFavoritesFlow();
-            FlowPane watchedFlow = controller.getWatchedFlow();
-            favoritesFlow.getChildren().clear();
-            watchedFlow.getChildren().clear();
-
-            List<Title> favorites = user.getFavorites().reversed();
-            for (Title title : favorites){
-                FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
-                Pane favoritesPanel = fpLoader.load();
-                FavoritesPanelController favoritePanelController = fpLoader.getController();
-                favoritePanelController.setMainController(this);
-                favoritePanelController.setPoster(title.getPosterPath());
-                favoritePanelController.setTitle(title);
-                favoritesFlow.getChildren().add(favoritesPanel);
-            }
-
-            List<Title> watched = user.getWatched().reversed();
-            for (Title title : watched){
-                FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
-                Pane favoritesPanel = fpLoader.load();
-                FavoritesPanelController favoritePanelController = fpLoader.getController();
-                favoritePanelController.setMainController(this);
-                favoritePanelController.setPoster(title.getPosterPath());
-                favoritePanelController.setTitle(title);
-                watchedFlow.getChildren().add(favoritesPanel);
-            }
-
-            if(watched.isEmpty() && favorites.isEmpty() || (watched.size() < 4 && favorites.size() < 4)){
-                scrollPage.setFitToHeight(true);
-            }
-
-            scrollBox.getChildren().add(fav);
-        }
-        catch (IOException e){
-            AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
-        }
-    }
-
-    public void showUserReviews(){
-            try {
-                scrollBox.getChildren().clear();
-                List<Review> userReviews = user.getReviews().reversed();
-
-                for (Review review : userReviews) {
-
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("userReview.fxml"));
-                    Pane reviewPane = loader.load();
-                    ReviewController controller = loader.getController();
-
-                    controller.setReviewField("\"" + review.getReviewText() + "\"");
-                    controller.setWatchedField(review.getReviewDate());
-                    controller.setPosterImage(review.getTitle().getPosterPath());
-                    controller.setTittleField(review.getTitle().getName());
-                    controller.setSelectedRating(review.getReviewNote());
-
-                    if (review instanceof TvReview) {
-                        controller.setInfoTVField(((TvReview) review).getSeasonNumber() + "ª Temporada - " + ((TvReview) review).getEpisodeName());
-                        controller.turnVisible();
-                    }
-
-                    scrollBox.getChildren().add(reviewPane);
-
-                    if (!userReviews.isEmpty()) {
-                        scrollPage.setFitToHeight(false);
-                    }
-                    if (userReviews.size() == 1) {
-                        scrollPage.setFitToHeight(true);
-                    }
-
-                }
-            } catch (IOException e) {
-                AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
-            }
     }
 
     private void setCommonFields(CommonController controller, Title title){
