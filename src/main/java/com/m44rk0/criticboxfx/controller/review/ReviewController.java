@@ -53,13 +53,13 @@ public class ReviewController implements CommonController {
 
 
     @Override
-    public void setPosterImage(String posterImage) {
-        Image poster = new Image("https://image.tmdb.org/t/p/original/" + posterImage, 250, 360, false, false);
-        this.posterImage.setImage(poster);
+    public void setOverviewField(String overview) {
     }
 
     @Override
-    public void setOverviewField(String overview) {
+    public void setPosterImage(Image posterImage) {
+        this.posterImage.setImage(posterImage);
+
     }
 
     @Override

@@ -19,9 +19,8 @@ public class FavoritesPanelController implements CommonController {
     private ViewController mainController;
 
     @FXML
-    public void setPoster(String poster){
-        Image image = new Image("https://image.tmdb.org/t/p/original/" + poster, 250, 350, false, false);
-        favoritePoster.setImage(image);
+    public void setPoster(Image poster){
+        favoritePoster.setImage(poster);
     }
 
     @FXML
@@ -56,7 +55,7 @@ public class FavoritesPanelController implements CommonController {
     }
 
     @Override
-    public void setPosterImage(String posterPath) {
+    public void setPosterImage(Image posterImage) {
 
     }
 

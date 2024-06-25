@@ -19,18 +19,18 @@ public class TvShow extends Title {
     private final ArrayList<Season> seasons;
     private final Integer totalEpisodes;
 
-    public TvShow(TvSeriesDb movie, Credits credits) throws TmdbException {
-        this.tvShowID = movie.getId();
-        this.name = movie.getName();
-        this.overview = movie.getOverview();
-        this.posterPath = movie.getPosterPath();
-        this.releaseDate = movie.getFirstAirDate();
-        this.popularity = movie.getPopularity();
-        this.seasons = getTvShowInfo(movie);
+    public TvShow(TvSeriesDb tvshow, Credits credits) throws TmdbException {
+        this.tvShowID = tvshow.getId();
+        this.name = tvshow.getName();
+        this.overview = tvshow.getOverview();
+        this.posterPath = tvshow.getPosterPath();
+        this.releaseDate = tvshow.getFirstAirDate();
+        this.popularity = tvshow.getPopularity();
+        this.seasons = getTvShowInfo(tvshow);
         this.totalEpisodes = getEpisodes();
-        this.genres = getTvGenre(movie);
+        this.genres = getTvGenre(tvshow);
         this.cast = getCast(credits);
-        this.directors = getDirector(movie);
+        this.directors = getDirector(tvshow);
         this.producers = getProducers(credits);
         this.writers = getWriters(credits);
         this.visualEffectsTeam = getVFX(credits);

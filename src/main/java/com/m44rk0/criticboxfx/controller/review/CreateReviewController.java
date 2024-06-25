@@ -142,9 +142,8 @@ public class CreateReviewController implements CommonController {
         episodeBox.setVisible(true);
     }
 
-    public void setPosterImage(String posterImage) {
-        Image poster = new Image("https://image.tmdb.org/t/p/original/" + posterImage, 250, 350, false, false);
-        this.posterImage.setImage(poster);
+    public void setPosterImage(Image posterImage) {
+        this.posterImage.setImage(posterImage);
     }
 
     public void setOverviewField(String overviewField) {

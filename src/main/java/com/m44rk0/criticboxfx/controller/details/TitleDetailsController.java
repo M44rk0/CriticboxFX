@@ -182,6 +182,10 @@ public class TitleDetailsController implements CommonController {
         this.posterImage.setImage(poster);
     }
 
+    public void setPosterImage(Image posterImage) {
+        this.posterImage.setImage(posterImage);
+    }
+
     public void setFillFavoriteStar(String fillFavoriteStar){
         favoriteStar.setContent(fillFavoriteStar);
     }

@@ -54,6 +54,14 @@
     -fx-padding: 0 40 0 40;
 }
 
+#updateTab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 12;
+    -fx-padding: 0 40 0 40;
+}
 
 .tab-pane:top *.tab-header-area {
     -fx-padding: 0 0 0 0;
