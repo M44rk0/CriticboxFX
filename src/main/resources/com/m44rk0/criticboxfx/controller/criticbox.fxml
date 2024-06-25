@@ -45,7 +45,7 @@
       </HBox>
       <VBox id="buttonBox" fx:id="buttonBox" alignment="TOP_CENTER" layoutX="20.0" layoutY="110.0" prefHeight="670.0" prefWidth="195.0" spacing="15.0" style="-fx-background-color: linear-gradient(to top, #1f1e23, #1F1E22, #181819, #28272C); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: gray; -fx-border-width: 0.1; -fx-border-insets: 0;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="1011.0" AnchorPane.topAnchor="110.0">
          <children>
-            <Button id="homeButton" fx:id="homeButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" defaultButton="true" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient( #4D73F1, transparent, transparent, transparent);;" styleClass="defaultButton" text="Feed" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button id="homeButton" fx:id="homeButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" defaultButton="true" graphicTextGap="0.0" mnemonicParsing="false" onAction="#restoreSearchButtonAction" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient( #4D73F1, transparent, transparent, transparent);;" styleClass="defaultButton" text="Feed" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -61,20 +61,6 @@
                <VBox.margin>
                   <Insets />
                </VBox.margin>
-            </Button>
-            <Button fx:id="searchButtonAction" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="20.0" layoutY="109.0" mnemonicParsing="false" onAction="#restoreSearchButtonAction" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient( gray, transparent, transparent, transparent);" styleClass="defaultButton" text="Reviews" textAlignment="CENTER" textFill="WHITE" wrapText="true">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-               <font>
-                  <Font name="Roboto Mono Bold" size="20.0" />
-               </font>
-               <padding>
-                  <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-               </padding>
-               <graphic>
-                  <SVGPath fx:id="search2Button" content="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z" fill="WHITE" scaleX="1.5" scaleY="1.5" />
-               </graphic>
             </Button>
             <Button fx:id="reviewButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="20.0" layoutY="35.0" mnemonicParsing="false" onAction="#reviewButtonAction" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient( #5EB03E, transparent, transparent, transparent);" styleClass="defaultButton" text="Reviews" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <opaqueInsets>
@@ -108,7 +94,7 @@
                <graphic>
                   <SVGPath content="M12.3,12.22A4.92,4.92,0,0,0,14,8.5a5,5,0,0,0-10,0,4.92,4.92,0,0,0,1.7,3.72A8,8,0,0,0,1,19.5a1,1,0,0,0,2,0,6,6,0,0,1,12,0,1,1,0,0,0,2,0A8,8,0,0,0,12.3,12.22ZM9,11.5a3,3,0,1,1,3-3A3,3,0,0,1,9,11.5Zm9.74.32A5,5,0,0,0,15,3.5a1,1,0,0,0,0,2,3,3,0,0,1,3,3,3,3,0,0,1-1.5,2.59,1,1,0,0,0-.5.84,1,1,0,0,0,.45.86l.39.26.13.07a7,7,0,0,1,4,6.38,1,1,0,0,0,2,0A9,9,0,0,0,18.74,11.82Z" fill="WHITE" scaleX="1.5" scaleY="1.5" />
                </graphic></Button>
-            <Separator orientation="VERTICAL" prefHeight="170.0" prefWidth="16.0" visible="false" />
+            <Separator orientation="VERTICAL" prefHeight="260.0" prefWidth="16.0" visible="false" />
             <HBox id="profileButton" fx:id="profileBox" alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="20.0" style="-fx-border-color: linear-gradient(to bottom, lightgray, transparent, transparent, transparent);" styleClass="defaultButton">
                <children>
                   <Button fx:id="profileButton" alignment="CENTER" graphicTextGap="20.0" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: #2b2a31; -fx-border-width: 2; -fx-background-radius: 50; -fx-border-radius: 50;" text="Perfil" textFill="WHITE" textOverrun="CLIP">

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.FlowPane?>
+
+<TabPane fx:id="TabPaneReviews" prefWidth="806.0" style="-fx-background-color: #18181a;" stylesheets="@../style/tab.css"
+         tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="com.m44rk0.criticboxfx.controller.review.ReviewTabPaneController">
+   <Tab id="reviewsTab" fx:id="reviewsTab" closable="false" text="Reviews">
+      <FlowPane fx:id="reviewsFlow" hgap="15.0" prefWidth="806.0" vgap="15.0">
+         <padding>
+            <Insets top="10.0"/>
+         </padding>
+      </FlowPane>
+   </Tab>
+</TabPane>

@@ -6,6 +6,7 @@ import com.m44rk0.criticboxfx.controller.favorites.FavAndWatchController;
 import com.m44rk0.criticboxfx.controller.favorites.FavoritesPanelController;
 import com.m44rk0.criticboxfx.controller.review.CreateReviewController;
 import com.m44rk0.criticboxfx.controller.review.ReviewController;
+import com.m44rk0.criticboxfx.controller.review.ReviewTabPaneController;
 import com.m44rk0.criticboxfx.model.review.Review;
 import com.m44rk0.criticboxfx.model.review.TvReview;
 import com.m44rk0.criticboxfx.model.search.TitleSearcher;
@@ -82,15 +83,19 @@ public class ViewController {
                 showSearchResults(searchResults);
             }
         }
-        catch (TmdbException e){
+        catch (TmdbException | IOException e){
             AlertMessage.showAlert("Erro de Busca", "Erro de Busca");
         }
     }
 
-    public void showSearchResults(List<Title> searchResults){
+    public void showSearchResults(List<Title> searchResults) throws IOException {
 
         searchResultNodes.clear();
         resetScrollBox();
+        FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("resultsTab.fxml"));
+        TabPane resultsTab = tabLoader.load();
+        TabViewController tabController = tabLoader.getController();
+        FlowPane resultsPane = tabController.getResultsFlow();
 
         for(Title title : searchResults){
             try {
@@ -118,8 +123,7 @@ public class ViewController {
                     String watchedEye = "M10.94,6.08A6.93,6.93,0,0,1,12,6c3.18,0,6.17,2.29,7.91,6a15.23,15.23,0,0,1-.9,1.64,1,1,0,0,0-.16.55,1,1,0,0,0,1.86.5,15.77,15.77,0,0,0,1.21-2.3,1,1,0,0,0,0-.79C19.9,6.91,16.1,4,12,4a7.77,7.77,0,0,0-1.4.12,1,1,0,1,0,.34,2ZM3.71,2.29A1,1,0,0,0,2.29,3.71L5.39,6.8a14.62,14.62,0,0,0-3.31,4.8,1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20a9.26,9.26,0,0,0,5.05-1.54l3.24,3.25a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Zm6.36,9.19,2.45,2.45A1.81,1.81,0,0,1,12,14a2,2,0,0,1-2-2A1.81,1.81,0,0,1,10.07,11.48ZM12,18c-3.18,0-6.17-2.29-7.9-6A12.09,12.09,0,0,1,6.8,8.21L8.57,10A4,4,0,0,0,14,15.43L15.59,17A7.24,7.24,0,0,1,12,18Z";
                     controller.setWatchedIcon(watchedEye);
                 }
-
-                scrollBox.getChildren().add(movieInfoPane);
+                resultsPane.getChildren().add(movieInfoPane);
                 searchResultNodes.add(movieInfoPane);
             }
             catch (IOException e){
@@ -127,29 +131,47 @@ public class ViewController {
             }
         }
 
+        scrollBox.getChildren().add(resultsTab);
+
         if(searchResults.size() == 1){
             scrollPage.setFitToHeight(true);
         }
     }
 
     public void restoreSearchResults(){
+        try {
 
-        scrollBox.getChildren().clear();
+            scrollBox.getChildren().clear();
 
-        if(!searchResultNodes.isEmpty()){
-            scrollPage.setFitToHeight(false);
+            if (!searchResultNodes.isEmpty()) {
+                scrollPage.setFitToHeight(false);
+            }
+            if (searchResultNodes.size() == 1) {
+                scrollPage.setFitToHeight(true);
+            }
+
+            FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("resultsTab.fxml"));
+            TabPane resultsTab = tabLoader.load();
+            TabViewController tabController = tabLoader.getController();
+            FlowPane resultsPane = tabController.getResultsFlow();
+
+            resultsPane.getChildren().addAll(searchResultNodes);
+            scrollBox.getChildren().add(resultsTab);
         }
-        if(searchResultNodes.size() == 1 ){
-            scrollPage.setFitToHeight(true);
+        catch (IOException e) {
+            AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
         }
-
-        scrollBox.getChildren().addAll(searchResultNodes);
     }
 
     public void showUserReviews(){
         try {
             scrollBox.getChildren().clear();
             List<Review> userReviews = user.getReviews().reversed();
+            FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("reviewsTab.fxml"));
+            TabPane reviewTab = tabLoader.load();
+            ReviewTabPaneController tabController = tabLoader.getController();
+
+            FlowPane reviewFlow = tabController.getReviewsFlow();
 
             for (Review review : userReviews) {
 
@@ -168,16 +190,22 @@ public class ViewController {
                     controller.turnVisible();
                 }
 
-                scrollBox.getChildren().add(reviewPane);
-
-                if (!userReviews.isEmpty()) {
-                    scrollPage.setFitToHeight(false);
-                }
-                if (userReviews.size() == 1) {
-                    scrollPage.setFitToHeight(true);
-                }
+                reviewFlow.getChildren().add(reviewPane);
 
             }
+
+            scrollBox.getChildren().add(reviewTab);
+
+
+            if (!userReviews.isEmpty()) {
+                scrollPage.setFitToHeight(false);
+            }
+
+            if (userReviews.size() == 1 || userReviews.isEmpty()) {
+                scrollPage.setFitToHeight(true);
+            }
+
+
         } catch (IOException e) {
             AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
         }

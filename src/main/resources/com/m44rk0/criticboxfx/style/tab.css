@@ -36,6 +36,25 @@
     -fx-padding: 0 40 0 40;
 }
 
+#reviewsTab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #5EB03E;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16;
+    -fx-padding: 0 40 0 40;
+}
+
+#resultsTab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-text-fill: #4D73F1;
+    -fx-font-weight: bold;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16;
+    -fx-padding: 0 40 0 40;
+}
+
+
 .tab-pane:top *.tab-header-area {
     -fx-padding: 0 0 0 0;
 
