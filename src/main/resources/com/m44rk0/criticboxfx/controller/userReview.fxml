@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.effect.InnerShadow?>
@@ -93,6 +94,9 @@
             <MenuItem mnemonicParsing="false" onAction="#EditReview" text="Editar" />
             <MenuItem mnemonicParsing="false" onAction="#RemoveReview" text="Remover" />
          </items>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </MenuButton>
     </children>
 </Pane>

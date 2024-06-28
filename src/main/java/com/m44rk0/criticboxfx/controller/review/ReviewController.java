@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static com.m44rk0.criticboxfx.App.main;
 import static com.m44rk0.criticboxfx.App.user;
 
 public class ReviewController implements CommonController {
@@ -114,21 +113,13 @@ public class ReviewController implements CommonController {
     public void setReview(Review review){
         this.review = review;    }
 
-    public Text getReviewText() {
-        return reviewText;
-    }
-
-    public void setReviewText(Text reviewText) {
-        this.reviewText = reviewText;
-    }
-
     public void turnVisible(){
         infoTVField.setVisible(true);
     }
 
     private String formatDate(Date date) {
 
-        SimpleDateFormat format = new SimpleDateFormat("dd 'de' MMM 'de' yyyy", new Locale("pt", "BR"));
+        SimpleDateFormat format = new SimpleDateFormat("dd 'de' MMM 'de' yyyy", Locale.forLanguageTag("pt-BR"));
 
         String dataFormatada = format.format(date);
 

@@ -39,4 +39,6 @@ module com.m44rk0.criticboxfx {
 
     exports com.m44rk0.criticboxfx.controller;
     opens com.m44rk0.criticboxfx.controller to javafx.controls, javafx.fxml;
+    exports com.m44rk0.criticboxfx.controller.mainview;
+    opens com.m44rk0.criticboxfx.controller.mainview to javafx.controls, javafx.fxml;
 }

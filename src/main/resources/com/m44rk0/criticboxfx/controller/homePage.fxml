@@ -1,68 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.layout.VBox?>
 
-
-<Pane prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.homepage.HomePageController">
+<VBox prefWidth="800.0" style="-fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.homepage.HomePageController">
    <children>
-      <TextFlow fx:id="onCinemaField" blendMode="SCREEN" lineSpacing="10.0" prefWidth="800.0" style="-fx-background-color: linear-gradient(to left, black, #1f1e23, #2b2a31, black); -fx-background-radius: 0; -fx-border-radius: 0;" textAlignment="CENTER">
-         <children>
-            <Text fx:id="onCinemaText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Nos Cinemas" textAlignment="CENTER" wrappingWidth="570.0">
-               <font>
-                  <Font name="JetBrains Mono Bold" size="15.0" />
-               </font>
-            </Text>
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-         </padding>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </TextFlow>
-      <HBox fx:id="onCinemaBox" alignment="CENTER" layoutY="40.0" prefHeight="370.0" spacing="10.0" style="-fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C); -fx-border-color: cyan transparent; -fx-border-width: 0.5;">
-         <padding>
-            <Insets left="10.0" right="10.0" />
-         </padding>
-      </HBox>
-      <TextFlow fx:id="mostReviewField" blendMode="SCREEN" layoutY="420.79998779296875" prefWidth="800.0" style="-fx-background-color: linear-gradient(to left, black, #1f1e23, #2b2a31, black); -fx-background-radius: 0; -fx-border-radius: 0;" textAlignment="CENTER">
-         <children>
-            <Text fx:id="mostReviewText" fill="WHITE" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Filmes Mais Avaliados" textAlignment="CENTER" wrappingWidth="570.0">
-               <font>
-                  <Font name="JetBrains Mono Bold" size="15.0" />
-               </font>
-            </Text>
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-         </padding>
-      </TextFlow>
-      <HBox fx:id="mostReviewBox" alignment="CENTER" layoutY="460.79998779296875" prefHeight="370.0" spacing="10.0" style="-fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C); -fx-border-color: yellow transparent; -fx-border-width: 0.5;">
-         <padding>
-            <Insets left="10.0" right="10.0" />
-         </padding>
-      </HBox>
-      <TextFlow fx:id="mostPopularField" blendMode="SCREEN" layoutY="841.5999755859375" prefWidth="800.0" style="-fx-background-color: linear-gradient(to left, black, #1f1e23, #2b2a31, black); -fx-background-radius: 0; -fx-border-radius: 0;" textAlignment="CENTER">
-         <children>
-            <Text fx:id="mostPopularText" fill="WHITE" stroke="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Filmes Populares Da Semana" textAlignment="CENTER" wrappingWidth="570.0">
-               <font>
-                  <Font name="JetBrains Mono Bold" size="15.0" />
-               </font>
-            </Text>
-         </children>
-         <padding>
-            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
-         </padding>
-      </TextFlow>
-      <HBox fx:id="mostPopularBox" alignment="CENTER" layoutY="881.5999755859375" prefHeight="370.0" spacing="10.0" style="-fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C); -fx-border-color: orange transparent; -fx-border-width: 0.5;">
-         <padding>
-            <Insets left="10.0" right="10.0" />
-         </padding>
-      </HBox>
+      <TabPane fx:id="TabPaneReviews" prefWidth="806.0" style="-fx-background-color: #18181a;" stylesheets="@../style/tab.css" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab id="reviewsTab" fx:id="reviewsTab" closable="false" text="Nos Cinemas">
+               <content>
+                  <ScrollPane hbarPolicy="NEVER" vbarPolicy="NEVER">
+                     <content>
+                        <HBox fx:id="onCinemaBox" alignment="CENTER" prefHeight="370.0" prefWidth="800.0" spacing="10.0" style="-fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C); -fx-border-color: cyan transparent; -fx-border-width: 0.5;">
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </HBox>
+                     </content>
+                  </ScrollPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <TabPane fx:id="TabPaneReviews1" layoutX="10.0" layoutY="10.0" prefWidth="806.0" style="-fx-background-color: #18181a;" stylesheets="@../style/tab.css" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab id="reviewsTab" fx:id="reviewsTab1" closable="false" text="Mais Avaliados">
+               <content>
+                  <ScrollPane hbarPolicy="NEVER">
+                     <content>
+                        <HBox fx:id="onCinemaBox1" alignment="CENTER" prefHeight="370.0" prefWidth="800.0" spacing="10.0" style="-fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C); -fx-border-color: cyan transparent; -fx-border-width: 0.5;">
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </HBox>
+                     </content>
+                  </ScrollPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <TabPane fx:id="TabPaneReviews11" layoutX="10.0" layoutY="1162.0" prefWidth="806.0" style="-fx-background-color: #18181a;" stylesheets="@../style/tab.css" tabClosingPolicy="UNAVAILABLE">
+         <tabs>
+            <Tab id="reviewsTab" fx:id="reviewsTab11" closable="false" text="Populares">
+               <content>
+                  <ScrollPane hbarPolicy="NEVER" vbarPolicy="NEVER">
+                     <content>
+                        <HBox fx:id="onCinemaBox11" alignment="CENTER" prefHeight="370.0" prefWidth="800.0" spacing="10.0" style="-fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C); -fx-border-color: cyan transparent; -fx-border-width: 0.5;">
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                        </HBox>
+                     </content>
+                  </ScrollPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
    </children>
-</Pane>
+</VBox>

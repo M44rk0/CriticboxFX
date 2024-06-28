@@ -237,6 +237,7 @@ public class CreateReviewController implements CommonController {
             stars.get(i).setOnMouseClicked(event -> setSelectedRating(rating));
         }
 
+
         seasonBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 updateEpisodeBox(newValue);

@@ -4,6 +4,7 @@ import com.m44rk0.criticboxfx.controller.details.TitleDetailsController;
 import com.m44rk0.criticboxfx.controller.details.TitleInfoController;
 import com.m44rk0.criticboxfx.controller.favorites.FavAndWatchController;
 import com.m44rk0.criticboxfx.controller.favorites.FavoritesPanelController;
+import com.m44rk0.criticboxfx.controller.mainview.TabViewController;
 import com.m44rk0.criticboxfx.controller.review.CreateReviewController;
 import com.m44rk0.criticboxfx.controller.review.ReviewController;
 import com.m44rk0.criticboxfx.controller.review.ReviewTabPaneController;
@@ -141,7 +142,6 @@ public class ViewController {
             AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
         }
     }
-
 
     public void restoreSearchResults(){
         try {

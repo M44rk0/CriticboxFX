@@ -8,9 +8,9 @@ public abstract class Review {
 
     private static Integer reviewCount = 1;
     private final Integer reviewID;
+    private final Date reviewDate;
     private Integer reviewNote;
     private String reviewText;
-    private final Date reviewDate;
     private Title title;
 
     public Review(Title title, Integer reviewNote, Date reviewDate, String reviewText) {
@@ -25,10 +25,6 @@ public abstract class Review {
 
     public String getReviewText() {
         return reviewText;
-    }
-
-    public Integer getReviewID() {
-        return reviewID;
     }
 
     public Title getTitle() {

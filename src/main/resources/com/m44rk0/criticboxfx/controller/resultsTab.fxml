@@ -7,7 +7,7 @@
 
 <TabPane fx:id="TabPaneResults" prefWidth="806.0" style="-fx-background-color: #18181a;" stylesheets="@../style/tab.css"
          tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-         fx:controller="com.m44rk0.criticboxfx.controller.TabViewController">
+         fx:controller="com.m44rk0.criticboxfx.controller.mainview.TabViewController">
    <Tab id="resultsTab" fx:id="resultsTab" closable="false" text="Resultados">
       <FlowPane fx:id="resultsFlow" hgap="15.0" prefWidth="806.0" vgap="15.0">
          <padding>

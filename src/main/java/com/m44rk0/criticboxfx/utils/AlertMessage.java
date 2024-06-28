@@ -3,6 +3,7 @@ package com.m44rk0.criticboxfx.utils;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class AlertMessage {
