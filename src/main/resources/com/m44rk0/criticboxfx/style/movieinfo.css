@@ -21,8 +21,8 @@
 #detailsButton{
     -fx-background-color: #3E4589;
     -fx-border-color: #8C95F0;
-    -fx-background-radius: 0;
-    -fx-border-radius: 0;
+    -fx-background-radius: 10 0 0 10;
+    -fx-border-radius: 10 0 0 10;
     -fx-border-width: 1;
 }
 

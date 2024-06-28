@@ -30,13 +30,13 @@ public class Search {
                     try {
                         credits = api.getMovies().getCredits(movie.getId(), "pt-BR");
                     } catch (TmdbException e) {
-                        e.printStackTrace();
+                        return null;
                     }
                     Title resultMovie = null;
                     try {
                         resultMovie = new Film(api.getMovies().getDetails(movie.getId(), "pt-BR"), credits);
                     } catch (TmdbException e) {
-                        e.printStackTrace();
+                        return null;
                     }
                     return isValidMovie(resultMovie) ? resultMovie : null;
                 }))

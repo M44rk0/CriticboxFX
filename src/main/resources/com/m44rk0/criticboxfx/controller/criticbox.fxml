@@ -33,7 +33,7 @@
                </viewport>
             </ImageView>
             <TextField fx:id="searchField" alignment="CENTER" focusTraversable="false" prefHeight="40.0" prefWidth="800.0" promptText="Digite um filme ou série...." style="-fx-background-color: white;" />
-            <Button fx:id="searchButton1" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" defaultButton="true" focusTraversable="false" graphicTextGap="0.0" mnemonicParsing="false" onAction="#searchButtonAction" prefHeight="40.0" prefWidth="140.0" style="-fx-border-color: linear-gradient( to bottom, gray, gray, transparent, transparent);" styleClass="defaultButton" text="Pesquisar" textFill="WHITE">
+            <Button fx:id="searchButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" defaultButton="true" graphicTextGap="0.0" mnemonicParsing="false" onAction="#searchButtonAction" prefHeight="40.0" prefWidth="140.0" style="-fx-border-color: linear-gradient( to bottom, gray, gray, transparent, transparent);" styleClass="defaultButton" text="Pesquisar" textFill="WHITE">
                <font>
                   <Font name="Roboto Mono SemiBold" size="16.0" />
                </font>
@@ -45,7 +45,7 @@
       </HBox>
       <VBox id="buttonBox" fx:id="buttonBox" alignment="TOP_CENTER" layoutX="20.0" layoutY="110.0" prefHeight="670.0" prefWidth="195.0" spacing="15.0" style="-fx-background-color: linear-gradient(to top, #1f1e23, #1F1E22, #181819, #28272C); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: gray; -fx-border-width: 0.1; -fx-border-insets: 0;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="1011.0" AnchorPane.topAnchor="110.0">
          <children>
-            <Button id="homeButton" fx:id="homeButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" defaultButton="true" graphicTextGap="0.0" mnemonicParsing="false" onAction="#restoreSearchButtonAction" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient( #4D73F1, transparent, transparent, transparent);;" styleClass="defaultButton" text="Feed" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button id="homeButton" fx:id="homeButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" defaultButton="true" focusTraversable="false" graphicTextGap="0.0" mnemonicParsing="false" onAction="#restoreSearchButtonAction" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient( #4D73F1, transparent, transparent, transparent);;" styleClass="defaultButton" text="Feed" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -62,7 +62,7 @@
                   <Insets />
                </VBox.margin>
             </Button>
-            <Button fx:id="reviewButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="20.0" layoutY="35.0" mnemonicParsing="false" onAction="#reviewButtonAction" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient( #5EB03E, transparent, transparent, transparent);" styleClass="defaultButton" text="Reviews" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="reviewButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" layoutX="20.0" layoutY="35.0" mnemonicParsing="false" onAction="#reviewButtonAction" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient( #5EB03E, transparent, transparent, transparent);" styleClass="defaultButton" text="Reviews" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -76,7 +76,7 @@
                   <SVGPath content="M6.77,9.15l5.44-5.44a1,1,0,1,0-1.42-1.42L6.06,7,4.21,5.17A1,1,0,0,0,2.79,6.59L5.35,9.15a1,1,0,0,0,1.42,0ZM18.5,6H13a1,1,0,0,0,0,2h5.5a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H8.5a1,1,0,0,1-1-1V12.5a1,1,0,0,0-2,0V16a3,3,0,0,0,3,3h8.36l3,2.73a1,1,0,0,0,.68.27,1.1,1.1,0,0,0,.4-.08,1,1,0,0,0,.6-.92V9A3,3,0,0,0,18.5,6Z" fill="WHITE" scaleX="1.5" scaleY="1.5" />
                </graphic>
             </Button>
-            <Button fx:id="favoriteButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="10.0" layoutY="304.0" mnemonicParsing="false" onAction="#favoritesButtonAction" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient(yellow, transparent, transparent, transparent);" styleClass="defaultButton" text="Favoritos" textFill="WHITE" textOverrun="CLIP" wrapText="true">
+            <Button fx:id="favoriteButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" layoutX="10.0" layoutY="304.0" mnemonicParsing="false" onAction="#favoritesButtonAction" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient(yellow, transparent, transparent, transparent);" styleClass="defaultButton" text="Favoritos" textFill="WHITE" textOverrun="CLIP" wrapText="true">
                <font>
                   <Font name="Roboto Mono Bold" size="20.0" />
                </font>
@@ -87,7 +87,7 @@
                   <SVGPath content="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z" fill="WHITE" scaleX="1.5" scaleY="1.5" />
                </graphic>
             </Button>
-            <Button fx:id="friendsButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="10.0" layoutY="345.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient(to bottom, cyan, transparent, transparent, transparent);" styleClass="defaultButton" text="Amigos" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button fx:id="friendsButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" layoutX="10.0" layoutY="345.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient(to bottom, cyan, transparent, transparent, transparent);" styleClass="defaultButton" text="Amigos" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <font>
                   <Font name="Roboto Mono Bold" size="20.0" />
                </font>
@@ -97,7 +97,7 @@
             <Separator orientation="VERTICAL" prefHeight="260.0" prefWidth="16.0" visible="false" />
             <HBox id="profileButton" fx:id="profileBox" alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="20.0" style="-fx-border-color: linear-gradient(to bottom, lightgray, transparent, transparent, transparent);" styleClass="defaultButton">
                <children>
-                  <Button fx:id="profileButton" alignment="CENTER" graphicTextGap="20.0" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: #2b2a31; -fx-border-width: 2; -fx-background-radius: 50; -fx-border-radius: 50;" text="Perfil" textFill="WHITE" textOverrun="CLIP">
+                  <Button fx:id="profileButton" alignment="CENTER" focusTraversable="false" graphicTextGap="20.0" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: #2b2a31; -fx-border-width: 2; -fx-background-radius: 50; -fx-border-radius: 50;" text="Perfil" textFill="WHITE" textOverrun="CLIP">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>

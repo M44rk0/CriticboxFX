@@ -186,14 +186,25 @@ public abstract class Title {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Title tittle = (Title) o;
-        return Objects.equals(name, tittle.name);
+        if (!(o instanceof Title title)) return false;
+
+        if (!Objects.equals(name, title.name)) return false;
+        if (!Objects.equals(overview, title.overview)) return false;
+        if (!Objects.equals(posterPath, title.posterPath)) return false;
+        if (!Objects.equals(releaseDate, title.releaseDate)) return false;
+        if (!Objects.equals(duration, title.duration)) return false;
+        return Objects.equals(popularity, title.popularity);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (overview != null ? overview.hashCode() : 0);
+        result = 31 * result + (posterPath != null ? posterPath.hashCode() : 0);
+        result = 31 * result + (releaseDate != null ? releaseDate.hashCode() : 0);
+        result = 31 * result + (duration != null ? duration.hashCode() : 0);
+        result = 31 * result + (popularity != null ? popularity.hashCode() : 0);
+        return result;
     }
 
     @Override

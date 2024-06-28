@@ -14,8 +14,10 @@ import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.model.title.TvShow;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
+import com.m44rk0.criticboxfx.utils.Icon;
 import info.movito.themoviedbapi.tools.TmdbException;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 import javafx.fxml.FXMLLoader;
@@ -23,18 +25,18 @@ import javafx.scene.control.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.*;
 import javafx.scene.Node;
 import javafx.fxml.FXML;
-
-import java.util.HashMap;
-import java.util.List;
 import java.io.File;
-import java.util.Map;
+
 
 import static com.m44rk0.criticboxfx.App.user;
 
 public class ViewController {
+
+    @FXML
+    private Button searchButton;
 
     @FXML
     private ImageView critic;
@@ -48,11 +50,12 @@ public class ViewController {
     @FXML
     private TextField searchField;
 
-    private final String fillStar = "M17.562 21.56a1 1 0 0 1-.465-.116L12 18.764l-5.097 2.68a1 1 0 0 1-1.45-1.053l.973-5.676-4.124-4.02a1 1 0 0 1 .554-1.705l5.699-.828 2.549-5.164a1.04 1.04 0 0 1 1.793 0l2.548 5.164 5.699.828a1 1 0 0 1 .554 1.705l-4.124 4.02.974 5.676a1 1 0 0 1-.985 1.169Z";
     private final List<Node> searchResultNodes = new ArrayList<>();
     private final Map<Title, Image> imageCache = new HashMap<>();
 
     private Integer detailsIsCalledFrom = 0;
+    private Integer editReviewIsCalledFrom = 0;
+    private Review reviewToEdit;
 
     @FXML
     private void searchButtonAction(){
@@ -87,28 +90,26 @@ public class ViewController {
                 showSearchResults(searchResults);
             }
         }
-        catch (TmdbException | IOException e){
+        catch (TmdbException e){
             AlertMessage.showAlert("Erro de Busca", "Erro de Busca");
         }
     }
 
-    public void showSearchResults(List<Title> searchResults) throws IOException {
-        searchResultNodes.clear();
-        resetScrollBox();
-        FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("resultsTab.fxml"));
-        TabPane resultsTab = tabLoader.load();
-        TabViewController tabController = tabLoader.getController();
-        FlowPane resultsPane = tabController.getResultsFlow();
+    public void showSearchResults(List<Title> searchResults){
+        try{
+            searchResultNodes.clear();
+            resetScrollBox();
+            FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("resultsTab.fxml"));
+            TabPane resultsTab = tabLoader.load();
+            TabViewController tabController = tabLoader.getController();
+            FlowPane resultsPane = tabController.getResultsFlow();
 
-        for (Title title : searchResults) {
-            try {
+            for (Title title : searchResults) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("titleInfo.fxml"));
                 Pane movieInfoPane = loader.load();
                 TitleInfoController controller = loader.getController();
-                ArrayList<Title> favorites = user.getFavorites();
 
                 setCommonFields(controller, title);
-
                 controller.setMainController(this);
                 controller.setTitle(title);
 
@@ -118,31 +119,26 @@ public class ViewController {
                     controller.turnVisible();
                 }
 
-                if (favorites.contains(title)) {
-                    controller.setFillFavoriteStar(fillStar);
-                }
-
                 if (user.getWatched().contains(title)) {
-                    String watchedEye = "M10.94,6.08A6.93,6.93,0,0,1,12,6c3.18,0,6.17,2.29,7.91,6a15.23,15.23,0,0,1-.9,1.64,1,1,0,0,0-.16.55,1,1,0,0,0,1.86.5,15.77,15.77,0,0,0,1.21-2.3,1,1,0,0,0,0-.79C19.9,6.91,16.1,4,12,4a7.77,7.77,0,0,0-1.4.12,1,1,0,1,0,.34,2ZM3.71,2.29A1,1,0,0,0,2.29,3.71L5.39,6.8a14.62,14.62,0,0,0-3.31,4.8,1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20a9.26,9.26,0,0,0,5.05-1.54l3.24,3.25a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Zm6.36,9.19,2.45,2.45A1.81,1.81,0,0,1,12,14a2,2,0,0,1-2-2A1.81,1.81,0,0,1,10.07,11.48ZM12,18c-3.18,0-6.17-2.29-7.9-6A12.09,12.09,0,0,1,6.8,8.21L8.57,10A4,4,0,0,0,14,15.43L15.59,17A7.24,7.24,0,0,1,12,18Z";
-                    controller.setWatchedIcon(watchedEye);
+                    controller.setWatchedIcon(Icon.WATCHED.getPath());
                 }
 
                 Image posterImage = new Image("https://image.tmdb.org/t/p/w500/" + title.getPosterPath(), 250, 350, false, false);
 
-                imageCache.put(title, posterImage);
                 controller.setPosterImage(posterImage);
+                imageCache.put(title, posterImage);
                 resultsPane.getChildren().add(movieInfoPane);
                 searchResultNodes.add(movieInfoPane);
-
-            } catch (IOException e) {
-                AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
             }
-        }
 
-        scrollBox.getChildren().add(resultsTab);
+            scrollBox.getChildren().add(resultsTab);
 
-        if (searchResults.size() == 1) {
-            scrollPage.setFitToHeight(true);
+            if (searchResults.size() == 1) {
+                scrollPage.setFitToHeight(true);
+            }
+    }
+        catch (IOException e) {
+            AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
         }
     }
 
@@ -191,6 +187,8 @@ public class ViewController {
                         controller.setReviewField("\"" + review.getReviewText() + "\"");
                         controller.setWatchedField(review.getReviewDate());
                         controller.setPosterImage(imageCache.get(review.getTitle()));
+                        controller.setMainController(this);
+                        controller.setReview(review);
                         controller.setTittleField(review.getTitle().getName());
                         controller.setSelectedRating(review.getReviewNote());
 
@@ -201,7 +199,6 @@ public class ViewController {
 
                         reviewFlow.getChildren().add(reviewPane);
                 }
-
 
             scrollBox.getChildren().add(reviewTab);
 
@@ -218,9 +215,9 @@ public class ViewController {
         }
     }
 
-
     public void showFavorites() {
         try {
+            scrollPage.setVvalue(0);
             resetScrollBox();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("favoritesAndWatched.fxml"));
             TabPane fav = loader.load();
@@ -236,7 +233,7 @@ public class ViewController {
                 Pane favoritesPanel = fpLoader.load();
                 FavoritesPanelController favoritePanelController = fpLoader.getController();
                 favoritePanelController.setMainController(this);
-                favoritePanelController.setPoster(imageCache.get(title));
+                favoritePanelController.setPosterImage(imageCache.get(title));
                 favoritePanelController.setTitle(title);
                 favoritesFlow.getChildren().add(favoritesPanel);
             }
@@ -247,7 +244,7 @@ public class ViewController {
                 Pane favoritesPanel = fpLoader.load();
                 FavoritesPanelController favoritePanelController = fpLoader.getController();
                 favoritePanelController.setMainController(this);
-                favoritePanelController.setPoster(imageCache.get(title));
+                favoritePanelController.setPosterImage(imageCache.get(title));
                 favoritePanelController.setTitle(title);
                 watchedFlow.getChildren().add(favoritesPanel);
             }
@@ -257,15 +254,18 @@ public class ViewController {
             }
 
             scrollBox.getChildren().add(fav);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
         }
     }
 
-
-
     public void showCreateReview(Title title){
         try {
+            scrollPage.setVvalue(0);
+            scrollPage.setFitToHeight(true);
+            scrollBox.getChildren().clear();
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("createReview.fxml"));
             Pane reviewPane = loader.load();
             CreateReviewController controller = loader.getController();
@@ -277,18 +277,24 @@ public class ViewController {
             controller.setTitle(title);
             controller.setMainController(this);
 
-            if (title instanceof TvShow tvShow){
-                controller.setSeasonBox(tvShow.getAllSeasons());
-                if (!tvShow.getSeasons().isEmpty()) {
-                    controller.setEpisodeBox(tvShow.getSeasons().getFirst().getEpisodeList());
-                }
-                controller.turnVisible();
-            }
+            if(getEditReviewIsCalledFrom() == 2){
 
-            scrollBox.getChildren().clear();
-            scrollPage.setVvalue(0);
-            scrollPage.setFitToHeight(true);
-            scrollBox.getChildren().add(reviewPane);
+                controller.setCurrentRating(reviewToEdit.getReviewNote());
+                controller.setText(reviewToEdit.getReviewText());
+                controller.setSelectedRating(reviewToEdit.getReviewNote());
+                scrollBox.getChildren().add(reviewPane);
+            }
+            else {
+                if (title instanceof TvShow tvShow) {
+                    controller.setSeasonBox(tvShow.getAllSeasons());
+                    if (!tvShow.getSeasons().isEmpty()) {
+                        controller.setEpisodeBox(tvShow.getSeasons().getFirst().getEpisodeList());
+                    }
+                    controller.turnVisible();
+                }
+
+                scrollBox.getChildren().add(reviewPane);
+            }
 
         } catch (IOException e) {
             AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
@@ -303,7 +309,6 @@ public class ViewController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("titleDetails.fxml"));
             Pane movieDetailsPane = loader.load();
             TitleDetailsController controller = loader.getController();
-
 
             setCommonFields(controller, title);
 
@@ -325,7 +330,7 @@ public class ViewController {
             }
 
             if(user.getFavorites().contains(title)){
-                controller.setFillFavoriteStar(fillStar);
+                controller.setFillFavoriteStar(Icon.FILLED_STAR.getPath());
             }
 
             scrollBox.getChildren().add(movieDetailsPane);
@@ -355,6 +360,22 @@ public class ViewController {
         return detailsIsCalledFrom;
     }
 
+    public Integer getEditReviewIsCalledFrom() {
+        return editReviewIsCalledFrom;
+    }
+
+    public void setEditReviewIsCalledFrom(Integer editReviewIsCalledFrom) {
+        this.editReviewIsCalledFrom = editReviewIsCalledFrom;
+    }
+
+    public Review getReviewToEdit() {
+        return reviewToEdit;
+    }
+
+    public void setReviewToEdit(Review reviewToEdit) {
+        this.reviewToEdit = reviewToEdit;
+    }
+
     public static String formatDate(String dataString){
         DateTimeFormatter input = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter output = DateTimeFormatter.ofPattern("dd-MM-yyyy");
@@ -374,6 +395,13 @@ public class ViewController {
         String imagePath = "src/main/java/com/m44rk0/criticboxfx/images/Critic.png";
         Image image = new Image(new File(imagePath).toURI().toString());
         critic.setImage(image);
+
+        searchField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                searchButtonAction();
+            }
+        });
+
     }
 }
 

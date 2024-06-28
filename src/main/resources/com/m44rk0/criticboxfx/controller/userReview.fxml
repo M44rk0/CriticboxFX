@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -20,22 +21,14 @@
                 <Image url="@../../../../../../../../../Downloads/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg" />
             </image>
          <effect>
-            <InnerShadow choke="1.0" height="10.0" radius="4.5" width="10.0">
+            <InnerShadow blurType="GAUSSIAN" choke="0.89" height="5.0" radius="2.0" width="5.0">
                <color>
-                  <Color red="1.0" green="1.0" blue="1.0" opacity="0.8015267252922058" />
+                  <Color red="0.3686274588108063" green="0.6901960968971252" blue="0.24313725531101227" opacity="0.800000011920929" />
                </color>
             </InnerShadow>
          </effect>
         </ImageView>
-        <Button id="reviewButton" fx:id="editReviewButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="10.0" layoutX="744.0" layoutY="14.0" mnemonicParsing="false" opacity="0.3" prefHeight="45.0" prefWidth="38.0" text="..." textFill="WHITE">
-            <font>
-                <Font name="Roboto Mono SemiBold" size="16.0" />
-            </font>
-            <graphic>
-                <SVGPath content="M3,8H21a1,1,0,0,0,0-2H3A1,1,0,0,0,3,8Zm18,8H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Zm0-5H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z" fill="WHITE" />
-            </graphic>
-        </Button>
-        <TextFlow fx:id="tittleField" blendMode="SCREEN" layoutX="6.0" layoutY="5.0" maxWidth="-Infinity" prefHeight="51.0" prefWidth="537.0" style="-fx-border-color: gray #2b2b2d  #2b2b2d  gray; -fx-border-radius: 10 0 0 0; -fx-background-radius: 2; -fx-border-width: 0.5;">
+        <TextFlow fx:id="tittleField" blendMode="SCREEN" layoutX="6.0" layoutY="5.0" maxWidth="-Infinity" prefHeight="51.0" prefWidth="537.0" style="-fx-border-color: #5EB03E #2b2b2d  #2b2b2d  #5EB03E; -fx-border-radius: 10 0 0 0; -fx-background-radius: 2; -fx-border-width: 0.5;">
             <padding>
                 <Insets bottom="10.0" left="20.0" right="20.0" top="15.0" />
             </padding>
@@ -56,7 +49,7 @@
                 <SVGPath fx:id="star5" content="M22,10.1c0.1-0.5-0.3-1.1-0.8-1.1l-5.7-0.8L12.9,3c-0.1-0.2-0.2-0.3-0.4-0.4C12,2.3,11.4,2.5,11.1,3L8.6,8.2L2.9,9C2.6,9,2.4,9.1,2.3,9.3c-0.4,0.4-0.4,1,0,1.4l4.1,4l-1,5.7c0,0.2,0,0.4,0.1,0.6c0.3,0.5,0.9,0.7,1.4,0.4l5.1-2.7l5.1,2.7c0.1,0.1,0.3,0.1,0.5,0.1l0,0c0.1,0,0.1,0,0.2,0c0.5-0.1,0.9-0.6,0.8-1.2l-1-5.7l4.1-4C21.9,10.5,22,10.3,22,10.1z" fill="WHITE" />
             </children>
         </HBox>
-        <TextFlow fx:id="reviewField" blendMode="SCREEN" layoutX="6.0" layoutY="96.0" lineSpacing="3.0" prefHeight="268.0" prefWidth="537.0" style="-fx-border-color: gray #2b2b2d  #2b2b2d  gray; -fx-border-radius: 0 0 0 10; -fx-background-radius: 10; -fx-border-width: 0.5;">
+        <TextFlow fx:id="reviewField" blendMode="SCREEN" layoutX="6.0" layoutY="96.0" lineSpacing="3.0" prefHeight="268.0" prefWidth="537.0" style="-fx-border-color: #5EB03E #2b2b2d  #2b2b2d  #5EB03E; -fx-border-radius: 0 0 0 10; -fx-background-radius: 10; -fx-border-width: 0.5;">
             <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </padding>
@@ -68,7 +61,7 @@
                 </Text>
             </children>
         </TextFlow>
-        <TextFlow fx:id="watchedField" blendMode="SCREEN" layoutX="6.0" layoutY="62.0" maxWidth="-Infinity" prefWidth="537.0" style="-fx-border-color: gray #2b2b2d  #2b2b2d  gray; -fx-border-radius: 0; -fx-background-radius: 0; -fx-border-width: 0.5;">
+        <TextFlow fx:id="watchedField" blendMode="SCREEN" layoutX="6.0" layoutY="62.0" maxWidth="-Infinity" prefHeight="28.0" prefWidth="470.0" style="-fx-border-color: #5EB03E #2b2b2d  #2b2b2d  #5EB03E; -fx-border-radius: 0; -fx-background-radius: 0; -fx-border-width: 0.5;">
             <padding>
                 <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
             </padding>
@@ -85,12 +78,21 @@
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </padding>
             <children>
-                <Text fx:id="infoTVText" fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Batalha dos Bastardos">
+                <Text fx:id="infoTVText" fill="WHITE" fontSmoothingType="LCD" opacity="0.6" strokeType="OUTSIDE" strokeWidth="0.0" text="Batalha dos Bastardos">
                     <font>
                         <Font name="Segoe UI Bold" size="12.0" />
                     </font>
                 </Text>
             </children>
         </TextFlow>
+      <MenuButton id="editButton" alignment="CENTER" blendMode="SCREEN" contentDisplay="GRAPHIC_ONLY" layoutX="483.0" layoutY="62.0" mnemonicParsing="false" prefHeight="28.0" prefWidth="60.0" text="MenuButton" textFill="WHITE">
+         <graphic>
+                <SVGPath content="M3,8H21a1,1,0,0,0,0-2H3A1,1,0,0,0,3,8Zm18,8H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Zm0-5H3a1,1,0,0,0,0,2H21a1,1,0,0,0,0-2Z" fill="#9dd1f8" />
+         </graphic>
+         <items>
+            <MenuItem mnemonicParsing="false" onAction="#EditReview" text="Editar" />
+            <MenuItem mnemonicParsing="false" onAction="#RemoveReview" text="Remover" />
+         </items>
+      </MenuButton>
     </children>
 </Pane>

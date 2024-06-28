@@ -8,8 +8,8 @@ public abstract class Review {
 
     private static Integer reviewCount = 1;
     private final Integer reviewID;
-    private final Integer reviewNote;
-    private final String reviewText;
+    private Integer reviewNote;
+    private String reviewText;
     private final Date reviewDate;
     private Title title;
 
@@ -45,6 +45,19 @@ public abstract class Review {
 
     public Date getReviewDate() {
         return reviewDate;
+    }
+
+    public void setReviewNote(Integer reviewNote) {
+        this.reviewNote = reviewNote;
+    }
+
+    public void setReviewText(String reviewText) {
+        this.reviewText = reviewText;
+    }
+
+    public void editReview(String text, Integer rating){
+        this.reviewText = text;
+        this.reviewNote = rating;
     }
 
     @Override

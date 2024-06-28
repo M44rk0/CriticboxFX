@@ -91,9 +91,8 @@ public class TitleDetailsController implements CommonController {
 
     @FXML
     void makeReview(){
-        if(mainController != null){
             mainController.showCreateReview(title);
-        }
+            mainController.setEditReviewIsCalledFrom(1);
     }
 
     @FXML
@@ -175,11 +174,6 @@ public class TitleDetailsController implements CommonController {
 
     public void setVfxFlow(ArrayList<String> vfxMembers) {
         setFlow(vfxMembers, vfxFlow);
-    }
-
-    public void setPosterImage(String posterImage) {
-        Image poster = new Image("https://image.tmdb.org/t/p/original/" + posterImage, 250, 350, false, false);
-        this.posterImage.setImage(poster);
     }
 
     public void setPosterImage(Image posterImage) {

@@ -1,4 +1,7 @@
 package com.m44rk0.criticboxfx.controller.review;
+import com.m44rk0.criticboxfx.controller.ViewController;
+import com.m44rk0.criticboxfx.model.review.Review;
+import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -12,6 +15,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static com.m44rk0.criticboxfx.App.main;
+import static com.m44rk0.criticboxfx.App.user;
 
 public class ReviewController implements CommonController {
 
@@ -51,6 +57,8 @@ public class ReviewController implements CommonController {
 
     private List<SVGPath> stars;
 
+    private ViewController mainController;
+    private Review review;
 
     @Override
     public void setOverviewField(String overview) {
@@ -60,6 +68,22 @@ public class ReviewController implements CommonController {
     public void setPosterImage(Image posterImage) {
         this.posterImage.setImage(posterImage);
 
+    }
+
+    @FXML
+    private void RemoveReview(){
+        int areYouSure = AlertMessage.showChoiceAlert("Remoção da Review", "Você tem certeza que deseja remover essa review?");
+        if(areYouSure == 0){
+            user.removeReview(review);
+            mainController.showUserReviews();
+        }
+    }
+
+    @FXML
+    private void EditReview(){
+        mainController.setEditReviewIsCalledFrom(2);
+        mainController.setReviewToEdit(review);
+        mainController.showCreateReview(review.getTitle());
     }
 
     @Override
@@ -81,6 +105,21 @@ public class ReviewController implements CommonController {
 
     public void setInfoTVField(String infoTV){
         this.infoTVText.setText(infoTV);
+    }
+
+    public void setMainController(ViewController mainController) {
+        this.mainController = mainController;
+    }
+
+    public void setReview(Review review){
+        this.review = review;    }
+
+    public Text getReviewText() {
+        return reviewText;
+    }
+
+    public void setReviewText(Text reviewText) {
+        this.reviewText = reviewText;
     }
 
     public void turnVisible(){

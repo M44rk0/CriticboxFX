@@ -170,11 +170,18 @@
             <children>
                <FlowPane fx:id="genresFlow" alignment="CENTER_LEFT" hgap="5.0" prefWrapLength="300.0" style="-fx-border-color: transparent transparent white transparent;" vgap="5.0">
                   <children>
-                     <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Genero" textAlignment="CENTER" wrappingWidth="67.0">
-                        <font>
-                           <Font name="JetBrains Mono Bold" size="15.0" />
-                        </font>
-                     </Text>
+                     <TextFlow textAlignment="CENTER">
+                        <children>
+                           <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Genero" textAlignment="CENTER" wrappingWidth="67.0">
+                              <font>
+                                 <Font name="JetBrains Mono Bold" size="15.0" />
+                              </font>
+                           </Text>
+                        </children>
+                        <padding>
+                           <Insets bottom="5.0" top="5.0" />
+                        </padding>
+                     </TextFlow>
                      <TextFlow blendMode="ADD" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
                         <padding>
                            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

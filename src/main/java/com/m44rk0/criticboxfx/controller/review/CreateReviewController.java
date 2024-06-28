@@ -72,36 +72,38 @@ public class CreateReviewController implements CommonController {
     @FXML
     public void saveReview(){
 
-        if (getCurrentRating() == 0 && reviewArea.getText().isBlank()){
-            AlertMessage.showAlert("Erro de Review", "Esqueceu foi de tudo po, ta de sacanagem?");
-        }
-
-        else if(getCurrentRating() == 0){
-            AlertMessage.showAlert("Erro de Review", "Esquecer de dar a nota meu mano");
-        }
-
-        else if(reviewArea.getText().isEmpty()){
-            AlertMessage.showAlert("Erro de Review", "Esqueceu da avaliação irmão");
-        }
-
-        else if(!containsInReview(title)) {
-
-            if (title instanceof Film || (title instanceof TvShow &&
-                            (episodeBox.getValue() == null || episodeBox.getValue().isEmpty()) &&
-                            (seasonBox.getValue() == null || seasonBox.getValue() == 0))) {
-
-                user.addReview(new FilmReview(title, getCurrentRating(), new Date(), reviewArea.getText()));
+        if(viewController.getEditReviewIsCalledFrom() == 2){
+            int choice = AlertMessage.showChoiceAlert("Edição de Review", "Deseja editar a review?");
+            if(choice == 0){
+                viewController.getReviewToEdit().editReview(reviewArea.getText(), getCurrentRating());
+                viewController.setEditReviewIsCalledFrom(0);
             }
-
-            else{
-
-                user.addReview(new TvReview(title, getCurrentRating(), new Date(),
-                        reviewArea.getText(), seasonBox.getValue(), episodeBox.getValue()));
-            }
-            viewController.restoreSearchResults();
+            viewController.showUserReviews();
         }
-        else{
-            AlertMessage.showAlert("Review já existe", "Essa Review já existe animal");
+        else {
+
+            if (getCurrentRating() == 0 && reviewArea.getText().isBlank()) {
+                AlertMessage.showAlert("Erro de Review", "Esqueceu foi de tudo po, ta de sacanagem?");
+            } else if (getCurrentRating() == 0) {
+                AlertMessage.showAlert("Erro de Review", "Esquecer de dar a nota meu mano");
+            } else if (reviewArea.getText().isEmpty()) {
+                AlertMessage.showAlert("Erro de Review", "Esqueceu da avaliação irmão");
+            } else if (!containsInReview(title)) {
+
+                if (title instanceof Film || (title instanceof TvShow &&
+                        (episodeBox.getValue() == null || episodeBox.getValue().isEmpty()) &&
+                        (seasonBox.getValue() == null || seasonBox.getValue() == 0))) {
+
+                    user.addReview(new FilmReview(title, getCurrentRating(), new Date(), reviewArea.getText()));
+                } else {
+
+                    user.addReview(new TvReview(title, getCurrentRating(), new Date(),
+                            reviewArea.getText(), seasonBox.getValue(), episodeBox.getValue()));
+                }
+                viewController.restoreSearchResults();
+            } else {
+                AlertMessage.showAlert("Review já existe", "Essa Review já existe animal");
+            }
         }
 
     }
@@ -160,6 +162,20 @@ public class CreateReviewController implements CommonController {
     public void setReleaseField(String releaseField){
     }
 
+    public ComboBox<Integer> getSeasonBox() {
+        return seasonBox;
+    }
+
+
+    public ComboBox<String> getEpisodeBox() {
+        return episodeBox;
+    }
+
+
+    public void setCurrentRating(int currentRating) {
+        this.currentRating = currentRating;
+    }
+
     public void setMainController(ViewController viewController) {
         this.viewController = viewController;
     }
@@ -181,6 +197,10 @@ public class CreateReviewController implements CommonController {
         return currentRating;
     }
 
+    public void setText(String text){
+        this.reviewArea.setText(text);
+    }
+
     private void updateEpisodeBox(int seasonNumber) {
         if (title instanceof TvShow tvShow) {
             for (Season season : tvShow.getSeasons()) {
@@ -192,7 +212,7 @@ public class CreateReviewController implements CommonController {
         }
     }
 
-    private void setSelectedRating(int rating) {
+    public void setSelectedRating(int rating) {
         currentRating = rating;
 
         for (int i = 0; i < stars.size(); i++) {
