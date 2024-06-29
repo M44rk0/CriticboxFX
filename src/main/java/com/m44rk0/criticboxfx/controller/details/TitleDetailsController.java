@@ -132,7 +132,7 @@ public class TitleDetailsController implements CommonController {
         this.releaseText.setText(releaseField);
     }
 
-    public void setTittleField(String titleField) {
+    public void setTitleField(String titleField) {
         this.tittleText.setText(titleField);
     }
 

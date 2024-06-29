@@ -16,11 +16,6 @@ public class FavoritesPanelController implements CommonController {
     private ViewController mainController;
 
     @FXML
-    public void setPosterImage(Image poster){
-        favoritePoster.setImage(poster);
-    }
-
-    @FXML
     public void showDetails(){
         mainController.showTitleDetails(title);
         mainController.setDetailsIsCalledFrom(2);
@@ -34,8 +29,13 @@ public class FavoritesPanelController implements CommonController {
         this.mainController = mainController;
     }
 
+    @FXML
+    public void setPosterImage(Image poster){
+        favoritePoster.setImage(poster);
+    }
+
     @Override
-    public void setTittleField(String title) {
+    public void setTitleField(String title) {
 
     }
 
@@ -43,7 +43,6 @@ public class FavoritesPanelController implements CommonController {
     public void setOverviewField(String overview) {
 
     }
-
 
     @Override
     public void setReleaseField(String releaseDate) {

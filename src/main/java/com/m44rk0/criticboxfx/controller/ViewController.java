@@ -2,7 +2,7 @@ package com.m44rk0.criticboxfx.controller;
 
 import com.m44rk0.criticboxfx.controller.details.TitleDetailsController;
 import com.m44rk0.criticboxfx.controller.details.TitleInfoController;
-import com.m44rk0.criticboxfx.controller.favorites.FavAndWatchController;
+import com.m44rk0.criticboxfx.controller.favorites.FavoritesController;
 import com.m44rk0.criticboxfx.controller.favorites.FavoritesPanelController;
 import com.m44rk0.criticboxfx.controller.mainview.TabViewController;
 import com.m44rk0.criticboxfx.controller.review.CreateReviewController;
@@ -37,9 +37,6 @@ import static com.m44rk0.criticboxfx.App.user;
 public class ViewController {
 
     @FXML
-    private Button searchButton;
-
-    @FXML
     private ImageView critic;
 
     @FXML
@@ -51,11 +48,22 @@ public class ViewController {
     @FXML
     private TextField searchField;
 
+    //guarda os resultados de pesquisa
     private final List<Node> searchResultNodes = new ArrayList<>();
+
+    //guarda as imagens de todos os titulos buscados pra evitar carregar a mesma imagem várias vezes em outras telas
     private final Map<Title, Image> imageCache = new HashMap<>();
 
+    //gambiarra pra ajustar o botão de "return" a depender de onde ele foi clicado
+    //1 == página de favoritos (return volta pra página de favoritos)
+    //2 == página de resultados (return volta pra página de resultados)
     private Integer detailsIsCalledFrom = 0;
+
+    //gambiarra pra "avisar" que a tela de criação de review será para edição de uma review
+    //2 == editar uma review
     private Integer editReviewIsCalledFrom = 0;
+
+    //guarda o review que vai ser editado e que será aberto na página de criação de reviews
     private Review reviewToEdit;
 
     @FXML
@@ -78,6 +86,7 @@ public class ViewController {
         showFavorites();
     }
 
+    //realiza a busca
     public void performSearch(){
         try {
             List<Title> searchResults;
@@ -96,6 +105,7 @@ public class ViewController {
         }
     }
 
+    //exibe os resultados da busca na tela
     public void showSearchResults(List<Title> searchResults){
         try{
             searchResultNodes.clear();
@@ -111,8 +121,6 @@ public class ViewController {
                 TitleInfoController controller = loader.getController();
 
                 setCommonFields(controller, title);
-                controller.setMainController(this);
-                controller.setTitle(title);
 
                 if (title instanceof TvShow) {
                     controller.setSeasonField(((TvShow) title).getSeasons().size() + " Temporada(s)");
@@ -124,7 +132,8 @@ public class ViewController {
                     controller.setWatchedIcon(Icon.WATCHED.getPath());
                 }
 
-                Image posterImage = new Image("https://image.tmdb.org/t/p/w500/" + title.getPosterPath(), 250, 350, false, false);
+                Image posterImage = new Image("https://image.tmdb.org/t/p/w500/" +
+                        title.getPosterPath(), 250, 350, false, false);
 
                 controller.setPosterImage(posterImage);
                 imageCache.put(title, posterImage);
@@ -143,6 +152,7 @@ public class ViewController {
         }
     }
 
+    //restaura os resultados de busca salvos pra não ser preciso realizar outra busca ao voltar para a tela de resultados
     public void restoreSearchResults(){
         try {
 
@@ -168,6 +178,7 @@ public class ViewController {
         }
     }
 
+    //exibe a tela de reviews feitas pelo usuário
     public void showUserReviews() {
         try {
             scrollBox.getChildren().clear();
@@ -184,16 +195,17 @@ public class ViewController {
                         Pane reviewPane = loader.load();
                         ReviewController controller = loader.getController();
 
+                        controller.setReview(review);
+                        controller.setMainController(this);
+                        controller.setTitleField(review.getTitle().getName());
+                        controller.setPosterImage(imageCache.get(review.getTitle()));
                         controller.setReviewField("\"" + review.getReviewText() + "\"");
                         controller.setWatchedField(review.getReviewDate());
-                        controller.setPosterImage(imageCache.get(review.getTitle()));
-                        controller.setMainController(this);
-                        controller.setReview(review);
-                        controller.setTittleField(review.getTitle().getName());
                         controller.setSelectedRating(review.getReviewNote());
 
                         if (review instanceof TvReview) {
-                            controller.setInfoTVField(((TvReview) review).getSeasonNumber() + "ª Temporada - " + ((TvReview) review).getEpisodeName());
+                            controller.setInfoTVField(((TvReview) review).getSeasonNumber() +
+                                    "ª Temporada - " + ((TvReview) review).getEpisodeName());
                             controller.turnVisible();
                         }
 
@@ -215,13 +227,14 @@ public class ViewController {
         }
     }
 
+    //exibe a tela de favoritos e assistidos pelo usuário
     public void showFavorites() {
         try {
             scrollPage.setVvalue(0);
             resetScrollBox();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("favoritesAndWatched.fxml"));
             TabPane fav = loader.load();
-            FavAndWatchController controller = loader.getController();
+            FavoritesController controller = loader.getController();
             FlowPane favoritesFlow = controller.getFavoritesFlow();
             FlowPane watchedFlow = controller.getWatchedFlow();
             favoritesFlow.getChildren().clear();
@@ -232,9 +245,7 @@ public class ViewController {
                 FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
                 Pane favoritesPanel = fpLoader.load();
                 FavoritesPanelController favoritePanelController = fpLoader.getController();
-                favoritePanelController.setMainController(this);
-                favoritePanelController.setPosterImage(imageCache.get(title));
-                favoritePanelController.setTitle(title);
+                setCommonFields(favoritePanelController, title);
                 favoritesFlow.getChildren().add(favoritesPanel);
             }
 
@@ -243,9 +254,7 @@ public class ViewController {
                 FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
                 Pane favoritesPanel = fpLoader.load();
                 FavoritesPanelController favoritePanelController = fpLoader.getController();
-                favoritePanelController.setMainController(this);
-                favoritePanelController.setPosterImage(imageCache.get(title));
-                favoritePanelController.setTitle(title);
+                setCommonFields(favoritePanelController, title);
                 watchedFlow.getChildren().add(favoritesPanel);
             }
 
@@ -260,6 +269,7 @@ public class ViewController {
         }
     }
 
+    //exibe a tela de criação de review de um título
     public void showCreateReview(Title title){
         try {
             scrollPage.setVvalue(0);
@@ -270,15 +280,11 @@ public class ViewController {
             Pane reviewPane = loader.load();
             CreateReviewController controller = loader.getController();
 
-            controller.setTittleField(title.getName() + " (" + dateToYear(title.getReleaseDate()) + ")");
-            controller.setOverviewField(title.getOverview());
-            controller.setPosterImage(imageCache.get(title));
+            setCommonFields(controller, title);
+            controller.setTitleField(title.getName() + " (" + dateToYear(title.getReleaseDate()) + ")");
 
-            controller.setTitle(title);
-            controller.setMainController(this);
-
+            //verifica se a review que está sendo exibida é uma review nova ou uma edição
             if(getEditReviewIsCalledFrom() == 2){
-
                 controller.setCurrentRating(reviewToEdit.getReviewNote());
                 controller.setText(reviewToEdit.getReviewText());
                 controller.setSelectedRating(reviewToEdit.getReviewNote());
@@ -301,6 +307,7 @@ public class ViewController {
         }
     }
 
+    //exibe a tela dos detalhes de um título
     public void showTitleDetails(Title title){
         try {
             resetScrollBox();
@@ -311,9 +318,6 @@ public class ViewController {
             TitleDetailsController controller = loader.getController();
 
             setCommonFields(controller, title);
-
-            controller.setTitle(title);
-            controller.setMainController(this);
             controller.setDurationField(title.getDuration());
             controller.setGenreFlow(title.getGenres());
             controller.setDirectorFlow(title.getDirectors());
@@ -340,24 +344,28 @@ public class ViewController {
         }
     }
 
+    //função pra setar os campos comuns em todos os controladores dado um título
     private void setCommonFields(CommonController controller, Title title){
-        controller.setTittleField(title.getName());
+        controller.setMainController(this);
+        controller.setTitle(title);
+        controller.setTitleField(title.getName());
         controller.setOverviewField(title.getOverview());
         controller.setPosterImage(imageCache.get(title));
         controller.setReleaseField(formatDate(title.getReleaseDate()));
     }
 
+    //função pra resetar a página principal
     private void resetScrollBox(){
         scrollBox.getChildren().clear();
         scrollPage.setFitToHeight(false);
     }
 
-    public void setDetailsIsCalledFrom(Integer detailsIsCalledFrom) {
-        this.detailsIsCalledFrom = detailsIsCalledFrom;
-    }
-
     public Integer getDetailsIsCalledFrom() {
         return detailsIsCalledFrom;
+    }
+
+    public void setDetailsIsCalledFrom(Integer detailsIsCalledFrom) {
+        this.detailsIsCalledFrom = detailsIsCalledFrom;
     }
 
     public Integer getEditReviewIsCalledFrom() {
@@ -376,25 +384,24 @@ public class ViewController {
         this.reviewToEdit = reviewToEdit;
     }
 
-    public static String formatDate(String dataString){
+    public static String formatDate(String data){
         DateTimeFormatter input = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter output = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        LocalDate date = LocalDate.parse(dataString, input);
+        LocalDate date = LocalDate.parse(data, input);
         return date.format(output);
     }
 
-    public static String dateToYear(String dataString){
-        DateTimeFormatter formatoEntrada = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter formatoSaida = DateTimeFormatter.ofPattern("yyyy");
-        LocalDate data = LocalDate.parse(dataString, formatoEntrada);
-        return data.format(formatoSaida);
+    public static String dateToYear(String data){
+        DateTimeFormatter input = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter output = DateTimeFormatter.ofPattern("yyyy");
+        LocalDate date = LocalDate.parse(data, input);
+        return date.format(output);
     }
 
     @FXML
     public void initialize(){
-        String imagePath = "src/main/java/com/m44rk0/criticboxfx/images/Critic.png";
-        Image image = new Image(new File(imagePath).toURI().toString());
-        critic.setImage(image);
+
+        critic.setImage(new Image(new File("src/main/java/com/m44rk0/criticboxfx/images/Critic.png").toURI().toString()));
 
         searchField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {

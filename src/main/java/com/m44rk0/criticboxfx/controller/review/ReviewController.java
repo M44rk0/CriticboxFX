@@ -1,6 +1,7 @@
 package com.m44rk0.criticboxfx.controller.review;
 import com.m44rk0.criticboxfx.controller.ViewController;
 import com.m44rk0.criticboxfx.model.review.Review;
+import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.fxml.FXML;
@@ -60,10 +61,6 @@ public class ReviewController implements CommonController {
     private Review review;
 
     @Override
-    public void setOverviewField(String overview) {
-    }
-
-    @Override
     public void setPosterImage(Image posterImage) {
         this.posterImage.setImage(posterImage);
 
@@ -86,8 +83,18 @@ public class ReviewController implements CommonController {
     }
 
     @Override
-    public void setTittleField(String titleField) {
+    public void setTitle(Title title) {
+
+    }
+
+    @Override
+    public void setTitleField(String titleField) {
         this.tittleText.setText(titleField);
+    }
+
+    @Override
+    public void setOverviewField(String overview) {
+
     }
 
     @Override

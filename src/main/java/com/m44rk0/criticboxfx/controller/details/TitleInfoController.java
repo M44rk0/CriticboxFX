@@ -11,7 +11,6 @@ import javafx.scene.image.Image;
 import javafx.scene.text.Text;
 import javafx.fxml.FXML;
 
-import static com.m44rk0.criticboxfx.App.main;
 import static com.m44rk0.criticboxfx.App.user;
 
 public class TitleInfoController implements CommonController {
@@ -95,7 +94,7 @@ public class TitleInfoController implements CommonController {
         this.releaseText.setText(releaseField);
     }
 
-    public void setTittleField(String titleField) {
+    public void setTitleField(String titleField) {
         this.tittleText.setText(titleField);
     }
 

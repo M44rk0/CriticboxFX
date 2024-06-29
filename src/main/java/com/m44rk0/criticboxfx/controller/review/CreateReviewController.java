@@ -155,7 +155,7 @@ public class CreateReviewController implements CommonController {
         this.overviewText.setText(overviewField);
     }
 
-    public void setTittleField(String titleField) {
+    public void setTitleField(String titleField) {
         this.tittleText.setText(titleField);
     }
 

@@ -1,6 +1,7 @@
 package com.m44rk0.criticboxfx.controller.favorites;
 
 import com.m44rk0.criticboxfx.controller.ViewController;
+import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Tab;
@@ -8,7 +9,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.FlowPane;
 
-public class FavAndWatchController implements CommonController {
+public class FavoritesController implements CommonController {
 
     @FXML
     private TabPane TabPaneFavorites;
@@ -48,7 +49,12 @@ public class FavAndWatchController implements CommonController {
     }
 
     @Override
-    public void setTittleField(String title) {
+    public void setTitle(Title title) {
+
+    }
+
+    @Override
+    public void setTitleField(String title) {
 
     }
 
@@ -66,4 +72,11 @@ public class FavAndWatchController implements CommonController {
     public void setReleaseField(String releaseDate) {
 
     }
+
+    @Override
+    public void setMainController(ViewController controller) {
+
+    }
+
+
 }
