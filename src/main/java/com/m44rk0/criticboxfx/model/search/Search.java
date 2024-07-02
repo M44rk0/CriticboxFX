@@ -3,9 +3,7 @@ import com.m44rk0.criticboxfx.model.title.Film;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.model.title.TvShow;
 import info.movito.themoviedbapi.TmdbApi;
-import info.movito.themoviedbapi.model.movies.Credits;
 import info.movito.themoviedbapi.tools.TmdbException;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -26,15 +24,9 @@ public class Search {
 
         List<CompletableFuture<Title>> movieFutures = searchMovie.stream()
                 .map(movie -> CompletableFuture.supplyAsync(() -> {
-                    Credits credits = null;
+                    Title resultMovie;
                     try {
-                        credits = api.getMovies().getCredits(movie.getId(), "pt-BR");
-                    } catch (TmdbException e) {
-                        return null;
-                    }
-                    Title resultMovie = null;
-                    try {
-                        resultMovie = new Film(api.getMovies().getDetails(movie.getId(), "pt-BR"), credits);
+                        resultMovie = new Film(api.getMovies().getDetails(movie.getId(), "pt-BR"));
                     } catch (TmdbException e) {
                         return null;
                     }
@@ -44,17 +36,11 @@ public class Search {
 
         List<CompletableFuture<Title>> tvShowFutures = searchTVShow.stream()
                 .map(tvShow -> CompletableFuture.supplyAsync(() -> {
-                    info.movito.themoviedbapi.model.tv.core.credits.Credits credits = null;
+                    Title resultSerie;
                     try {
-                        credits = api.getTvSeries().getCredits(tvShow.getId(), "pt-BR");
+                        resultSerie = new TvShow(api.getTvSeries().getDetails(tvShow.getId(), "pt-BR"));
                     } catch (TmdbException e) {
-                        e.printStackTrace();
-                    }
-                    Title resultSerie = null;
-                    try {
-                        resultSerie = new TvShow(api.getTvSeries().getDetails(tvShow.getId(), "pt-BR"), credits);
-                    } catch (TmdbException e) {
-                        e.printStackTrace();
+                        return null;
                     }
                     return isValidTvShow(resultSerie) ? resultSerie : null;
                 }))
@@ -80,17 +66,11 @@ public class Search {
         var searchMovie = api.getSearch().searchMovie(search, false, "pt-BR", null, 1, null, null).getResults();
         List<CompletableFuture<Title>> movieFutures = searchMovie.stream()
                 .map(movie -> CompletableFuture.supplyAsync(() -> {
-                    Credits credits = null;
+                    Title resultMovie;
                     try {
-                        credits = api.getMovies().getCredits(movie.getId(), "pt-BR");
+                        resultMovie = new Film(api.getMovies().getDetails(movie.getId(), "pt-BR"));
                     } catch (TmdbException e) {
-                        throw new RuntimeException(e);
-                    }
-                    Title resultMovie = null;
-                    try {
-                        resultMovie = new Film(api.getMovies().getDetails(movie.getId(), "pt-BR"), credits);
-                    } catch (TmdbException e) {
-                        throw new RuntimeException(e);
+                        return null;
                     }
                     return isValidMovie(resultMovie) ? resultMovie : null;
                 }))
@@ -109,17 +89,11 @@ public class Search {
 
         List<CompletableFuture<Title>> tvShowFutures = searchTVShow.stream()
                 .map(tvShow -> CompletableFuture.supplyAsync(() -> {
-                    info.movito.themoviedbapi.model.tv.core.credits.Credits credits = null;
+                    Title resultSerie;
                     try {
-                        credits = api.getTvSeries().getCredits(tvShow.getId(), "pt-BR");
+                        resultSerie = new TvShow(api.getTvSeries().getDetails(tvShow.getId(), "pt-BR"));
                     } catch (TmdbException e) {
-                        throw new RuntimeException(e);
-                    }
-                    Title resultSerie = null;
-                    try {
-                        resultSerie = new TvShow(api.getTvSeries().getDetails(tvShow.getId(), "pt-BR"), credits);
-                    } catch (TmdbException e) {
-                        throw new RuntimeException(e);
+                        return null;
                     }
                     return isValidTvShow(resultSerie) ? resultSerie : null;
                 }))
@@ -131,48 +105,23 @@ public class Search {
                 .toList());
     }
 
-////this one is the pai who made it
-//    public static ArrayList<Tittle> searchMovie(String apiKey, String search) throws TmdbException {
-//
-//        TmdbApi api = new TmdbApi(apiKey);
-//
-//        var searchMovie = api.getSearch().searchMovie(search, false, "pt-BR", null, 1, null, null).getResults();
-//        var searchTVShow = api.getSearch().searchTv(search, null, false, "pt-BR", 1, null).getResults();
-//
-//        ArrayList<Tittle> results = new ArrayList<>();
-//
-//        for (Movie movie : searchMovie) {
-//            Credits credits = api.getMovies().getCredits(movie.getId(), "pt-BR");
-//            Tittle resultMovie = new Film(api.getMovies().getDetails(movie.getId(), "pt-BR"), credits);
-//            if (isValidMovie(resultMovie)) {
-//                results.add(resultMovie);
-//            }
-//        }
-//
-//        for (TvSeries serie : searchTVShow) {
-//            info.movito.themoviedbapi.model.tv.core.credits.Credits credits = api.getTvSeries().getCredits(serie.getId(), "pt-BR");
-//            Tittle resultSerie = new TvShow(api.getTvSeries().getDetails(serie.getId(), "pt-BR"), credits);
-//            if (isValidTvShow(resultSerie)) {
-//                results.add(resultSerie);
-//            }
-//        }
-//
-//        sortByReleaseDate(results);
-//
-//        return results;
-//    }
+    public static Title searchMovieById(String apiKey, int movieId) throws TmdbException {
+        TmdbApi api = new TmdbApi(apiKey);
+        Title resultMovie = new Film(api.getMovies().getDetails(movieId, "pt-BR"));
+        return isValidMovie(resultMovie) ? resultMovie : null;
+    }
+
+    public static Title searchTVShowById(String apiKey, int tvShowId) throws TmdbException {
+        TmdbApi api = new TmdbApi(apiKey);
+        Title resultSerie = new TvShow(api.getTvSeries().getDetails(tvShowId, "pt-BR"));
+        return isValidTvShow(resultSerie) ? resultSerie : null;
+    }
 
     private static void sortByPopularity(ArrayList<Title> results) {
-        results.sort(new Comparator<Title>() {
-            @Override
-            public int compare(Title t1, Title t2) {
-                double popularity1 = t1.getPopularity();
-                double popularity2 = t2.getPopularity();
-
-                // Note que, para ordenar em ordem decrescente de popularidade,
-                // devemos comparar popularity2 com popularity1.
-                return Double.compare(popularity2, popularity1);
-            }
+        results.sort((t1, t2) -> {
+            double popularity1 = t1.getPopularity();
+            double popularity2 = t2.getPopularity();
+            return Double.compare(popularity2, popularity1);
         });
     }
 

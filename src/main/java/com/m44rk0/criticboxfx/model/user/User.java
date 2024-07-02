@@ -26,20 +26,20 @@ public class User {
         this.watched = new ArrayList<>();
     }
 
-    public void addFavorite(Title tittle){
-        favorites.add(tittle);
+    public void addFavorite(Title title){
+        favorites.add(title);
     }
 
-    public void removeFavorite(Title tittle){
-        favorites.remove(tittle);
+    public void removeFavorite(Title title){
+        favorites.remove(title);
     }
 
-    public void addWatched(Title tittle){
-        watched.add(tittle);
+    public void addWatched(Title title){
+        watched.add(title);
     }
 
-    public void removeWatched(Title tittle){
-        watched.remove(tittle);
+    public void removeWatched(Title title){
+        watched.remove(title);
     }
 
     public void addReview(Review review){

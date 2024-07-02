@@ -15,6 +15,14 @@ public class TitleSearcher {
         return Search.searchAll(API_KEY, searchArgument);
     }
 
+    public Title searchMovieById(Integer id) throws TmdbException {
+        return Search.searchMovieById(API_KEY, id);
+    }
+
+    public Title searchTvShowById(Integer id) throws TmdbException {
+        return Search.searchTVShowById(API_KEY, id);
+    }
+
     public List<Title> searchMovie(String movieName) throws TmdbException {
         return Search.searchMovie(API_KEY, movieName);
     }

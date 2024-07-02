@@ -11,6 +11,7 @@ import com.m44rk0.criticboxfx.controller.review.ReviewTabPaneController;
 import com.m44rk0.criticboxfx.model.review.Review;
 import com.m44rk0.criticboxfx.model.review.TvReview;
 import com.m44rk0.criticboxfx.model.search.TitleSearcher;
+import com.m44rk0.criticboxfx.model.title.Details;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.model.title.TvShow;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
@@ -121,6 +122,7 @@ public class ViewController {
                 TitleInfoController controller = loader.getController();
 
                 setCommonFields(controller, title);
+                Details details = new Details(title);
 
                 if (title instanceof TvShow) {
                     controller.setSeasonField(((TvShow) title).getSeasons().size() + " Temporada(s)");
@@ -146,6 +148,9 @@ public class ViewController {
             if (searchResults.size() == 1) {
                 scrollPage.setFitToHeight(true);
             }
+            if (searchResults.isEmpty()) {
+                scrollPage.setFitToHeight(false);
+            }
     }
         catch (IOException e) {
             AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
@@ -156,14 +161,8 @@ public class ViewController {
     public void restoreSearchResults(){
         try {
 
+            resetScrollBox();
             scrollBox.getChildren().clear();
-
-            if (!searchResultNodes.isEmpty()) {
-                scrollPage.setFitToHeight(false);
-            }
-            if (searchResultNodes.size() == 1) {
-                scrollPage.setFitToHeight(true);
-            }
 
             FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("resultsTab.fxml"));
             TabPane resultsTab = tabLoader.load();
@@ -172,6 +171,13 @@ public class ViewController {
 
             resultsPane.getChildren().addAll(searchResultNodes);
             scrollBox.getChildren().add(resultsTab);
+
+            if (searchResultNodes.isEmpty()) {
+                scrollPage.setFitToHeight(true);
+            }
+            if (searchResultNodes.size() == 1) {
+                scrollPage.setFitToHeight(true);
+            }
         }
         catch (IOException e) {
             AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
@@ -202,6 +208,13 @@ public class ViewController {
                         controller.setReviewField("\"" + review.getReviewText() + "\"");
                         controller.setWatchedField(review.getReviewDate());
                         controller.setSelectedRating(review.getReviewNote());
+
+                        if(!imageCache.containsKey(review.getTitle())){
+                            Image posterImage = new Image("https://image.tmdb.org/t/p/w500/" +
+                                    review.getTitle().getPosterPath(), 250, 350, false, false);
+                            controller.setPosterImage(posterImage);
+                            imageCache.put(review.getTitle(), posterImage);
+                        }
 
                         if (review instanceof TvReview) {
                             controller.setInfoTVField(((TvReview) review).getSeasonNumber() +
@@ -246,6 +259,12 @@ public class ViewController {
                 Pane favoritesPanel = fpLoader.load();
                 FavoritesPanelController favoritePanelController = fpLoader.getController();
                 setCommonFields(favoritePanelController, title);
+                if(!imageCache.containsKey(title)){
+                    Image posterImage = new Image("https://image.tmdb.org/t/p/w500/" +
+                            title.getPosterPath(), 250, 350, false, false);
+                    favoritePanelController.setPosterImage(posterImage);
+                    imageCache.put(title, posterImage);
+                }
                 favoritesFlow.getChildren().add(favoritesPanel);
             }
 
@@ -255,6 +274,12 @@ public class ViewController {
                 Pane favoritesPanel = fpLoader.load();
                 FavoritesPanelController favoritePanelController = fpLoader.getController();
                 setCommonFields(favoritePanelController, title);
+                if(!imageCache.containsKey(title)){
+                    Image posterImage = new Image("https://image.tmdb.org/t/p/w500/" +
+                            title.getPosterPath(), 250, 350, false, false);
+                    favoritePanelController.setPosterImage(posterImage);
+                    imageCache.put(title, posterImage);
+                }
                 watchedFlow.getChildren().add(favoritesPanel);
             }
 
@@ -307,7 +332,6 @@ public class ViewController {
         }
     }
 
-    //exibe a tela dos detalhes de um título
     public void showTitleDetails(Title title){
         try {
             resetScrollBox();
@@ -318,16 +342,18 @@ public class ViewController {
             TitleDetailsController controller = loader.getController();
 
             setCommonFields(controller, title);
+            Details details = new Details(title);
+
             controller.setDurationField(title.getDuration());
-            controller.setGenreFlow(title.getGenres());
-            controller.setDirectorFlow(title.getDirectors());
-            controller.setCastFlow(title.getCast());
-            controller.setWriterFlow(title.getWriters());
-            controller.setProducerFlow(title.getProducers());
-            controller.setArtDirectFlow(title.getArtDirection());
-            controller.setSoundFlow(title.getSoundTeam());
-            controller.setCameraFlow(title.getPhotographyTeam());
-            controller.setVfxFlow(title.getVisualEffectsTeam());
+            controller.setGenreFlow(details.getGenres());
+            controller.setDirectorFlow(details.getDirectors());
+            controller.setCastFlow(details.getCast());
+            controller.setWriterFlow(details.getWriters());
+            controller.setProducerFlow(details.getProducers());
+            controller.setArtDirectFlow(details.getArtDirection());
+            controller.setSoundFlow(details.getSoundTeam());
+            controller.setCameraFlow(details.getPhotographyTeam());
+            controller.setVfxFlow(details.getVisualEffectsTeam());
 
             if(title instanceof TvShow){
                 controller.hideDuration();
