@@ -9,9 +9,10 @@ import com.m44rk0.criticboxfx.controller.review.CreateReviewController;
 import com.m44rk0.criticboxfx.controller.review.ReviewController;
 import com.m44rk0.criticboxfx.controller.review.ReviewTabPaneController;
 import com.m44rk0.criticboxfx.model.review.Review;
-import com.m44rk0.criticboxfx.model.review.TvReview;
+import com.m44rk0.criticboxfx.model.review.EpisodeReview;
 import com.m44rk0.criticboxfx.model.search.TitleSearcher;
 import com.m44rk0.criticboxfx.model.title.Details;
+import com.m44rk0.criticboxfx.model.title.Season;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.model.title.TvShow;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
@@ -53,7 +54,8 @@ public class ViewController {
     private final List<Node> searchResultNodes = new ArrayList<>();
 
     //guarda as imagens de todos os titulos buscados pra evitar carregar a mesma imagem várias vezes em outras telas
-    private final Map<Title, Image> imageCache = new HashMap<>();
+    public static final Map<Title, Image> titlePosterCache = new HashMap<>();
+    public static final Map<Season, Image> seasonPosterCache = new HashMap<>();
 
     //gambiarra pra ajustar o botão de "return" a depender de onde ele foi clicado
     //1 == página de favoritos (return volta pra página de favoritos)
@@ -109,8 +111,9 @@ public class ViewController {
     //exibe os resultados da busca na tela
     public void showSearchResults(List<Title> searchResults){
         try{
-            searchResultNodes.clear();
             resetScrollBox();
+            searchResultNodes.clear();
+
             FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("resultsTab.fxml"));
             TabPane resultsTab = tabLoader.load();
             TabViewController tabController = tabLoader.getController();
@@ -122,7 +125,6 @@ public class ViewController {
                 TitleInfoController controller = loader.getController();
 
                 setCommonFields(controller, title);
-                Details details = new Details(title);
 
                 if (title instanceof TvShow) {
                     controller.setSeasonField(((TvShow) title).getSeasons().size() + " Temporada(s)");
@@ -134,11 +136,6 @@ public class ViewController {
                     controller.setWatchedIcon(Icon.WATCHED.getPath());
                 }
 
-                Image posterImage = new Image("https://image.tmdb.org/t/p/w500/" +
-                        title.getPosterPath(), 250, 350, false, false);
-
-                controller.setPosterImage(posterImage);
-                imageCache.put(title, posterImage);
                 resultsPane.getChildren().add(movieInfoPane);
                 searchResultNodes.add(movieInfoPane);
             }
@@ -147,9 +144,6 @@ public class ViewController {
 
             if (searchResults.size() == 1) {
                 scrollPage.setFitToHeight(true);
-            }
-            if (searchResults.isEmpty()) {
-                scrollPage.setFitToHeight(false);
             }
     }
         catch (IOException e) {
@@ -160,9 +154,7 @@ public class ViewController {
     //restaura os resultados de busca salvos pra não ser preciso realizar outra busca ao voltar para a tela de resultados
     public void restoreSearchResults(){
         try {
-
             resetScrollBox();
-            scrollBox.getChildren().clear();
 
             FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("resultsTab.fxml"));
             TabPane resultsTab = tabLoader.load();
@@ -187,7 +179,7 @@ public class ViewController {
     //exibe a tela de reviews feitas pelo usuário
     public void showUserReviews() {
         try {
-            scrollBox.getChildren().clear();
+            resetScrollBox();
             List<Review> userReviews = user.getReviews().reversed();
             FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("reviewsTab.fxml"));
             TabPane reviewTab = tabLoader.load();
@@ -196,34 +188,44 @@ public class ViewController {
             FlowPane reviewFlow = tabController.getReviewsFlow();
 
             for (Review review : userReviews) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("userReview.fxml"));
+                Pane reviewPane = loader.load();
+                ReviewController controller = loader.getController();
 
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("userReview.fxml"));
-                        Pane reviewPane = loader.load();
-                        ReviewController controller = loader.getController();
+                controller.setReview(review);
+                controller.setMainController(this);
+                controller.setTitleField(review.getTitle().getName());
+                controller.setPosterImage(titlePosterCache.get(review.getTitle()));
+                controller.setReviewField("\"" + review.getReviewText() + "\"");
+                controller.setWatchedField(review.getReviewDate());
+                controller.setSelectedRating(review.getReviewNote());
 
-                        controller.setReview(review);
-                        controller.setMainController(this);
-                        controller.setTitleField(review.getTitle().getName());
-                        controller.setPosterImage(imageCache.get(review.getTitle()));
-                        controller.setReviewField("\"" + review.getReviewText() + "\"");
-                        controller.setWatchedField(review.getReviewDate());
-                        controller.setSelectedRating(review.getReviewNote());
+                if (review instanceof EpisodeReview episodeReview) {
+                    int seasonNumber = episodeReview.getSeasonNumber();
+                    String episodeName = episodeReview.getEpisodeName();
+                    TvShow tvShow = (TvShow) review.getTitle();
+                    Season season = tvShow.getSeasons().stream()
+                            .filter(s -> s.getSeasonNumber() == seasonNumber)
+                            .findFirst()
+                            .orElse(null);
 
-                        if(!imageCache.containsKey(review.getTitle())){
+                    if (season != null) {
+                        if(!seasonPosterCache.containsKey(episodeReview.getSeason())) {
                             Image posterImage = new Image("https://image.tmdb.org/t/p/w500/" +
-                                    review.getTitle().getPosterPath(), 250, 350, false, false);
+                                    season.getSeasonPosterPath(), 250, 350, false, false);
                             controller.setPosterImage(posterImage);
-                            imageCache.put(review.getTitle(), posterImage);
+                            seasonPosterCache.put(episodeReview.getSeason(), posterImage);
+                        }else {
+                            controller.setPosterImage(seasonPosterCache.get(episodeReview.getSeason()));
                         }
-
-                        if (review instanceof TvReview) {
-                            controller.setInfoTVField(((TvReview) review).getSeasonNumber() +
-                                    "ª Temporada - " + ((TvReview) review).getEpisodeName());
-                            controller.turnVisible();
-                        }
-
-                        reviewFlow.getChildren().add(reviewPane);
+                    }
+                    controller.setInfoTVField(seasonNumber + "ª Temporada - " + episodeName);
+                    controller.turnVisible();
                 }
+
+                reviewFlow.getChildren().add(reviewPane);
+            }
+
 
             scrollBox.getChildren().add(reviewTab);
 
@@ -245,6 +247,7 @@ public class ViewController {
         try {
             scrollPage.setVvalue(0);
             resetScrollBox();
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("favoritesAndWatched.fxml"));
             TabPane fav = loader.load();
             FavoritesController controller = loader.getController();
@@ -259,12 +262,6 @@ public class ViewController {
                 Pane favoritesPanel = fpLoader.load();
                 FavoritesPanelController favoritePanelController = fpLoader.getController();
                 setCommonFields(favoritePanelController, title);
-                if(!imageCache.containsKey(title)){
-                    Image posterImage = new Image("https://image.tmdb.org/t/p/w500/" +
-                            title.getPosterPath(), 250, 350, false, false);
-                    favoritePanelController.setPosterImage(posterImage);
-                    imageCache.put(title, posterImage);
-                }
                 favoritesFlow.getChildren().add(favoritesPanel);
             }
 
@@ -274,12 +271,6 @@ public class ViewController {
                 Pane favoritesPanel = fpLoader.load();
                 FavoritesPanelController favoritePanelController = fpLoader.getController();
                 setCommonFields(favoritePanelController, title);
-                if(!imageCache.containsKey(title)){
-                    Image posterImage = new Image("https://image.tmdb.org/t/p/w500/" +
-                            title.getPosterPath(), 250, 350, false, false);
-                    favoritePanelController.setPosterImage(posterImage);
-                    imageCache.put(title, posterImage);
-                }
                 watchedFlow.getChildren().add(favoritesPanel);
             }
 
@@ -357,6 +348,11 @@ public class ViewController {
 
             if(title instanceof TvShow){
                 controller.hideDuration();
+                controller.setSeasonBox(((TvShow) title).getAllSeasons());
+                if (!((TvShow) title).getSeasons().isEmpty()) {
+                    controller.setEpisodeBox(((TvShow) title).getSeasons().getFirst().getEpisodeList());
+                }
+                controller.turnVisible();
             }
 
             if(user.getFavorites().contains(title)){
@@ -376,14 +372,14 @@ public class ViewController {
         controller.setTitle(title);
         controller.setTitleField(title.getName());
         controller.setOverviewField(title.getOverview());
-        controller.setPosterImage(imageCache.get(title));
+        controller.setPosterImage(titlePosterCache.get(title));
         controller.setReleaseField(formatDate(title.getReleaseDate()));
     }
 
     //função pra resetar a página principal
     private void resetScrollBox(){
-        scrollBox.getChildren().clear();
         scrollPage.setFitToHeight(false);
+        scrollBox.getChildren().clear();
     }
 
     public Integer getDetailsIsCalledFrom() {

@@ -61,3 +61,35 @@
     -fx-border-width: 3;
     -fx-background-color:  #1f1e23;
 }
+
+#episodeBox{
+    -fx-font-family: "Segoe UI"; /* Aplicando a fonte Segoe UI */
+    -fx-font-weight: bold;
+    -fx-font-size: 13;
+    -fx-control-inner-background: #1f1e23;
+    -fx-prompt-text-fill: #929191;
+    -fx-text-alignment: center;
+}
+
+#seasonBox{
+    -fx-font-family: "Segoe UI"; /* Aplicando a fonte Segoe UI */
+    -fx-font-weight: bold;
+    -fx-font-size: 13;
+    -fx-control-inner-background: #1f1e23;
+    -fx-prompt-text-fill: white;
+}
+
+#episodeBox .list-cell:selected .text {
+    -fx-font-family: "Segoe UI"; /* Aplicando a fonte Segoe UI */
+    -fx-font-weight: bold;
+    -fx-alignment: center-right;
+    -fx-fill: #FFFFFF; /* Cor do texto selecionado */
+
+}
+
+#seasonBox .list-cell:selected .text {
+    -fx-font-family: "Segoe UI"; /* Aplicando a fonte Segoe UI */
+    -fx-font-weight: bold;
+    -fx-alignment: center-right;
+    -fx-fill: #FFFFFF; /* Cor do texto selecionado */
+}

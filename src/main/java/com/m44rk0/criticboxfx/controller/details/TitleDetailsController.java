@@ -1,8 +1,11 @@
 package com.m44rk0.criticboxfx.controller.details;
 
 import com.m44rk0.criticboxfx.controller.ViewController;
+import com.m44rk0.criticboxfx.model.title.Season;
 import com.m44rk0.criticboxfx.model.title.Title;
+import com.m44rk0.criticboxfx.model.title.TvShow;
 import com.m44rk0.criticboxfx.utils.CommonController;
+import javafx.scene.control.ComboBox;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -73,6 +76,14 @@ public class TitleDetailsController implements CommonController {
 
     @FXML
     private FlowPane vfxFlow;
+
+    @FXML
+    private ComboBox<Integer> seasonBox;
+
+    @FXML
+    private ComboBox<String> episodeBox;
+
+
     private ViewController mainController;
 
     private Title title;
@@ -212,6 +223,45 @@ public class TitleDetailsController implements CommonController {
 
             flowPane.getChildren().add(memberField);
         }
+    }
+
+    public void setEpisodeBox(ArrayList<String> episodes) {
+        this.episodeBox.getItems().clear();
+        this.episodeBox.getItems().addAll(episodes);
+    }
+
+    public void setSeasonBox(ArrayList<Integer> seasons) {
+        this.seasonBox.getItems().addAll(seasons);
+    }
+
+    public void turnVisible(){
+        seasonBox.setVisible(true);
+        episodeBox.setVisible(true);
+    }
+
+    private void updateEpisodeBox(int seasonNumber) {
+        if (title instanceof TvShow tvShow) {
+            for (Season season : tvShow.getSeasons()) {
+                if (season.getSeasonNumber() == seasonNumber) {
+                    setEpisodeBox(season.getEpisodeList());
+                    break;
+                }
+            }
+        }
+    }
+
+    @FXML
+    public void initialize(){
+
+        seasonBox.setVisible(false);
+        episodeBox.setVisible(false);
+
+        seasonBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                updateEpisodeBox(newValue);
+            }
+        });
+
     }
 
 }

@@ -52,6 +52,7 @@ public class TitleInfoController implements CommonController {
         } else {
             user.addWatched(title);
         }
+
         setWatchedIcon();
 
     }

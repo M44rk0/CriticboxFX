@@ -14,13 +14,11 @@ public abstract class Review {
     private Title title;
 
     public Review(Title title, Integer reviewNote, Date reviewDate, String reviewText) {
-
         this.reviewID = reviewCount++;
         this.title = title;
         this.reviewNote = reviewNote;
         this.reviewDate = reviewDate;
         this.reviewText = reviewText;
-
     }
 
     public String getReviewText() {

@@ -50,11 +50,6 @@ public class User {
         reviews.remove(review);
     }
 
-    public void editReview(Review review, String text, Integer rating){
-        review.setReviewNote(rating);
-        review.setReviewText(text);
-    }
-
     public Integer getUserID() {
         return userID;
     }

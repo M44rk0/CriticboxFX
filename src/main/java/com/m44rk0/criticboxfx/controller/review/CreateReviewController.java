@@ -1,9 +1,9 @@
 package com.m44rk0.criticboxfx.controller.review;
 
 import com.m44rk0.criticboxfx.controller.ViewController;
-import com.m44rk0.criticboxfx.model.review.FilmReview;
+import com.m44rk0.criticboxfx.model.review.TitleReview;
 import com.m44rk0.criticboxfx.model.review.Review;
-import com.m44rk0.criticboxfx.model.review.TvReview;
+import com.m44rk0.criticboxfx.model.review.EpisodeReview;
 import com.m44rk0.criticboxfx.model.title.Film;
 import com.m44rk0.criticboxfx.model.title.Season;
 import com.m44rk0.criticboxfx.model.title.Title;
@@ -94,11 +94,14 @@ public class CreateReviewController implements CommonController {
                         (episodeBox.getValue() == null || episodeBox.getValue().isEmpty()) &&
                         (seasonBox.getValue() == null || seasonBox.getValue() == 0))) {
 
-                    user.addReview(new FilmReview(title, getCurrentRating(), new Date(), reviewArea.getText()));
+                    user.addReview(new TitleReview(title, getCurrentRating(), new Date(), reviewArea.getText()));
                 } else {
 
-                    user.addReview(new TvReview(title, getCurrentRating(), new Date(),
-                            reviewArea.getText(), seasonBox.getValue(), episodeBox.getValue()));
+                    var review = new EpisodeReview(title, getCurrentRating(), new Date(),
+                            reviewArea.getText(),seasonBox.getValue(), episodeBox.getValue());
+
+                    review.setSeason(((TvShow) title).getSeasonByNumber(seasonBox.getValue()));
+                    user.addReview(review);
                 }
                 viewController.restoreSearchResults();
             } else {
@@ -112,14 +115,14 @@ public class CreateReviewController implements CommonController {
 
         List<Review> userReviews = user.getReviews();
         for (Review review : userReviews) {
-            if (review instanceof TvReview tvReview) {
+            if (review instanceof EpisodeReview episodeReview) {
                 if (review.getTitle().equals(title) &&
-                        Objects.equals(tvReview.getSeasonNumber(), seasonBox.getValue()) &&
-                        tvReview.getEpisodeName().equals(episodeBox.getValue())) {
+                        Objects.equals(episodeReview.getSeasonNumber(), seasonBox.getValue()) &&
+                        episodeReview.getEpisodeName().equals(episodeBox.getValue())) {
                     return true;
                 }
 
-            } else if (review instanceof FilmReview) {
+            } else if (review instanceof TitleReview) {
                 if (review.getTitle().equals(title)) {
 
                     if (review.getTitle() instanceof Film) {

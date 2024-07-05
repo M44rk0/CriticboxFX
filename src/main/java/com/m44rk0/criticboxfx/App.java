@@ -1,9 +1,7 @@
 package com.m44rk0.criticboxfx;
 
-import com.m44rk0.criticboxfx.model.review.FilmReview;
-import com.m44rk0.criticboxfx.model.review.Review;
-import com.m44rk0.criticboxfx.model.review.TvReview;
-import com.m44rk0.criticboxfx.model.search.Search;
+import com.m44rk0.criticboxfx.model.review.TitleReview;
+import com.m44rk0.criticboxfx.model.review.EpisodeReview;
 import com.m44rk0.criticboxfx.model.search.TitleSearcher;
 import com.m44rk0.criticboxfx.model.user.User;
 import info.movito.themoviedbapi.tools.TmdbException;
@@ -23,15 +21,15 @@ public class App extends Application{
 
         TitleSearcher titleSearcher = new TitleSearcher();
 
-        user.addFavorite(titleSearcher.searchMovieById(24428));  // Vingadores
+        user.addFavorite(titleSearcher.searchMovieById(24428));// Vingadores
         user.addFavorite(titleSearcher.searchMovieById(99861));  // Vingadores: Guerra de Ultron
         user.addFavorite(titleSearcher.searchMovieById(299536)); // Vingadores Guerra Infinita
         user.addFavorite(titleSearcher.searchTvShowById(1399));  // Game of Thrones
-        user.addFavorite(titleSearcher.searchTvShowById(94997)); // Casa do Dragão
+        user.addFavorite(titleSearcher.searchTvShowById(94997));// Casa do Dragão
 
-        user.addReview(new FilmReview(titleSearcher.searchMovieById(299536), 4, new Date(), "Uma Guerra Infinita?"));
-        user.addReview(new FilmReview(titleSearcher.searchMovieById(24428), 5, new Date(), "Primeiro Vingadores"));
-        user.addReview(new TvReview(titleSearcher.searchTvShowById(1399), 4, new Date(), "Boa", 6, "Batalha dos Bastardos"));
+        user.addReview(new TitleReview(titleSearcher.searchMovieById(299536), 4, new Date(), "Uma Guerra Infinita?"));
+        user.addReview(new TitleReview(titleSearcher.searchMovieById(24428), 5, new Date(), "Primeiro Vingadores"));
+        user.addReview(new EpisodeReview(titleSearcher.searchTvShowById(1399), 4, new Date(), "Boa", 6, "Batalha dos Bastardos"));
 
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("controller/criticbox.fxml"));
         Scene scene = new Scene(fxmlLoader.load());

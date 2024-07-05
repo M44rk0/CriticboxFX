@@ -2,6 +2,8 @@ package com.m44rk0.criticboxfx.model.title;
 
 import com.m44rk0.criticboxfx.model.search.TitleSearcher;
 import info.movito.themoviedbapi.TmdbApi;
+import info.movito.themoviedbapi.model.core.NamedIdElement;
+import info.movito.themoviedbapi.model.movies.Cast;
 import info.movito.themoviedbapi.model.movies.Credits;
 import info.movito.themoviedbapi.model.movies.MovieDb;
 import info.movito.themoviedbapi.model.tv.series.TvSeriesDb;
@@ -9,7 +11,7 @@ import info.movito.themoviedbapi.tools.TmdbException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Details{
 
@@ -25,9 +27,8 @@ public class Details{
 
     public Details(Title title){
         try {
-            TitleSearcher titleSearcher = new TitleSearcher();
-            String apiKey = titleSearcher.getAPI_KEY();
-            TmdbApi api = new TmdbApi(apiKey);
+
+            TmdbApi api = new TmdbApi(new TitleSearcher().getAPI_KEY());
 
             if (title instanceof Film){
                 MovieDb movieDb = api.getMovies().getDetails(title.getTitleId(), "pt-BR");
@@ -62,228 +63,225 @@ public class Details{
     }
 
     protected ArrayList<String> getGenres(MovieDb movie){
-
-        ArrayList<String> genres = new ArrayList<>();
-        for (int i = 0; i < movie.getGenres().size(); i++) {
-            genres.add(movie.getGenres().get(i).getName());
-        }
-
-        return genres;
+        return (ArrayList<String>) movie.getGenres().stream()
+                .map(NamedIdElement::getName)
+                .collect(Collectors.toList());
     }
 
     protected ArrayList<String> getTvGenres(TvSeriesDb serie){
-
-        ArrayList<String> genres = new ArrayList<>();
-        for (int i = 0; i < serie.getGenres().size(); i++) {
-            genres.add(serie.getGenres().get(i).getName());
-        }
-
-        return genres;
+        return (ArrayList<String>) serie.getGenres().stream()
+                .map(NamedIdElement::getName)
+                .collect(Collectors.toList());
     }
 
 
     protected ArrayList<String> getCast(Credits credits){
-        ArrayList<String> cast = new ArrayList<>();
-        for (int i = 0; i < credits.getCast().size(); i++) {
-            cast.add(credits.getCast().get(i).getName());
-        }
-        if(cast.isEmpty()){
+        List<String> cast = credits.getCast().stream()
+                .map(Cast::getName)
+                .collect(Collectors.toList());
+
+        if (cast.isEmpty()) {
             cast.add("N/A");
         }
-        return cast;
+
+        return (ArrayList<String>) cast;
     }
 
     protected ArrayList<String> getTvCast(info.movito.themoviedbapi.model.tv.core.credits.Credits credits){
-        ArrayList<String> cast = new ArrayList<>();
-        for (int i = 0; i < credits.getCast().size(); i++) {
-            cast.add(credits.getCast().get(i).getName());
-        }
-        if(cast.isEmpty()){
+        List<String> cast = credits.getCast().stream()
+                .map(NamedIdElement::getName)
+                .collect(Collectors.toList());
+
+        if (cast.isEmpty()) {
             cast.add("N/A");
         }
-        return cast;
+
+        return (ArrayList<String>) cast;
     }
 
     protected ArrayList<String> getDirectors(Credits credits){
-        ArrayList<String> directors = new ArrayList<>();
-        for (int i = 0; i < credits.getCrew().size(); i++) {
-            if(Objects.equals(credits.getCrew().get(i).getJob(), "Director")) {
-                directors.add(credits.getCrew().get(i).getName());
-            }
-        }
-        if(directors.isEmpty()){
+        List<String> directors = credits.getCrew().stream()
+                .filter(crewMember -> "Director".equals(crewMember.getJob()))
+                .map(NamedIdElement::getName)
+                .collect(Collectors.toList());
+
+        if (directors.isEmpty()) {
             directors.add("N/A");
         }
-        return directors;
+
+        return (ArrayList<String>) directors;
     }
 
     protected ArrayList<String> getTvDirectors(TvSeriesDb seriesDb){
-        ArrayList<String> crew = new ArrayList<>();
-        for (int i = 0; i < seriesDb.getCreatedBy().size(); i++) {
-            crew.add(seriesDb.getCreatedBy().get(i).getName());
+        List<String> directors = seriesDb.getCreatedBy().stream()
+                .map(NamedIdElement::getName)
+                .collect(Collectors.toList());
+
+        if (directors.isEmpty()) {
+            directors.add("N/A");
         }
-        if(crew.isEmpty()){
-            crew.add("N/A");
-        }
-        return crew;
+
+        return (ArrayList<String>) directors;
     }
 
     protected ArrayList<String> getProducers(Credits credits){
-        ArrayList<String> producers = new ArrayList<>();
         List<String> producerJobs = Arrays.asList("Producer", "Executive Producer");
-        for (int i = 0; i < credits.getCrew().size(); i++){
-            if (producerJobs.contains(credits.getCrew().get(i).getJob())) {
-                producers.add(credits.getCrew().get(i).getName());
-            }
-        }
-        if(producers.isEmpty()){
+
+        List<String> producers = credits.getCrew().stream()
+                .filter(crewMember -> producerJobs.contains(crewMember.getJob()))
+                .map(NamedIdElement::getName)
+                .collect(Collectors.toList());
+
+        if (producers.isEmpty()) {
             producers.add("N/A");
         }
-        return producers;
+
+        return (ArrayList<String>) producers;
     }
 
     protected ArrayList<String> getTvProducers(info.movito.themoviedbapi.model.tv.core.credits.Credits credits){
-        ArrayList<String> producers = new ArrayList<>();
         List<String> producerJobs = Arrays.asList("Producer", "Executive Producer");
-        for (int i = 0; i < credits.getCrew().size(); i++){
-            if (producerJobs.contains(credits.getCrew().get(i).getJob())) {
-                producers.add(credits.getCrew().get(i).getName());
-            }
-        }
-        if(producers.isEmpty()){
+
+        List<String> producers = credits.getCrew().stream()
+                .filter(crewMember -> producerJobs.contains(crewMember.getJob()))
+                .map(NamedIdElement::getName)
+                .collect(Collectors.toList());
+
+        if (producers.isEmpty()) {
             producers.add("N/A");
         }
-        return producers;
+
+        return (ArrayList<String>) producers;
     }
 
     protected ArrayList<String> getWriters(Credits credits){
-        ArrayList<String> writers = new ArrayList<>();
-        for (int i = 0; i < credits.getCrew().size(); i++) {
-            if(Objects.equals(credits.getCrew().get(i).getDepartment(), "Writing")) {
-                writers.add(credits.getCrew().get(i).getName());
-            }
-        }
-        if(writers.isEmpty()){
+        List<String> writers = credits.getCrew().stream()
+                .filter(crewMember -> "Writing".equals(crewMember.getDepartment()))
+                .map(NamedIdElement::getName)
+                .collect(Collectors.toList());
+
+        if (writers.isEmpty()) {
             writers.add("N/A");
         }
-        return writers;
+
+        return (ArrayList<String>) writers;
     }
 
     protected ArrayList<String> getTvWriters(info.movito.themoviedbapi.model.tv.core.credits.Credits credits){
-        ArrayList<String> writers = new ArrayList<>();
-        for (int i = 0; i < credits.getCrew().size(); i++) {
-            if(Objects.equals(credits.getCrew().get(i).getDepartment(), "Writing")) {
-                writers.add(credits.getCrew().get(i).getName());
-            }
-        }
-        if(writers.isEmpty()){
+        List<String> writers = credits.getCrew().stream()
+                .filter(crewMember -> "Writing".equals(crewMember.getDepartment()))
+                .map(NamedIdElement::getName)
+                .collect(Collectors.toList());
+
+        if (writers.isEmpty()) {
             writers.add("N/A");
         }
-        return writers;
+
+        return (ArrayList<String>) writers;
     }
 
     protected ArrayList<String> getVFX(Credits credits){
-        ArrayList<String> vfx = new ArrayList<>();
-        for (int i = 0; i < credits.getCrew().size(); i++) {
-            if(Objects.equals(credits.getCrew().get(i).getDepartment(), "Visual Effects")) {
-                vfx.add(credits.getCrew().get(i).getName());
-            }
-        }
-        if(vfx.isEmpty()){
+        List<String> vfx = credits.getCrew().stream()
+                .filter(crewMember -> "Visual Effects".equals(crewMember.getDepartment()))
+                .map(NamedIdElement::getName)
+                .collect(Collectors.toList());
+
+        if (vfx.isEmpty()) {
             vfx.add("N/A");
         }
-        return vfx;
+
+        return (ArrayList<String>) vfx;
     }
 
     protected ArrayList<String> getTvVFX(info.movito.themoviedbapi.model.tv.core.credits.Credits credits){
-        ArrayList<String> vfx = new ArrayList<>();
-        for (int i = 0; i < credits.getCrew().size(); i++) {
-            if(Objects.equals(credits.getCrew().get(i).getDepartment(), "Visual Effects")) {
-                vfx.add(credits.getCrew().get(i).getName());
-            }
-        }
-        if(vfx.isEmpty()){
+        List<String> vfx = credits.getCrew().stream()
+                .filter(crewMember -> "Visual Effects".equals(crewMember.getDepartment()))
+                .map(NamedIdElement::getName)
+                .collect(Collectors.toList());
+
+        if (vfx.isEmpty()) {
             vfx.add("N/A");
         }
-        return vfx;
+
+        return (ArrayList<String>) vfx;
     }
 
     protected ArrayList<String> getPhotography(Credits credits){
-        ArrayList<String> fotography = new ArrayList<>();
-        for (int i = 0; i < credits.getCrew().size(); i++) {
-            if(Objects.equals(credits.getCrew().get(i).getDepartment(), "Camera")) {
-                fotography.add(credits.getCrew().get(i).getName());
-            }
+        List<String> photographyTeam = credits.getCrew().stream()
+                .filter(crewMember -> "Camera".equals(crewMember.getDepartment()))
+                .map(NamedIdElement::getName)
+                .collect(Collectors.toList());
+
+        if (photographyTeam.isEmpty()) {
+            photographyTeam.add("N/A");
         }
-        if(fotography.isEmpty()){
-            fotography.add("N/A");
-        }
-        return fotography;
+
+        return (ArrayList<String>) photographyTeam;
     }
 
     protected ArrayList<String> getTvPhotography(info.movito.themoviedbapi.model.tv.core.credits.Credits credits) {
-        ArrayList<String> fotography = new ArrayList<>();
-        for (int i = 0; i < credits.getCrew().size(); i++) {
-            if (Objects.equals(credits.getCrew().get(i).getDepartment(), "Camera")) {
-                fotography.add(credits.getCrew().get(i).getName());
-            }
+        List<String> photographyTeam = credits.getCrew().stream()
+                .filter(crewMember -> "Camera".equals(crewMember.getDepartment()))
+                .map(NamedIdElement::getName)
+                .collect(Collectors.toList());
+
+        if (photographyTeam.isEmpty()) {
+            photographyTeam.add("N/A");
         }
-        if (fotography.isEmpty()) {
-            fotography.add("N/A");
-        }
-        return fotography;
+
+        return (ArrayList<String>) photographyTeam;
     }
 
     protected ArrayList<String> getArtDirection(Credits credits){
-        ArrayList<String> artDirection = new ArrayList<>();
-        for (int i = 0; i < credits.getCrew().size(); i++) {
-            if(Objects.equals(credits.getCrew().get(i).getJob(), "Art Direction")) {
-                artDirection.add(credits.getCrew().get(i).getName());
-            }
-        }
-        if(artDirection.isEmpty()){
+        List<String> artDirection = credits.getCrew().stream()
+                .filter(crewMember -> "Art Direction".equals(crewMember.getJob()))
+                .map(NamedIdElement::getName)
+                .collect(Collectors.toList());
+
+        if (artDirection.isEmpty()) {
             artDirection.add("N/A");
         }
-        return artDirection;
+
+        return (ArrayList<String>) artDirection;
     }
 
     protected ArrayList<String> getTvArtDirection(info.movito.themoviedbapi.model.tv.core.credits.Credits credits){
-        ArrayList<String> artDirection = new ArrayList<>();
-        for (int i = 0; i < credits.getCrew().size(); i++) {
-            if(Objects.equals(credits.getCrew().get(i).getJob(), "Art Direction")) {
-                artDirection.add(credits.getCrew().get(i).getName());
-            }
-        }
-        if(artDirection.isEmpty()){
+        List<String> artDirection = credits.getCrew().stream()
+                .filter(crewMember -> "Art Direction".equals(crewMember.getJob()))
+                .map(NamedIdElement::getName)
+                .collect(Collectors.toList());
+
+        if (artDirection.isEmpty()) {
             artDirection.add("N/A");
         }
-        return artDirection;
+
+        return (ArrayList<String>) artDirection;
     }
 
     protected ArrayList<String> getSound(Credits credits){
-        ArrayList<String> sound = new ArrayList<>();
-        for (int i = 0; i < credits.getCrew().size(); i++) {
-            if(Objects.equals(credits.getCrew().get(i).getDepartment(), "Sound")) {
-                sound.add(credits.getCrew().get(i).getName());
-            }
-        }
-        if(sound.isEmpty()){
+        List<String> sound = credits.getCrew().stream()
+                .filter(crewMember -> "Sound".equals(crewMember.getDepartment()))
+                .map(NamedIdElement::getName)
+                .collect(Collectors.toList());
+
+        if (sound.isEmpty()) {
             sound.add("N/A");
         }
-        return sound;
+
+        return (ArrayList<String>) sound;
     }
 
     protected ArrayList<String> getTvSound(info.movito.themoviedbapi.model.tv.core.credits.Credits credits){
-        ArrayList<String> sound = new ArrayList<>();
-        for (int i = 0; i < credits.getCrew().size(); i++) {
-            if(Objects.equals(credits.getCrew().get(i).getDepartment(), "Sound")) {
-                sound.add(credits.getCrew().get(i).getName());
-            }
-        }
-        if(sound.isEmpty()){
+        List<String> sound = credits.getCrew().stream()
+                .filter(crewMember -> "Sound".equals(crewMember.getDepartment()))
+                .map(NamedIdElement::getName)
+                .collect(Collectors.toList());
+
+        if (sound.isEmpty()) {
             sound.add("N/A");
         }
-        return sound;
+
+        return (ArrayList<String>) sound;
     }
 
     public ArrayList<String> getGenres() {

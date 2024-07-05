@@ -7,7 +7,13 @@ import info.movito.themoviedbapi.model.tv.series.TvSeriesDb;
 import info.movito.themoviedbapi.tools.TmdbException;
 import info.movito.themoviedbapi.TmdbTvSeasons;
 import info.movito.themoviedbapi.TmdbApi;
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static com.m44rk0.criticboxfx.controller.ViewController.seasonPosterCache;
 
 public class TvShow extends Title {
 
@@ -29,13 +35,19 @@ public class TvShow extends Title {
         return seasons;
     }
 
-    public ArrayList<Integer> getAllSeasons(){
-        ArrayList<Integer> seasonNumber = new ArrayList<>();
+    public Season getSeasonByNumber(Integer seasonNumber){
         for(Season season : seasons){
-            seasonNumber.add(season.getSeasonNumber());
+            if(Objects.equals(season.getSeasonNumber(), seasonNumber)){
+                return season;
+            }
         }
+        return null;
+    }
 
-        return seasonNumber;
+    public ArrayList<Integer> getAllSeasons(){
+        return seasons.stream()
+                .map(Season::getSeasonNumber)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
     public Integer getTotalEpisodes() {
@@ -54,6 +66,7 @@ public class TvShow extends Title {
 
             if (Search.isReleased(seasonAirDate)) {
                 Integer seasonNumber = serie.getSeasons().get(i).getSeasonNumber();
+                String seasonPosterPath = serie.getSeasons().get(i).getPosterPath();
                 ArrayList<Episode> episodes = new ArrayList<>();
 
                 if (seasonNumber != 0) {
@@ -68,7 +81,12 @@ public class TvShow extends Title {
                         }
                     }
 
-                    Season season = new Season(seasonNumber, episodes);
+                    Image posterImage = new Image("https://image.tmdb.org/t/p/w500/" +
+                            seasonPosterPath, 250, 350, false, false);
+
+                    Season season = new Season(seasonNumber, episodes, seasonPosterPath);
+                    seasonPosterCache.put(season, posterImage);
+
                     seasons.add(season);
                 }
             }
@@ -77,11 +95,9 @@ public class TvShow extends Title {
     }
 
     private Integer getEpisodes(){
-        int episodeCount = 0;
-        for (Season season : seasons) {
-             episodeCount += season.getEpisodeList().size();
-        }
-        return episodeCount;
+        return seasons.stream()
+                .mapToInt(s -> s.getEpisodeList().size())
+                .sum();
     }
 
 }
