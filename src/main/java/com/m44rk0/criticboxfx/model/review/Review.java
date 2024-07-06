@@ -6,15 +6,23 @@ import java.util.Date;
 
 public abstract class Review {
 
-    private static Integer reviewCount = 1;
-    private final Integer reviewID;
+    private static Integer review = 1;
+    protected Integer reviewID;
     private final Date reviewDate;
     private Integer reviewNote;
     private String reviewText;
     private Title title;
 
     public Review(Title title, Integer reviewNote, Date reviewDate, String reviewText) {
-        this.reviewID = reviewCount++;
+        this.reviewID = review++;
+        this.title = title;
+        this.reviewNote = reviewNote;
+        this.reviewDate = reviewDate;
+        this.reviewText = reviewText;
+    }
+
+    public Review(Integer reviewID, Title title, Integer reviewNote, Date reviewDate, String reviewText) {
+        this.reviewID = reviewID;
         this.title = title;
         this.reviewNote = reviewNote;
         this.reviewDate = reviewDate;
@@ -65,4 +73,7 @@ public abstract class Review {
                 '}';
     }
 
+    public int getReviewID() {
+        return reviewID;
+    }
 }

@@ -12,9 +12,9 @@ public class User {
     private final String name;
     private final String username;
     private final String password;
-    private final ArrayList<Title> favorites;
-    private final ArrayList<Review> reviews;
-    private final ArrayList<Title> watched;
+    private ArrayList<Title> favorites;
+    private ArrayList<Review> reviews;
+    private ArrayList<Title> watched;
 
     public User(String name, String username, String password) {
         this.userID = userCount++;
@@ -70,6 +70,14 @@ public class User {
         return favorites;
     }
 
+    public void setFavorites(ArrayList<Title> favorites) {
+        this.favorites = favorites;
+    }
+
+    public void setReviews(ArrayList<Review> reviews){
+        this.reviews = reviews;
+    }
+
     public ArrayList<Review> getReviews() {
         return reviews;
     }
@@ -78,4 +86,7 @@ public class User {
         return watched;
     }
 
+    public void setWatched(ArrayList<Title> watched) {
+        this.watched = watched;
+    }
 }

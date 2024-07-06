@@ -1,14 +1,15 @@
 package com.m44rk0.criticboxfx;
 
-import com.m44rk0.criticboxfx.model.review.TitleReview;
-import com.m44rk0.criticboxfx.model.review.EpisodeReview;
+import com.m44rk0.criticboxfx.model.review.ReviewDAO;
 import com.m44rk0.criticboxfx.model.search.TitleSearcher;
+import com.m44rk0.criticboxfx.model.title.TitleDAO;
 import com.m44rk0.criticboxfx.model.user.User;
+import com.m44rk0.criticboxfx.model.user.UserDAO;
 import info.movito.themoviedbapi.tools.TmdbException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import java.io.IOException;
-import java.util.Date;
+import java.sql.SQLException;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -17,19 +18,15 @@ import javafx.stage.Stage;
 public class App extends Application{
 
     @Override
-    public void start(Stage stage) throws IOException, TmdbException {
+    public void start(Stage stage) throws IOException, SQLException, TmdbException {
 
         TitleSearcher titleSearcher = new TitleSearcher();
 
-        user.addFavorite(titleSearcher.searchMovieById(24428));// Vingadores
-        user.addFavorite(titleSearcher.searchMovieById(99861));  // Vingadores: Guerra de Ultron
-        user.addFavorite(titleSearcher.searchMovieById(299536)); // Vingadores Guerra Infinita
-        user.addFavorite(titleSearcher.searchTvShowById(1399));  // Game of Thrones
-        user.addFavorite(titleSearcher.searchTvShowById(94997));// Casa do Dragão
-
-        user.addReview(new TitleReview(titleSearcher.searchMovieById(299536), 4, new Date(), "Uma Guerra Infinita?"));
-        user.addReview(new TitleReview(titleSearcher.searchMovieById(24428), 5, new Date(), "Primeiro Vingadores"));
-        user.addReview(new EpisodeReview(titleSearcher.searchTvShowById(1399), 4, new Date(), "Boa", 6, "Batalha dos Bastardos"));
+        userDAO.addUser(userMarco);
+        userDAO.addUser(userBryan);
+        userMarco.setReviews(userDAO.getReviewsByUser(userMarco));
+        userMarco.setFavorites(userDAO.getFavoritesByUser(userMarco));
+        userMarco.setWatched(userDAO.getWatchedByUser(userMarco));
 
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("controller/criticbox.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
@@ -38,7 +35,12 @@ public class App extends Application{
         stage.show();
     }
 
-    public static User user = new User("Marco", "mmrk", "12345");
+    public static UserDAO userDAO = new UserDAO();
+    public static TitleDAO titleDAO = new TitleDAO();
+    public static ReviewDAO reviewDAO = new ReviewDAO();
+
+    public static User userMarco = new User("Marco", "mmrk", "12345");
+    public static User userBryan = new User("Bryan", "bryan", "12345");
 
     public static void main(String[] args){
         launch();

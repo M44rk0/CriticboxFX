@@ -26,6 +26,7 @@ import javafx.scene.image.Image;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -33,8 +34,8 @@ import javafx.scene.Node;
 import javafx.fxml.FXML;
 import java.io.File;
 
-
-import static com.m44rk0.criticboxfx.App.user;
+import static com.m44rk0.criticboxfx.App.titleDAO;
+import static com.m44rk0.criticboxfx.App.userMarco;
 
 public class ViewController {
 
@@ -70,7 +71,7 @@ public class ViewController {
     private Review reviewToEdit;
 
     @FXML
-    private void searchButtonAction(){
+    private void searchButtonAction() throws SQLException {
         performSearch();
     }
 
@@ -132,12 +133,16 @@ public class ViewController {
                     controller.turnVisible();
                 }
 
-                if (user.getWatched().contains(title)) {
+                if (userMarco.getWatched().contains(title)) {
                     controller.setWatchedIcon(Icon.WATCHED.getPath());
                 }
 
                 resultsPane.getChildren().add(movieInfoPane);
                 searchResultNodes.add(movieInfoPane);
+
+                if (!titleDAO.getAllTitleIds().contains(title.getTitleId())){
+                    titleDAO.addTitle(title);
+                 }
             }
 
             scrollBox.getChildren().add(resultsTab);
@@ -146,7 +151,7 @@ public class ViewController {
                 scrollPage.setFitToHeight(true);
             }
     }
-        catch (IOException e) {
+        catch (IOException | SQLException e) {
             AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
         }
     }
@@ -180,7 +185,7 @@ public class ViewController {
     public void showUserReviews() {
         try {
             resetScrollBox();
-            List<Review> userReviews = user.getReviews().reversed();
+            List<Review> userReviews = userMarco.getReviews().reversed();
             FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("reviewsTab.fxml"));
             TabPane reviewTab = tabLoader.load();
             ReviewTabPaneController tabController = tabLoader.getController();
@@ -256,7 +261,7 @@ public class ViewController {
             favoritesFlow.getChildren().clear();
             watchedFlow.getChildren().clear();
 
-            List<Title> favorites = user.getFavorites().reversed();
+            List<Title> favorites = userMarco.getFavorites().reversed();
             for (Title title : favorites) {
                 FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
                 Pane favoritesPanel = fpLoader.load();
@@ -265,7 +270,7 @@ public class ViewController {
                 favoritesFlow.getChildren().add(favoritesPanel);
             }
 
-            List<Title> watched = user.getWatched().reversed();
+            List<Title> watched = userMarco.getWatched().reversed();
             for (Title title : watched) {
                 FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
                 Pane favoritesPanel = fpLoader.load();
@@ -355,7 +360,7 @@ public class ViewController {
                 controller.turnVisible();
             }
 
-            if(user.getFavorites().contains(title)){
+            if(userMarco.getFavorites().contains(title)){
                 controller.setFillFavoriteStar(Icon.FILLED_STAR.getPath());
             }
 
@@ -427,9 +432,15 @@ public class ViewController {
 
         searchField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                searchButtonAction();
+                try {
+                    searchButtonAction();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
+
+        showFavorites();
 
     }
 }

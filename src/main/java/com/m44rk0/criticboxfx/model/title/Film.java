@@ -18,4 +18,8 @@ public class Film extends Title {
         this.duration = movie.getRuntime();
     }
 
+    public Film(){
+
+    }
+
 }

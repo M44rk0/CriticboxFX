@@ -17,6 +17,13 @@ public class EpisodeReview extends Review{
         this.episodeName = episodeName;
     }
 
+    public EpisodeReview(Integer reviewId, Title tittle, Integer reviewNote, Date reviewDate, String reviewText, Integer seasonNumber, String episodeName) {
+        super(tittle, reviewNote, reviewDate, reviewText);
+        this.reviewID = reviewId;
+        this.seasonNumber = seasonNumber;
+        this.episodeName = episodeName;
+    }
+
     public Season getSeason(){
         return season;
     }

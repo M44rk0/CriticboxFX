@@ -3,7 +3,9 @@ package com.m44rk0.criticboxfx.controller.details;
 import com.m44rk0.criticboxfx.controller.ViewController;
 import com.m44rk0.criticboxfx.model.title.Season;
 import com.m44rk0.criticboxfx.model.title.Title;
+import com.m44rk0.criticboxfx.model.title.TitleDAO;
 import com.m44rk0.criticboxfx.model.title.TvShow;
+import com.m44rk0.criticboxfx.model.user.UserDAO;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.scene.control.ComboBox;
 import javafx.scene.effect.BlendMode;
@@ -16,10 +18,11 @@ import javafx.scene.image.Image;
 import javafx.geometry.Insets;
 import javafx.scene.text.Text;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 
-import static com.m44rk0.criticboxfx.App.user;
+import static com.m44rk0.criticboxfx.App.*;
 
 public class TitleDetailsController implements CommonController {
 
@@ -107,11 +110,13 @@ public class TitleDetailsController implements CommonController {
     }
 
     @FXML
-    public void addFavorite(){
-        if (user.getFavorites().contains(title)) {
-            user.removeFavorite(title);
+    public void addFavorite() throws SQLException {
+        if (userMarco.getFavorites().contains(title)) {
+            userDAO.removeFavorite(userMarco, title);
+            userMarco.removeFavorite(title);
         } else {
-            user.addFavorite(title);
+            userDAO.addFavorite(userMarco, title);
+            userMarco.addFavorite(title);
         }
         setFavoriteIcon();
     }

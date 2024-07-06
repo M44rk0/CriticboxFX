@@ -17,18 +17,22 @@ import static com.m44rk0.criticboxfx.controller.ViewController.seasonPosterCache
 
 public class TvShow extends Title {
 
-    private final ArrayList<Season> seasons;
-    private final Integer totalEpisodes;
+    private ArrayList<Season> seasons;
+    private Integer totalEpisodes;
 
     public TvShow(TvSeriesDb tvshow) throws TmdbException {
         this.titleId = tvshow.getId();
         this.name = tvshow.getName();
+        this.duration = 0;
         this.overview = tvshow.getOverview();
         this.posterPath = tvshow.getPosterPath();
         this.releaseDate = tvshow.getFirstAirDate();
         this.popularity = tvshow.getPopularity();
         this.seasons = getTvShowInfo(tvshow);
         this.totalEpisodes = getEpisodes();
+    }
+
+    public TvShow(){
     }
 
     public ArrayList<Season> getSeasons() {
@@ -100,4 +104,7 @@ public class TvShow extends Title {
                 .sum();
     }
 
+    public void setTotalEpisodes(Integer totalEpisodes) {
+        this.totalEpisodes = totalEpisodes;
+    }
 }

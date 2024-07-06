@@ -29,5 +29,8 @@ public class Season {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 
+    public ArrayList<Episode> getEpisodes() {
+        return episodes;
+    }
 }
 

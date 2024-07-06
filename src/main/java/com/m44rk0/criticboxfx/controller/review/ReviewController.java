@@ -2,6 +2,7 @@ package com.m44rk0.criticboxfx.controller.review;
 import com.m44rk0.criticboxfx.controller.ViewController;
 import com.m44rk0.criticboxfx.model.review.Review;
 import com.m44rk0.criticboxfx.model.title.Title;
+import com.m44rk0.criticboxfx.model.user.UserDAO;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.fxml.FXML;
@@ -11,13 +12,15 @@ import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static com.m44rk0.criticboxfx.App.user;
+import static com.m44rk0.criticboxfx.App.userDAO;
+import static com.m44rk0.criticboxfx.App.userMarco;
 
 public class ReviewController implements CommonController {
 
@@ -70,7 +73,8 @@ public class ReviewController implements CommonController {
     private void RemoveReview(){
         int areYouSure = AlertMessage.showChoiceAlert("Remoção da Review", "Você tem certeza que deseja remover essa review?");
         if(areYouSure == 0){
-            user.removeReview(review);
+            userDAO.removeReview(userMarco, review);
+            userMarco.removeReview(review);
             mainController.showUserReviews();
         }
     }

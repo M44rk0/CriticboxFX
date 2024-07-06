@@ -10,4 +10,10 @@ public class TitleReview extends Review{
         super(title, reviewNote, reviewDate, reviewText);
     }
 
+
+    public TitleReview(Integer reviewID, Title title, Integer reviewNote, Date reviewDate, String reviewText) {
+        super(title, reviewNote, reviewDate, reviewText);
+        this.reviewID = reviewID;
+    }
+
 }

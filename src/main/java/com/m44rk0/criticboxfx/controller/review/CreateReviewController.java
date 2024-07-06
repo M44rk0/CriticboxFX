@@ -4,10 +4,8 @@ import com.m44rk0.criticboxfx.controller.ViewController;
 import com.m44rk0.criticboxfx.model.review.TitleReview;
 import com.m44rk0.criticboxfx.model.review.Review;
 import com.m44rk0.criticboxfx.model.review.EpisodeReview;
-import com.m44rk0.criticboxfx.model.title.Film;
-import com.m44rk0.criticboxfx.model.title.Season;
-import com.m44rk0.criticboxfx.model.title.Title;
-import com.m44rk0.criticboxfx.model.title.TvShow;
+import com.m44rk0.criticboxfx.model.title.*;
+import com.m44rk0.criticboxfx.model.user.UserDAO;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.fxml.FXML;
@@ -18,9 +16,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
 
+import java.nio.file.attribute.UserPrincipal;
+import java.sql.SQLException;
 import java.util.*;
 
-import static com.m44rk0.criticboxfx.App.user;
+import static com.m44rk0.criticboxfx.App.*;
 
 public class CreateReviewController implements CommonController {
 
@@ -70,13 +70,15 @@ public class CreateReviewController implements CommonController {
     }
 
     @FXML
-    public void saveReview(){
+    public void saveReview() throws SQLException {
 
         if(viewController.getEditReviewIsCalledFrom() == 2){
             int choice = AlertMessage.showChoiceAlert("Edição de Review", "Deseja editar a review?");
             if(choice == 0){
                 viewController.getReviewToEdit().editReview(reviewArea.getText(), getCurrentRating());
                 viewController.setEditReviewIsCalledFrom(0);
+                userDAO.removeReview(userMarco, viewController.getReviewToEdit());
+                userDAO.addReview(userMarco, viewController.getReviewToEdit());
             }
             viewController.showUserReviews();
         }
@@ -94,14 +96,17 @@ public class CreateReviewController implements CommonController {
                         (episodeBox.getValue() == null || episodeBox.getValue().isEmpty()) &&
                         (seasonBox.getValue() == null || seasonBox.getValue() == 0))) {
 
-                    user.addReview(new TitleReview(title, getCurrentRating(), new Date(), reviewArea.getText()));
+                    var review = new TitleReview(title, getCurrentRating(), new Date(), reviewArea.getText());
+                    userDAO.addReview(userMarco, review);
+                    userMarco.addReview(review);
                 } else {
 
                     var review = new EpisodeReview(title, getCurrentRating(), new Date(),
                             reviewArea.getText(),seasonBox.getValue(), episodeBox.getValue());
 
                     review.setSeason(((TvShow) title).getSeasonByNumber(seasonBox.getValue()));
-                    user.addReview(review);
+                    userDAO.addReview(userMarco, review);
+                    userMarco.addReview(review);
                 }
                 viewController.restoreSearchResults();
             } else {
@@ -113,7 +118,7 @@ public class CreateReviewController implements CommonController {
 
     public boolean containsInReview(Title title) {
 
-        List<Review> userReviews = user.getReviews();
+        List<Review> userReviews = userMarco.getReviews();
         for (Review review : userReviews) {
             if (review instanceof EpisodeReview episodeReview) {
                 if (review.getTitle().equals(title) &&
