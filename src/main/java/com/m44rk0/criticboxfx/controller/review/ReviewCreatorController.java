@@ -82,11 +82,11 @@ public class ReviewCreatorController implements CommonController {
         else {
 
             if (getCurrentRating() == 0 && reviewArea.getText().isBlank()) {
-                AlertMessage.showAlert("Erro de Review", "Esqueceu foi de tudo po, ta de sacanagem?");
+                AlertMessage.showCommonAlert("Erro de Review", "Esqueceu foi de tudo po, ta de sacanagem?");
             } else if (getCurrentRating() == 0) {
-                AlertMessage.showAlert("Erro de Review", "Esquecer de dar a nota meu mano");
+                AlertMessage.showCommonAlert("Erro de Review", "Esquecer de dar a nota meu mano");
             } else if (reviewArea.getText().isEmpty()) {
-                AlertMessage.showAlert("Erro de Review", "Esqueceu da avaliação irmão");
+                AlertMessage.showCommonAlert("Erro de Review", "Esqueceu da avaliação irmão");
             } else if (!containsInReview(title)) {
 
                 if (title instanceof Film || (title instanceof TvShow &&
@@ -94,20 +94,20 @@ public class ReviewCreatorController implements CommonController {
                         (seasonBox.getValue() == null || seasonBox.getValue() == 0))) {
 
                     var review = new TitleReview(title, getCurrentRating(), new Date(), reviewArea.getText());
-                    userDAO.addReview(userMarco, review);
-                    userMarco.addReview(review);
+                    userDAO.addReview(user, review);
+                    user.addReview(review);
                 } else {
 
                     var review = new EpisodeReview(title, getCurrentRating(), new Date(),
                             reviewArea.getText(),seasonBox.getValue(), episodeBox.getValue());
 
                     review.setSeason(((TvShow) title).getSeasonByNumber(seasonBox.getValue()));
-                    userDAO.addReview(userMarco, review);
-                    userMarco.addReview(review);
+                    userDAO.addReview(user, review);
+                    user.addReview(review);
                 }
                 viewController.restoreSearchResults();
             } else {
-                AlertMessage.showAlert("Review já existe", "Essa Review já existe animal");
+                AlertMessage.showCommonAlert("Review já existe", "Essa Review já existe animal");
             }
         }
 
@@ -115,7 +115,7 @@ public class ReviewCreatorController implements CommonController {
 
     public boolean containsInReview(Title title) {
 
-        List<Review> userReviews = userMarco.getReviews();
+        List<Review> userReviews = user.getReviews();
         for (Review review : userReviews) {
             if (review instanceof EpisodeReview episodeReview) {
                 if (review.getTitle().equals(title) &&

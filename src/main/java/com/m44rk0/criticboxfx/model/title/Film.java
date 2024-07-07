@@ -22,4 +22,13 @@ public class Film extends Title {
 
     }
 
+    public Film(int titleId, String name, String overview, String posterPath, String releaseDate, int duration, double popularity) {
+        this.titleId = titleId;
+        this.name = name;
+        this.overview = overview;
+        this.posterPath = posterPath;
+        this.releaseDate = releaseDate;
+        this.popularity = popularity;
+        this.duration = duration;
+    }
 }

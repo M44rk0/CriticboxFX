@@ -32,6 +32,20 @@ public class TvShow extends Title {
         this.totalEpisodes = getEpisodes();
     }
 
+    public TvShow(Integer titleId, String name, Integer duration, String overview, String posterPath, String releaseDate, Double popularity, Integer totalEpisodes){
+        this.titleId = titleId;
+        this.name = name;
+        this.duration = duration;
+        this.overview = overview;
+        this.posterPath = posterPath;
+        this.releaseDate = releaseDate;
+        this.popularity = popularity;
+        this.totalEpisodes = totalEpisodes;
+        this.seasons = new ArrayList<>();
+    }
+
+
+
     public TvShow(){
     }
 
@@ -106,5 +120,9 @@ public class TvShow extends Title {
 
     public void setTotalEpisodes(Integer totalEpisodes) {
         this.totalEpisodes = totalEpisodes;
+    }
+
+    public void setSeasons(ArrayList<Season> seasons) {
+        this.seasons = seasons;
     }
 }

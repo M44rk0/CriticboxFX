@@ -7,11 +7,16 @@ public class Season {
 
     private final Integer seasonNumber;
     private final String seasonPosterPath;
-    private final ArrayList<Episode> episodes;
+    private ArrayList<Episode> episodes;
 
     public Season(Integer seasonNumber , ArrayList<Episode> episodes, String seasonPosterPath) {
         this.seasonNumber = seasonNumber;
         this.episodes = episodes;
+        this.seasonPosterPath = seasonPosterPath;
+    }
+
+    public Season(Integer seasonNumber, String seasonPosterPath) {
+        this.seasonNumber = seasonNumber;
         this.seasonPosterPath = seasonPosterPath;
     }
 
@@ -31,6 +36,10 @@ public class Season {
 
     public ArrayList<Episode> getEpisodes() {
         return episodes;
+    }
+
+    public void setEpisodes(ArrayList<Episode> episodes) {
+        this.episodes = episodes;
     }
 }
 

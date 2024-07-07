@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.m44rk0.criticboxfx.App.userDAO;
-import static com.m44rk0.criticboxfx.App.userMarco;
+import static com.m44rk0.criticboxfx.App.user;
 
 public class ReviewController implements CommonController {
 
@@ -71,8 +71,8 @@ public class ReviewController implements CommonController {
     private void RemoveReview(){
         int areYouSure = AlertMessage.showChoiceAlert("Remoção da Review", "Você tem certeza que deseja remover essa review?");
         if(areYouSure == 0){
-            userDAO.removeReview(userMarco, review);
-            userMarco.removeReview(review);
+            userDAO.removeReview(user, review);
+            user.removeReview(review);
             mainController.showUserReviews();
         }
     }

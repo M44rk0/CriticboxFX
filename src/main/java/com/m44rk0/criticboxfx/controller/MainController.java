@@ -4,10 +4,10 @@ import com.m44rk0.criticboxfx.controller.details.TitleDetailsController;
 import com.m44rk0.criticboxfx.controller.details.TitleInfoController;
 import com.m44rk0.criticboxfx.controller.favorites.FavoritesController;
 import com.m44rk0.criticboxfx.controller.favorites.FavoritesPanelController;
-import com.m44rk0.criticboxfx.controller.mainview.TabViewController;
+import com.m44rk0.criticboxfx.controller.mainview.ViewTabController;
 import com.m44rk0.criticboxfx.controller.review.ReviewCreatorController;
 import com.m44rk0.criticboxfx.controller.review.ReviewController;
-import com.m44rk0.criticboxfx.controller.review.ReviewTabPaneController;
+import com.m44rk0.criticboxfx.controller.review.ReviewTabController;
 import com.m44rk0.criticboxfx.model.review.EpisodeReview;
 import com.m44rk0.criticboxfx.model.review.Review;
 import com.m44rk0.criticboxfx.model.search.TitleSearcher;
@@ -35,7 +35,7 @@ import javafx.fxml.FXML;
 import java.io.File;
 
 import static com.m44rk0.criticboxfx.App.titleDAO;
-import static com.m44rk0.criticboxfx.App.userMarco;
+import static com.m44rk0.criticboxfx.App.user;
 
 public class MainController {
 
@@ -99,14 +99,14 @@ public class MainController {
             String searchParameter = searchField.getText();
 
             if (searchParameter.isEmpty() || searchParameter.isBlank()){
-                AlertMessage.showAlert("Erro de Busca", "Digite um parâmetro de busca");
+                AlertMessage.showCommonAlert("Erro de Busca", "Digite um parâmetro de busca");
             } else {
                 searchResults = searcher.search(searchParameter);
                 showSearchResults(searchResults);
             }
         }
         catch (TmdbException e){
-            AlertMessage.showAlert("Erro de Busca", "Erro de Busca");
+            AlertMessage.showCommonAlert("Erro de Busca", "Erro de Busca");
         }
     }
 
@@ -118,11 +118,11 @@ public class MainController {
 
             FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("resultsTab.fxml"));
             TabPane resultsTab = tabLoader.load();
-            TabViewController tabController = tabLoader.getController();
+            ViewTabController tabController = tabLoader.getController();
             tabController.setResultTabText("Resultados para: " + "\"" + searchField.getText() + "\"");
             FlowPane resultsPane = tabController.getResultsFlow();
 
-            if(!lastSearchedTitles.isEmpty()){
+            if(!lastSearchedTitles.isEmpty()) {
                 titleDAO.clearLastResults();
             }
 
@@ -139,12 +139,11 @@ public class MainController {
                     controller.turnVisible();
                 }
 
-                if (userMarco.getWatched().contains(title)) {
+                if (user.getWatched().contains(title)) {
                     controller.setWatchedIcon(Icon.WATCHED.getPath());
                 }
 
                 resultsPane.getChildren().add(movieInfoPane);
-
 
                 searchResultNodes.add(movieInfoPane);
 
@@ -157,12 +156,16 @@ public class MainController {
 
             scrollBox.getChildren().add(resultsTab);
 
-            if (searchResults.size() == 1 || lastSearchedTitles.size() == 1) {
+            scrollPage.setFitToHeight(searchResults.size() == 1);
+
+            if(searchResults.isEmpty()){
+                tabController.setResultTabText("Nenhum resultado existente para: " + "\"" + searchField.getText() + "\"");
                 scrollPage.setFitToHeight(true);
             }
+
     }
         catch (IOException | SQLException e) {
-            AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML");
         }
     }
 
@@ -172,10 +175,10 @@ public class MainController {
             resetScrollBox();
             FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("resultsTab.fxml"));
             TabPane resultsTab = tabLoader.load();
-            TabViewController tabController = tabLoader.getController();
+            ViewTabController tabController = tabLoader.getController();
             FlowPane resultsPane = tabController.getResultsFlow();
 
-            if (searchResultNodes.isEmpty()){
+            if (searchResultNodes.isEmpty()) {
                 for (Title title : lastSearchedTitles) {
 
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("titleInfo.fxml"));
@@ -190,13 +193,14 @@ public class MainController {
                         controller.turnVisible();
                     }
 
-                    if (userMarco.getWatched().contains(title)) {
+                    if (user.getWatched().contains(title)) {
                         controller.setWatchedIcon(Icon.WATCHED.getPath());
                     }
 
                     resultsPane.getChildren().add(movieInfoPane);
                     searchResultNodes.add(movieInfoPane);
                 }
+
                 scrollBox.getChildren().add(resultsTab);
             }
             else {
@@ -204,13 +208,11 @@ public class MainController {
                 scrollBox.getChildren().add(resultsTab);
             }
 
-            if (searchResultNodes.size() == 1 || lastSearchedTitles.size() == 1 || searchResultNodes.isEmpty()) {
-                scrollPage.setFitToHeight(true);
-            }
+            scrollPage.setFitToHeight(searchResultNodes.size() == 1 || searchResultNodes.isEmpty());
 
         }
         catch (IOException e) {
-            AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML");
         }
     }
 
@@ -218,10 +220,10 @@ public class MainController {
     public void showUserReviews() {
         try {
             resetScrollBox();
-            List<Review> userReviews = userMarco.getReviews().reversed();
+            List<Review> userReviews = user.getReviews().reversed();
             FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("reviewsTab.fxml"));
             TabPane reviewTab = tabLoader.load();
-            ReviewTabPaneController tabController = tabLoader.getController();
+            ReviewTabController tabController = tabLoader.getController();
 
             FlowPane reviewFlow = tabController.getReviewsFlow();
 
@@ -264,7 +266,6 @@ public class MainController {
                 reviewFlow.getChildren().add(reviewPane);
             }
 
-
             scrollBox.getChildren().add(reviewTab);
 
             if (!userReviews.isEmpty()) {
@@ -276,7 +277,7 @@ public class MainController {
             }
 
         } catch (IOException e) {
-            AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML");
         }
     }
 
@@ -294,7 +295,7 @@ public class MainController {
             favoritesFlow.getChildren().clear();
             watchedFlow.getChildren().clear();
 
-            List<Title> favorites = userMarco.getFavorites().reversed();
+            List<Title> favorites = user.getFavorites().reversed();
             for (Title title : favorites) {
                 FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
                 Pane favoritesPanel = fpLoader.load();
@@ -303,7 +304,7 @@ public class MainController {
                 favoritesFlow.getChildren().add(favoritesPanel);
             }
 
-            List<Title> watched = userMarco.getWatched().reversed();
+            List<Title> watched = user.getWatched().reversed();
             for (Title title : watched) {
                 FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
                 Pane favoritesPanel = fpLoader.load();
@@ -319,7 +320,7 @@ public class MainController {
             scrollBox.getChildren().add(fav);
         }
         catch (IOException e) {
-            AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML");
         }
     }
 
@@ -357,7 +358,7 @@ public class MainController {
             }
 
         } catch (IOException e) {
-            AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML");
         }
     }
 
@@ -393,14 +394,14 @@ public class MainController {
                 controller.turnVisible();
             }
 
-            if(userMarco.getFavorites().contains(title)){
+            if(user.getFavorites().contains(title)){
                 controller.setFillFavoriteStar(Icon.FILLED_STAR.getPath());
             }
 
             scrollBox.getChildren().add(movieDetailsPane);
         }
         catch (IOException e){
-            AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML");
         }
     }
 
@@ -469,7 +470,12 @@ public class MainController {
             }
         });
 
-        restoreSearchResults();
+        if(lastSearchedTitles.isEmpty()){
+            showFavorites();
+        }
+        else {
+            restoreSearchResults();
+        }
 
     }
 }

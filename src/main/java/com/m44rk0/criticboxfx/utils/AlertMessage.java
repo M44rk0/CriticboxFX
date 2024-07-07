@@ -3,12 +3,11 @@ package com.m44rk0.criticboxfx.utils;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
-import java.util.Objects;
 import java.util.Optional;
 
 public class AlertMessage {
 
-    public static void showAlert(String title, String content) {
+    public static void showCommonAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle(title);
         alert.setContentText(content);
@@ -16,11 +15,10 @@ public class AlertMessage {
         alert.showAndWait();
     }
 
-    public static void showErrorAlert(String title, String content){
+    public static void showErrorAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setContentText(content);
-        alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
         alert.showAndWait();
     }
 

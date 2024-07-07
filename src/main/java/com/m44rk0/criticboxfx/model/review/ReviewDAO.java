@@ -26,6 +26,7 @@ public class ReviewDAO {
     }
 
     public void removeReview(Review review){
+
         String sql = "DELETE FROM Review WHERE review_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -38,7 +39,9 @@ public class ReviewDAO {
     }
 
     public void editReview(Review review){
+
         String sql = "UPDATE review SET review_note = ?, review_text = ? WHERE review_id = ?";
+
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, review.getReviewNote());
             stmt.setString(2, review.getReviewText());
@@ -61,7 +64,6 @@ public class ReviewDAO {
             stmt.setInt(3, review.getReviewNote());
             stmt.setString(4, review.getReviewText());
             stmt.setInt(5, review.getTitle().getTitleId());
-
             stmt.executeUpdate();
         }
         catch (SQLException e) {
@@ -79,7 +81,6 @@ public class ReviewDAO {
             stmt.setInt(1, episodeReview.getReviewID());
             stmt.setInt(2, episodeReview.getSeasonNumber());
             stmt.setString(3, episodeReview.getEpisodeName());
-
             stmt.executeUpdate();
         }
         catch (SQLException e) {
@@ -94,24 +95,11 @@ public class ReviewDAO {
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, titleReview.getReviewID());
-
             stmt.executeUpdate();
         }
         catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
-
-    }
-
-    private void editEpisodeReview(EpisodeReview review){
-
-    }
-
-    private void editTitleReview(TitleReview review){
-
-    }
-
-    private void editReviewFromBaseTable(Review review){
 
     }
 }

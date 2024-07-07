@@ -109,12 +109,12 @@ public class TitleDetailsController implements CommonController {
 
     @FXML
     public void addFavorite() throws SQLException {
-        if (userMarco.getFavorites().contains(title)) {
-            userDAO.removeFavorite(userMarco, title);
-            userMarco.removeFavorite(title);
+        if (user.getFavorites().contains(title)) {
+            userDAO.removeFavorite(user, title);
+            user.removeFavorite(title);
         } else {
-            userDAO.addFavorite(userMarco, title);
-            userMarco.addFavorite(title);
+            userDAO.addFavorite(user, title);
+            user.addFavorite(title);
         }
         setFavoriteIcon();
     }

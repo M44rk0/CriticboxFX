@@ -1,14 +1,14 @@
 package com.m44rk0.criticboxfx.model.title;
-
 import com.m44rk0.criticboxfx.model.search.Search;
-import com.m44rk0.criticboxfx.model.search.TitleSearcher;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.DatabaseConnection;
-import info.movito.themoviedbapi.tools.TmdbException;
+import javafx.scene.image.Image;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.m44rk0.criticboxfx.controller.MainController.titlePosterCache;
 
 public class TitleDAO {
 
@@ -56,31 +56,47 @@ public class TitleDAO {
 
     public List<Title> getLastSearchedTitles(){
         ArrayList<Title> lastSearchedTitles = new ArrayList<>();
-        TitleSearcher titleSearcher = new TitleSearcher();
 
-        String sql = "SELECT lr.title_id, t.type " +
+        String sql = "SELECT t.title_id, t.name, t.overview, t.poster_path, t.release_date, t.duration, t.popularity, t.type, " +
+                "       ts.total_episodes " +
                 "FROM lastresults lr " +
-                "JOIN title t ON lr.title_id = t.title_id";
+                "JOIN title t ON lr.title_id = t.title_id " +
+                "LEFT JOIN tvshow ts ON t.title_id = ts.title_id";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int titleId = rs.getInt("title_id");
+                    String name = rs.getString("name");
+                    String overview = rs.getString("overview");
+                    String posterPath = rs.getString("poster_path");
+                    String releaseDate = String.valueOf(rs.getDate("release_date"));
+                    int duration = rs.getInt("duration");
+                    double popularity = rs.getDouble("popularity");
+                    String titleType = rs.getString("type");
+                    int totalEpisodes = rs.getInt("total_episodes");
 
-            while (rs.next()) {
-                int titleId = rs.getInt("title_id");
-                String titleType = rs.getString("type");
+                    Title title;
 
-                Title title = null;
-                if ("FILM".equals(titleType)) {
-                    title = titleSearcher.searchMovieById(titleId);
-                } else if ("TVSHOW".equals(titleType)) {
-                    title = titleSearcher.searchTvShowById(titleId);
-                }
+                    if ("FILM".equals(titleType)) {
+                        title = new Film(titleId, name, overview, posterPath, releaseDate, duration, popularity);
+                    } else if ("TVSHOW".equals(titleType)) {
+                        title = createTvShowWithSeasonsAndEpisodes(titleId, name, overview, posterPath, releaseDate, duration, popularity, totalEpisodes);
+                    } else {
+                        throw new IllegalArgumentException("Unknown title type: " + titleType);
+                    }
 
-                if (title != null) {
+                    if (!titlePosterCache.containsKey(title)) {
+                        Image posterImage = new Image("https://image.tmdb.org/t/p/w500/" +
+                                title.getPosterPath(), 250, 350, false, false);
+                        titlePosterCache.put(title, posterImage);
+                    }
+
                     lastSearchedTitles.add(title);
                 }
             }
-        } catch (SQLException | TmdbException e) {
+        }
+        catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
 
@@ -143,39 +159,6 @@ public class TitleDAO {
         }
     }
 
-
-    private void addFilm(Film film){
-        addTitleToBaseTable(film);
-
-        String sql = "INSERT INTO Film (title_id) VALUES (?)";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, film.getTitleId());
-
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
-        }
-    }
-
-    private void addTvShow(TvShow tvShow){
-        addTitleToBaseTable(tvShow);
-
-        String sql = "INSERT INTO TvShow (title_id) VALUES (?)";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, tvShow.getTitleId());
-
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
-        }
-
-        for (Season season : tvShow.getSeasons()) {
-            addSeason(season, tvShow.getTitleId());
-        }
-    }
-
     private void addTitleToBaseTable(Title title){
         String sql = "INSERT INTO Title (title_id, name, overview, poster_path, release_date, duration, popularity, type) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -199,6 +182,92 @@ public class TitleDAO {
 
         } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
+        }
+    }
+
+    //cria um TvShow com suas respectivas temporadas e episódios
+    public TvShow createTvShowWithSeasonsAndEpisodes(int titleId, String name, String overview, String posterPath, String releaseDate, int duration, double popularity, int totalEpisodes){
+        TvShow tvShow = new TvShow(titleId, name, duration, overview, posterPath, releaseDate, popularity, totalEpisodes);
+
+        String seasonSql = "SELECT season_id, season_number, season_poster_path " +
+                "FROM season WHERE tvshow_id = ?";
+        try (PreparedStatement seasonStmt = connection.prepareStatement(seasonSql)) {
+            seasonStmt.setInt(1, titleId);
+            ArrayList<Season> seasons = new ArrayList<>();
+            try (ResultSet seasonRs = seasonStmt.executeQuery()) {
+                while (seasonRs.next()) {
+                    int seasonNumber = seasonRs.getInt("season_number");
+                    int seasonId = seasonRs.getInt("season_id");
+                    String seasonPosterPath = seasonRs.getString("season_poster_path");
+                    Season season = new Season(seasonNumber, seasonPosterPath);
+                    season.setEpisodes(getEpisodesForSeason(seasonId));
+                    seasons.add(season);
+                }
+                tvShow.setSeasons(seasons);
+            }
+        } catch (SQLException e) {
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
+        }
+
+        return tvShow;
+    }
+
+    //busca os episódios de uma temporada
+    private ArrayList<Episode> getEpisodesForSeason(int seasonId) {
+        ArrayList<Episode> episodes = new ArrayList<>();
+
+        String episodeSql = "SELECT episode_name, episode_runtime " +
+                "FROM episode WHERE season_id = ?";
+        try (PreparedStatement episodeStmt = connection.prepareStatement(episodeSql)) {
+            episodeStmt.setInt(1, seasonId);
+
+            try (ResultSet episodeRs = episodeStmt.executeQuery()) {
+                while (episodeRs.next()) {
+                    String episodeName = episodeRs.getString("episode_name");
+                    Integer episodeRuntime = episodeRs.getInt("episode_runtime");
+
+                    Episode episode = new Episode(episodeName, episodeRuntime);
+                    episodes.add(episode);
+                }
+            }
+        }
+        catch (SQLException e) {
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
+        }
+
+        return episodes;
+    }
+
+    private void addFilm(Film film){
+        addTitleToBaseTable(film);
+
+        String sql = "INSERT INTO Film (title_id) VALUES (?)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, film.getTitleId());
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
+        }
+    }
+
+    private void addTvShow(TvShow tvShow){
+        addTitleToBaseTable(tvShow);
+
+        String sql = "INSERT INTO TvShow (title_id, total_episodes) VALUES (?,?)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, tvShow.getTitleId());
+            stmt.setInt(2, tvShow.getTotalEpisodes());
+
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
+        }
+
+        for (Season season : tvShow.getSeasons()) {
+            addSeason(season, tvShow.getTitleId());
         }
     }
 
