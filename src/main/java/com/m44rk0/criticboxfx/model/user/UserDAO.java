@@ -5,6 +5,7 @@ import com.m44rk0.criticboxfx.model.review.TitleReview;
 import com.m44rk0.criticboxfx.model.search.TitleSearcher;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.model.title.TvShow;
+import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.DatabaseConnection;
 import info.movito.themoviedbapi.tools.TmdbException;
 
@@ -35,7 +36,7 @@ public class UserDAO {
             stmt.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
@@ -49,7 +50,7 @@ public class UserDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
@@ -63,7 +64,7 @@ public class UserDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
@@ -77,7 +78,7 @@ public class UserDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
@@ -91,7 +92,7 @@ public class UserDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
@@ -108,7 +109,7 @@ public class UserDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
@@ -125,8 +126,11 @@ public class UserDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
+    }
+
+    public void editReview(User user, Review review){
     }
 
     //Metodo para buscar a lista de favoritos de um usuário
@@ -153,12 +157,13 @@ public class UserDAO {
                 }
             }
         } catch (TmdbException e) {
-            e.printStackTrace();
-            // Lida com a exceção conforme necessário (lança ou loga, por exemplo)
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
 
         return favorites;
     }
+
+
 
     // Método para buscar um Map onde a chave é o ID do favorito e o valor é "FILM" ou "TVSHOW"
     public Map<Integer, String> getFavoriteTitleTypes(int userId){
@@ -183,7 +188,7 @@ public class UserDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
 
         return favoriteTitleTypes;
@@ -213,8 +218,7 @@ public class UserDAO {
                 }
             }
         } catch (TmdbException e) {
-            e.printStackTrace();
-            // Lida com a exceção conforme necessário (lança ou loga, por exemplo)
+            AlertMessage.showErrorAlert("TMDB Error", e.getMessage());
         }
 
         return watched;
@@ -243,7 +247,7 @@ public class UserDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
 
         return watchedTitleTypes;
@@ -305,7 +309,7 @@ public class UserDAO {
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
 
         return reviews;

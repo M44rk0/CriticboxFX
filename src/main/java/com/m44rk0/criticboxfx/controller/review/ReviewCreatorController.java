@@ -1,11 +1,10 @@
 package com.m44rk0.criticboxfx.controller.review;
 
-import com.m44rk0.criticboxfx.controller.ViewController;
+import com.m44rk0.criticboxfx.controller.MainController;
+import com.m44rk0.criticboxfx.model.review.EpisodeReview;
 import com.m44rk0.criticboxfx.model.review.TitleReview;
 import com.m44rk0.criticboxfx.model.review.Review;
-import com.m44rk0.criticboxfx.model.review.EpisodeReview;
 import com.m44rk0.criticboxfx.model.title.*;
-import com.m44rk0.criticboxfx.model.user.UserDAO;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.fxml.FXML;
@@ -16,13 +15,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
 
-import java.nio.file.attribute.UserPrincipal;
-import java.sql.SQLException;
 import java.util.*;
 
 import static com.m44rk0.criticboxfx.App.*;
 
-public class CreateReviewController implements CommonController {
+public class ReviewCreatorController implements CommonController {
 
     @FXML
     private ImageView posterImage;
@@ -60,25 +57,25 @@ public class CreateReviewController implements CommonController {
     private int currentRating = 0;
     private Title title;
     private List<SVGPath> stars;
-    private ViewController viewController;
+    private MainController viewController;
 
     @FXML
-    void ReturnButtonClick() {
+    void ReturnButtonClick(){
         if (viewController != null) {
             viewController.restoreSearchResults();
         }
     }
 
     @FXML
-    public void saveReview() throws SQLException {
+    public void saveReview() {
 
         if(viewController.getEditReviewIsCalledFrom() == 2){
             int choice = AlertMessage.showChoiceAlert("Edição de Review", "Deseja editar a review?");
+            Review reviewToEdit = viewController.getReviewToEdit();
             if(choice == 0){
-                viewController.getReviewToEdit().editReview(reviewArea.getText(), getCurrentRating());
+                reviewToEdit.editReview(reviewArea.getText(), getCurrentRating());
                 viewController.setEditReviewIsCalledFrom(0);
-                userDAO.removeReview(userMarco, viewController.getReviewToEdit());
-                userDAO.addReview(userMarco, viewController.getReviewToEdit());
+                reviewDAO.editReview(reviewToEdit);
             }
             viewController.showUserReviews();
         }
@@ -184,7 +181,7 @@ public class CreateReviewController implements CommonController {
         this.currentRating = currentRating;
     }
 
-    public void setMainController(ViewController viewController) {
+    public void setMainController(MainController viewController) {
         this.viewController = viewController;
     }
 

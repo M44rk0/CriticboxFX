@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Details{
+public class TitleDetails {
 
     protected ArrayList<String> cast;
     protected ArrayList<String> directors;
@@ -25,7 +25,7 @@ public class Details{
     protected ArrayList<String> soundTeam;
     protected ArrayList<String> genres;
 
-    public Details(Title title){
+    public TitleDetails(Title title){
         try {
 
             TmdbApi api = new TmdbApi(new TitleSearcher().getAPI_KEY());

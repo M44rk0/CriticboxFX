@@ -1,8 +1,7 @@
 package com.m44rk0.criticboxfx.controller.review;
-import com.m44rk0.criticboxfx.controller.ViewController;
+import com.m44rk0.criticboxfx.controller.MainController;
 import com.m44rk0.criticboxfx.model.review.Review;
 import com.m44rk0.criticboxfx.model.title.Title;
-import com.m44rk0.criticboxfx.model.user.UserDAO;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.fxml.FXML;
@@ -12,7 +11,6 @@ import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
-import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -60,7 +58,7 @@ public class ReviewController implements CommonController {
 
     private List<SVGPath> stars;
 
-    private ViewController mainController;
+    private MainController mainController;
     private Review review;
 
     @Override
@@ -98,7 +96,6 @@ public class ReviewController implements CommonController {
 
     @Override
     public void setOverviewField(String overview) {
-
     }
 
     @Override
@@ -117,7 +114,7 @@ public class ReviewController implements CommonController {
         this.infoTVText.setText(infoTV);
     }
 
-    public void setMainController(ViewController mainController) {
+    public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
 

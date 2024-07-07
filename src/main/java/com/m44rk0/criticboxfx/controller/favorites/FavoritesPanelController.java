@@ -1,6 +1,6 @@
 package com.m44rk0.criticboxfx.controller.favorites;
 
-import com.m44rk0.criticboxfx.controller.ViewController;
+import com.m44rk0.criticboxfx.controller.MainController;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.scene.image.ImageView;
@@ -13,7 +13,7 @@ public class FavoritesPanelController implements CommonController {
     public ImageView favoritePoster;
 
     private Title title;
-    private ViewController mainController;
+    private MainController mainController;
 
     @FXML
     public void showDetails(){
@@ -25,7 +25,7 @@ public class FavoritesPanelController implements CommonController {
         this.title = title;
     }
 
-    public void setMainController(ViewController mainController) {
+    public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
 

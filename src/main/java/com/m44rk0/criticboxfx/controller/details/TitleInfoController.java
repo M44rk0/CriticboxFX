@@ -1,6 +1,6 @@
 package com.m44rk0.criticboxfx.controller.details;
 
-import com.m44rk0.criticboxfx.controller.ViewController;
+import com.m44rk0.criticboxfx.controller.MainController;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import com.m44rk0.criticboxfx.utils.Icon;
@@ -44,7 +44,7 @@ public class TitleInfoController implements CommonController {
     private SVGPath watchedIcon;
 
     private Title title;
-    private ViewController mainController;
+    private MainController mainController;
 
     @FXML
     public void addToWatched(){
@@ -79,7 +79,7 @@ public class TitleInfoController implements CommonController {
         );
     }
     
-    public void setMainController(ViewController mainController) {
+    public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
 

@@ -1,4 +1,5 @@
 package com.m44rk0.criticboxfx.model.review;
+import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.DatabaseConnection;
 
 import java.sql.Connection;
@@ -21,20 +22,32 @@ public class ReviewDAO {
 
         } else if (review instanceof TitleReview) {
             addTitleReview((TitleReview) review);
-        } else {
-            throw new IllegalArgumentException("Unsupported review type: " + review.getClass().getSimpleName());
         }
     }
 
     public void removeReview(Review review){
-        if (review instanceof EpisodeReview) {
-            removeEpisodeReview((EpisodeReview) review);
+        String sql = "DELETE FROM Review WHERE review_id = ?";
 
-        } else if (review instanceof TitleReview) {
-            removeTitleReview((TitleReview) review);
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, review.getReviewID());
+            stmt.executeUpdate();
         }
+        catch (SQLException e) {
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
+        }
+    }
 
-        removeReviewFromBaseTable(review);
+    public void editReview(Review review){
+        String sql = "UPDATE review SET review_note = ?, review_text = ? WHERE review_id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, review.getReviewNote());
+            stmt.setString(2, review.getReviewText());
+            stmt.setInt(3, review.getReviewID());
+            stmt.executeUpdate();
+        }
+        catch (SQLException e) {
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
+        }
     }
 
     public void addReviewToBaseTable(Review review){
@@ -50,8 +63,9 @@ public class ReviewDAO {
             stmt.setInt(5, review.getTitle().getTitleId());
 
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        }
+        catch (SQLException e) {
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
@@ -67,8 +81,9 @@ public class ReviewDAO {
             stmt.setString(3, episodeReview.getEpisodeName());
 
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        }
+        catch (SQLException e) {
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
@@ -81,46 +96,23 @@ public class ReviewDAO {
             stmt.setInt(1, titleReview.getReviewID());
 
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        }
+        catch (SQLException e) {
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
 
     }
 
-    private void removeEpisodeReview(EpisodeReview review) {
-        String sql = "DELETE FROM EpisodeReview WHERE review_id = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, review.getReviewID());
-
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void removeTitleReview(TitleReview review) {
-        String sql = "DELETE FROM TitleReview WHERE review_id = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, review.getReviewID());
-
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    private void editEpisodeReview(EpisodeReview review){
 
     }
-    private void removeReviewFromBaseTable(Review review) {
-        String sql = "DELETE FROM Review WHERE review_id = ?";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, review.getReviewID());
+    private void editTitleReview(TitleReview review){
 
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    }
+
+    private void editReviewFromBaseTable(Review review){
+
     }
 }
 

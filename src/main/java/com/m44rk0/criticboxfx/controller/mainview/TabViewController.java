@@ -32,6 +32,10 @@ public class TabViewController {
         this.resultsFlow = resultsFlow;
     }
 
+    public void setResultTabText(String text){
+        this.resultsTab.setText(text);
+    }
+
     public Tab getResultsTab() {
         return resultsTab;
     }

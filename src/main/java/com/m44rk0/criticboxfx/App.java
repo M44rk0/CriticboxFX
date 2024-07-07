@@ -22,8 +22,6 @@ public class App extends Application{
 
         TitleSearcher titleSearcher = new TitleSearcher();
 
-        userDAO.addUser(userMarco);
-        userDAO.addUser(userBryan);
         userMarco.setReviews(userDAO.getReviewsByUser(userMarco));
         userMarco.setFavorites(userDAO.getFavoritesByUser(userMarco));
         userMarco.setWatched(userDAO.getWatchedByUser(userMarco));
@@ -33,6 +31,7 @@ public class App extends Application{
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+
     }
 
     public static UserDAO userDAO = new UserDAO();
@@ -40,7 +39,6 @@ public class App extends Application{
     public static ReviewDAO reviewDAO = new ReviewDAO();
 
     public static User userMarco = new User("Marco", "mmrk", "12345");
-    public static User userBryan = new User("Bryan", "bryan", "12345");
 
     public static void main(String[] args){
         launch();

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.m44rk0.criticboxfx.controller.ViewController.seasonPosterCache;
+import static com.m44rk0.criticboxfx.controller.MainController.seasonPosterCache;
 
 public class TvShow extends Title {
 
@@ -28,7 +28,7 @@ public class TvShow extends Title {
         this.posterPath = tvshow.getPosterPath();
         this.releaseDate = tvshow.getFirstAirDate();
         this.popularity = tvshow.getPopularity();
-        this.seasons = getTvShowInfo(tvshow);
+        this.seasons = getTvShowSeasons(tvshow);
         this.totalEpisodes = getEpisodes();
     }
 
@@ -58,7 +58,7 @@ public class TvShow extends Title {
         return totalEpisodes;
     }
 
-    private ArrayList<Season> getTvShowInfo(TvSeriesDb seriesDb) throws TmdbException {
+    private ArrayList<Season> getTvShowSeasons(TvSeriesDb seriesDb) throws TmdbException {
         TmdbApi apiKey = new TmdbApi(new TitleSearcher().getAPI_KEY());
         TvSeriesDb serie = apiKey.getTvSeries().getDetails(seriesDb.getId(), "pt-BR");
 
@@ -79,7 +79,7 @@ public class TvShow extends Title {
                     for (int j = 0; j < tvSeasonDb.getEpisodes().size(); j++) {
                         String episodeAirDate = tvSeasonDb.getEpisodes().get(j).getAirDate();
 
-                        if (Search.isReleased(episodeAirDate)) {
+                        if (Search.isReleased(episodeAirDate) && tvSeasonDb.getEpisodes().get(j).getRuntime() != null) {
                             Episode episode = new Episode(tvSeasonDb.getEpisodes().get(j).getName(), tvSeasonDb.getEpisodes().get(j).getRuntime());
                             episodes.add(episode);
                         }

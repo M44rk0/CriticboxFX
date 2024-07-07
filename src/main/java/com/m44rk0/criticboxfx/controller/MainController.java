@@ -5,13 +5,13 @@ import com.m44rk0.criticboxfx.controller.details.TitleInfoController;
 import com.m44rk0.criticboxfx.controller.favorites.FavoritesController;
 import com.m44rk0.criticboxfx.controller.favorites.FavoritesPanelController;
 import com.m44rk0.criticboxfx.controller.mainview.TabViewController;
-import com.m44rk0.criticboxfx.controller.review.CreateReviewController;
+import com.m44rk0.criticboxfx.controller.review.ReviewCreatorController;
 import com.m44rk0.criticboxfx.controller.review.ReviewController;
 import com.m44rk0.criticboxfx.controller.review.ReviewTabPaneController;
-import com.m44rk0.criticboxfx.model.review.Review;
 import com.m44rk0.criticboxfx.model.review.EpisodeReview;
+import com.m44rk0.criticboxfx.model.review.Review;
 import com.m44rk0.criticboxfx.model.search.TitleSearcher;
-import com.m44rk0.criticboxfx.model.title.Details;
+import com.m44rk0.criticboxfx.model.title.TitleDetails;
 import com.m44rk0.criticboxfx.model.title.Season;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.model.title.TvShow;
@@ -37,7 +37,7 @@ import java.io.File;
 import static com.m44rk0.criticboxfx.App.titleDAO;
 import static com.m44rk0.criticboxfx.App.userMarco;
 
-public class ViewController {
+public class MainController {
 
     @FXML
     private ImageView critic;
@@ -57,6 +57,7 @@ public class ViewController {
     //guarda as imagens de todos os titulos buscados pra evitar carregar a mesma imagem várias vezes em outras telas
     public static final Map<Title, Image> titlePosterCache = new HashMap<>();
     public static final Map<Season, Image> seasonPosterCache = new HashMap<>();
+    public List<Title> lastSearchedTitles = titleDAO.getLastSearchedTitles();
 
     //gambiarra pra ajustar o botão de "return" a depender de onde ele foi clicado
     //1 == página de favoritos (return volta pra página de favoritos)
@@ -71,7 +72,7 @@ public class ViewController {
     private Review reviewToEdit;
 
     @FXML
-    private void searchButtonAction() throws SQLException {
+    private void searchButtonAction(){
         performSearch();
     }
 
@@ -118,7 +119,12 @@ public class ViewController {
             FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("resultsTab.fxml"));
             TabPane resultsTab = tabLoader.load();
             TabViewController tabController = tabLoader.getController();
+            tabController.setResultTabText("Resultados para: " + "\"" + searchField.getText() + "\"");
             FlowPane resultsPane = tabController.getResultsFlow();
+
+            if(!lastSearchedTitles.isEmpty()){
+                titleDAO.clearLastResults();
+            }
 
             for (Title title : searchResults) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("titleInfo.fxml"));
@@ -138,16 +144,20 @@ public class ViewController {
                 }
 
                 resultsPane.getChildren().add(movieInfoPane);
+
+
                 searchResultNodes.add(movieInfoPane);
 
                 if (!titleDAO.getAllTitleIds().contains(title.getTitleId())){
                     titleDAO.addTitle(title);
                  }
+
+                titleDAO.addTitleToLastResults(title);
             }
 
             scrollBox.getChildren().add(resultsTab);
 
-            if (searchResults.size() == 1) {
+            if (searchResults.size() == 1 || lastSearchedTitles.size() == 1) {
                 scrollPage.setFitToHeight(true);
             }
     }
@@ -160,21 +170,44 @@ public class ViewController {
     public void restoreSearchResults(){
         try {
             resetScrollBox();
-
             FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("resultsTab.fxml"));
             TabPane resultsTab = tabLoader.load();
             TabViewController tabController = tabLoader.getController();
             FlowPane resultsPane = tabController.getResultsFlow();
 
-            resultsPane.getChildren().addAll(searchResultNodes);
-            scrollBox.getChildren().add(resultsTab);
+            if (searchResultNodes.isEmpty()){
+                for (Title title : lastSearchedTitles) {
 
-            if (searchResultNodes.isEmpty()) {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("titleInfo.fxml"));
+                    Pane movieInfoPane = loader.load();
+                    TitleInfoController controller = loader.getController();
+
+                    setCommonFields(controller, title);
+
+                    if (title instanceof TvShow) {
+                        controller.setSeasonField(((TvShow) title).getSeasons().size() + " Temporada(s)");
+                        controller.setEpisodesField(((TvShow) title).getTotalEpisodes() + " Episódio(s)");
+                        controller.turnVisible();
+                    }
+
+                    if (userMarco.getWatched().contains(title)) {
+                        controller.setWatchedIcon(Icon.WATCHED.getPath());
+                    }
+
+                    resultsPane.getChildren().add(movieInfoPane);
+                    searchResultNodes.add(movieInfoPane);
+                }
+                scrollBox.getChildren().add(resultsTab);
+            }
+            else {
+                resultsPane.getChildren().addAll(searchResultNodes);
+                scrollBox.getChildren().add(resultsTab);
+            }
+
+            if (searchResultNodes.size() == 1 || lastSearchedTitles.size() == 1 || searchResultNodes.isEmpty()) {
                 scrollPage.setFitToHeight(true);
             }
-            if (searchResultNodes.size() == 1) {
-                scrollPage.setFitToHeight(true);
-            }
+
         }
         catch (IOException e) {
             AlertMessage.showAlert("Erro de Inicialização", "Erro no carregamento do FXML");
@@ -299,7 +332,7 @@ public class ViewController {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("createReview.fxml"));
             Pane reviewPane = loader.load();
-            CreateReviewController controller = loader.getController();
+            ReviewCreatorController controller = loader.getController();
 
             setCommonFields(controller, title);
             controller.setTitleField(title.getName() + " (" + dateToYear(title.getReleaseDate()) + ")");
@@ -338,7 +371,7 @@ public class ViewController {
             TitleDetailsController controller = loader.getController();
 
             setCommonFields(controller, title);
-            Details details = new Details(title);
+            TitleDetails details = new TitleDetails(title);
 
             controller.setDurationField(title.getDuration());
             controller.setGenreFlow(details.getGenres());
@@ -432,15 +465,11 @@ public class ViewController {
 
         searchField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                try {
-                    searchButtonAction();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
+                searchButtonAction();
             }
         });
 
-        showFavorites();
+        restoreSearchResults();
 
     }
 }

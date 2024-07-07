@@ -1,6 +1,6 @@
 package com.m44rk0.criticboxfx.controller.favorites;
 
-import com.m44rk0.criticboxfx.controller.ViewController;
+import com.m44rk0.criticboxfx.controller.MainController;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.fxml.FXML;
@@ -25,8 +25,6 @@ public class FavoritesController implements CommonController {
 
     @FXML
     private Tab watchedTab;
-
-    private ViewController mainController;
 
     public TabPane getTabPaneFavorites() {
         return TabPaneFavorites;
@@ -74,7 +72,7 @@ public class FavoritesController implements CommonController {
     }
 
     @Override
-    public void setMainController(ViewController controller) {
+    public void setMainController(MainController controller) {
 
     }
 

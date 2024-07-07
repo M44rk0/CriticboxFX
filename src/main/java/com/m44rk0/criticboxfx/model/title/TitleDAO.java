@@ -1,6 +1,10 @@
 package com.m44rk0.criticboxfx.model.title;
 
+import com.m44rk0.criticboxfx.model.search.Search;
+import com.m44rk0.criticboxfx.model.search.TitleSearcher;
+import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.DatabaseConnection;
+import info.movito.themoviedbapi.tools.TmdbException;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,13 +33,67 @@ public class TitleDAO {
         return titleIds;
     }
 
+    public void clearLastResults() {
+        String sql = "DELETE FROM lastresults";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
+        }
+    }
+
+    public void addTitleToLastResults(Title title) {
+        String sql = "INSERT INTO lastresults (title_id) VALUES (?)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, title.getTitleId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
+        }
+    }
+
+    public List<Title> getLastSearchedTitles(){
+        ArrayList<Title> lastSearchedTitles = new ArrayList<>();
+        TitleSearcher titleSearcher = new TitleSearcher();
+
+        String sql = "SELECT lr.title_id, t.type " +
+                "FROM lastresults lr " +
+                "JOIN title t ON lr.title_id = t.title_id";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                int titleId = rs.getInt("title_id");
+                String titleType = rs.getString("type");
+
+                Title title = null;
+                if ("FILM".equals(titleType)) {
+                    title = titleSearcher.searchMovieById(titleId);
+                } else if ("TVSHOW".equals(titleType)) {
+                    title = titleSearcher.searchTvShowById(titleId);
+                }
+
+                if (title != null) {
+                    lastSearchedTitles.add(title);
+                }
+            }
+        } catch (SQLException | TmdbException e) {
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
+        }
+
+        Search.sortByPopularity(lastSearchedTitles);
+
+        return lastSearchedTitles;
+    }
+
     public void addTitle(Title title){
         if (title instanceof Film) {
             addFilm((Film) title);
         } else if (title instanceof TvShow) {
             addTvShow((TvShow) title);
-        } else {
-            throw new IllegalArgumentException("Unsupported title type: " + title.getClass().getName());
         }
     }
 
@@ -57,7 +115,7 @@ public class TitleDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
@@ -69,7 +127,7 @@ public class TitleDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
@@ -81,7 +139,7 @@ public class TitleDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
@@ -96,7 +154,7 @@ public class TitleDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
@@ -110,7 +168,7 @@ public class TitleDAO {
 
             stmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
 
         for (Season season : tvShow.getSeasons()) {
@@ -135,48 +193,48 @@ public class TitleDAO {
                 stmt.setString(8, "FILM");
             } else if (title instanceof TvShow) {
                 stmt.setString(8, "TVSHOW");
-            } else {
-                throw new IllegalArgumentException("Unsupported title type: " + title.getClass().getSimpleName());
             }
 
             stmt.executeUpdate();
+
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
-    public void addSeason(Season season, int tvShowId){
+    public void addSeason(Season season, int tvShowId) {
         String sqlInsertSeason = "INSERT INTO Season (season_number, season_poster_path, tvshow_id) VALUES (?, ?, ?)";
         String sqlInsertEpisode = "INSERT INTO Episode (episode_name, episode_runtime, season_id) VALUES (?, ?, ?)";
 
-        try (PreparedStatement stmtSeason = connection.prepareStatement(sqlInsertSeason, Statement.RETURN_GENERATED_KEYS)) {
-            stmtSeason.setInt(1, season.getSeasonNumber());
-            stmtSeason.setString(2, season.getSeasonPosterPath());
-            stmtSeason.setInt(3, tvShowId);
+        try {
+            try (PreparedStatement stmtSeason = connection.prepareStatement(sqlInsertSeason, Statement.RETURN_GENERATED_KEYS)) {
+                stmtSeason.setInt(1, season.getSeasonNumber());
+                stmtSeason.setString(2, season.getSeasonPosterPath());
+                stmtSeason.setInt(3, tvShowId);
 
-            stmtSeason.executeUpdate();
+                stmtSeason.executeUpdate();
 
-            try (ResultSet generatedKeys = stmtSeason.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    int seasonId = generatedKeys.getInt(1);
+                try (ResultSet generatedKeys = stmtSeason.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int seasonId = generatedKeys.getInt(1);
 
-                    for (Episode episode : season.getEpisodes()) {
-                        try (PreparedStatement stmtEpisode = connection.prepareStatement(sqlInsertEpisode)) {
-                            stmtEpisode.setString(1, episode.getEpisodeName());
-                            stmtEpisode.setInt(2, episode.getEpisodeRuntime());
-                            stmtEpisode.setInt(3, seasonId);
+                        for (Episode episode : season.getEpisodes()) {
+                            try (PreparedStatement stmtEpisode = connection.prepareStatement(sqlInsertEpisode)) {
+                                stmtEpisode.setString(1, episode.getEpisodeName());
+                                stmtEpisode.setInt(2, episode.getEpisodeRuntime());
+                                stmtEpisode.setInt(3, seasonId);
 
-                            stmtEpisode.executeUpdate();
+                                stmtEpisode.executeUpdate();
+                            }
                         }
                     }
-                } else {
-                    throw new SQLException("Failed to insert season, no ID obtained.");
                 }
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
+
 
 
 

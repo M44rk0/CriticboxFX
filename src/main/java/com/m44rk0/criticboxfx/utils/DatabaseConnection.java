@@ -12,23 +12,19 @@ public class DatabaseConnection {
 
     private static Connection connection;
 
-    // Construtor privado para impedir a criação de instâncias
     private DatabaseConnection() { }
 
-    // Método para obter a conexão estática
     public static Connection getConnection() {
         if (connection == null) {
             try {
                 connection = DriverManager.getConnection(URL, USER, PASSWORD);
             } catch (SQLException e) {
                 e.printStackTrace();
-                // Opcional: lançar uma exceção ou finalizar o programa
             }
         }
         return connection;
     }
 
-    // Método para fechar a conexão
     public static void closeConnection() {
         if (connection != null) {
             try {

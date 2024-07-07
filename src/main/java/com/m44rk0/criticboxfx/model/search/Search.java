@@ -11,7 +11,7 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
-import static com.m44rk0.criticboxfx.controller.ViewController.titlePosterCache;
+import static com.m44rk0.criticboxfx.controller.MainController.titlePosterCache;
 
 public class Search {
 
@@ -165,7 +165,7 @@ public class Search {
         return null;
     }
 
-    private static void sortByPopularity(ArrayList<Title> results) {
+    public static void sortByPopularity(ArrayList<Title> results) {
         results.sort((t1, t2) -> {
             double popularity1 = t1.getPopularity();
             double popularity2 = t2.getPopularity();

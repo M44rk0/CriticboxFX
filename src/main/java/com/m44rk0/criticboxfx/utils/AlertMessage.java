@@ -16,6 +16,14 @@ public class AlertMessage {
         alert.showAndWait();
     }
 
+    public static void showErrorAlert(String title, String content){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setContentText(content);
+        alert.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        alert.showAndWait();
+    }
+
     public static int showChoiceAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setTitle(title);
