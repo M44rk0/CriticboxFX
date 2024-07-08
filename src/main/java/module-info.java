@@ -10,9 +10,6 @@ module com.m44rk0.criticboxfx {
     requires org.hibernate.orm.core;
     requires java.persistence;
 
-    exports com.m44rk0.criticboxfx.view;
-    opens com.m44rk0.criticboxfx.view to javafx.controls, javafx.fxml;
-
     exports com.m44rk0.criticboxfx;
     opens com.m44rk0.criticboxfx to javafx.controls, javafx.fxml;
 
@@ -40,8 +37,10 @@ module com.m44rk0.criticboxfx {
     exports com.m44rk0.criticboxfx.model.user;
     opens com.m44rk0.criticboxfx.model.user to javafx.controls, javafx.fxml;
 
-    exports com.m44rk0.criticboxfx.controller;
-    opens com.m44rk0.criticboxfx.controller to javafx.controls, javafx.fxml;
     exports com.m44rk0.criticboxfx.controller.mainview;
     opens com.m44rk0.criticboxfx.controller.mainview to javafx.controls, javafx.fxml;
+    exports com.m44rk0.criticboxfx.dao;
+    opens com.m44rk0.criticboxfx.dao to javafx.controls, javafx.fxml;
+    exports com.m44rk0.criticboxfx.controller;
+    opens com.m44rk0.criticboxfx.controller to javafx.controls, javafx.fxml;
 }

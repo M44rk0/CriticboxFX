@@ -20,7 +20,6 @@ import com.m44rk0.criticboxfx.utils.CommonController;
 import com.m44rk0.criticboxfx.utils.Icon;
 import info.movito.themoviedbapi.tools.TmdbException;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 import javafx.fxml.FXMLLoader;
@@ -173,7 +172,7 @@ public class MainController {
     public void restoreSearchResults(){
         try {
             resetScrollBox();
-            FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("resultsTab.fxml"));
+            FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("details/resultsTab.fxml"));
             TabPane resultsTab = tabLoader.load();
             ViewTabController tabController = tabLoader.getController();
             FlowPane resultsPane = tabController.getResultsFlow();
@@ -181,7 +180,7 @@ public class MainController {
             if (searchResultNodes.isEmpty()) {
                 for (Title title : lastSearchedTitles) {
 
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("titleInfo.fxml"));
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("details/titleInfo.fxml"));
                     Pane movieInfoPane = loader.load();
                     TitleInfoController controller = loader.getController();
 
@@ -200,7 +199,6 @@ public class MainController {
                     resultsPane.getChildren().add(movieInfoPane);
                     searchResultNodes.add(movieInfoPane);
                 }
-
                 scrollBox.getChildren().add(resultsTab);
             }
             else {
@@ -220,15 +218,17 @@ public class MainController {
     public void showUserReviews() {
         try {
             resetScrollBox();
+            scrollPage.setVvalue(0);
+
             List<Review> userReviews = user.getReviews().reversed();
-            FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("reviewsTab.fxml"));
+            FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("review/reviewsTab.fxml"));
             TabPane reviewTab = tabLoader.load();
             ReviewTabController tabController = tabLoader.getController();
 
             FlowPane reviewFlow = tabController.getReviewsFlow();
 
             for (Review review : userReviews) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("userReview.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("review/userReview.fxml"));
                 Pane reviewPane = loader.load();
                 ReviewController controller = loader.getController();
 
@@ -249,16 +249,21 @@ public class MainController {
                             .findFirst()
                             .orElse(null);
 
-                    if (season != null) {
-                        if(!seasonPosterCache.containsKey(episodeReview.getSeason())) {
+                    if (season != null && tvShow.getSeasons().size() > 1) {
+                        if (!seasonPosterCache.containsKey(episodeReview.getSeason())) {
                             Image posterImage = new Image("https://image.tmdb.org/t/p/w500/" +
                                     season.getSeasonPosterPath(), 250, 350, false, false);
                             controller.setPosterImage(posterImage);
                             seasonPosterCache.put(episodeReview.getSeason(), posterImage);
-                        }else {
+                        }
+                        else {
                             controller.setPosterImage(seasonPosterCache.get(episodeReview.getSeason()));
                         }
                     }
+                    else {
+                        controller.setPosterImage(titlePosterCache.get(tvShow));
+                    }
+
                     controller.setInfoTVField(seasonNumber + "ª Temporada - " + episodeName);
                     controller.turnVisible();
                 }
@@ -268,15 +273,11 @@ public class MainController {
 
             scrollBox.getChildren().add(reviewTab);
 
-            if (!userReviews.isEmpty()) {
-                scrollPage.setFitToHeight(false);
-            }
+            scrollPage.setFitToHeight(userReviews.size() <= 1);
 
-            if (userReviews.size() == 1 || userReviews.isEmpty()) {
-                scrollPage.setFitToHeight(true);
-            }
 
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML");
         }
     }
@@ -287,7 +288,7 @@ public class MainController {
             scrollPage.setVvalue(0);
             resetScrollBox();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("favoritesAndWatched.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("favorites/favoritesAndWatched.fxml"));
             TabPane fav = loader.load();
             FavoritesController controller = loader.getController();
             FlowPane favoritesFlow = controller.getFavoritesFlow();
@@ -297,7 +298,7 @@ public class MainController {
 
             List<Title> favorites = user.getFavorites().reversed();
             for (Title title : favorites) {
-                FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
+                FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favorites/favoritesPanel.fxml"));
                 Pane favoritesPanel = fpLoader.load();
                 FavoritesPanelController favoritePanelController = fpLoader.getController();
                 setCommonFields(favoritePanelController, title);
@@ -306,7 +307,7 @@ public class MainController {
 
             List<Title> watched = user.getWatched().reversed();
             for (Title title : watched) {
-                FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
+                FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favorites/favoritesPanel.fxml"));
                 Pane favoritesPanel = fpLoader.load();
                 FavoritesPanelController favoritePanelController = fpLoader.getController();
                 setCommonFields(favoritePanelController, title);
@@ -331,7 +332,7 @@ public class MainController {
             scrollPage.setFitToHeight(true);
             scrollBox.getChildren().clear();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("createReview.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("review/createReview.fxml"));
             Pane reviewPane = loader.load();
             ReviewCreatorController controller = loader.getController();
 
@@ -367,7 +368,7 @@ public class MainController {
             resetScrollBox();
             scrollPage.setVvalue(0);
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("titleDetails.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("details/titleDetails.fxml"));
             Pane movieDetailsPane = loader.load();
             TitleDetailsController controller = loader.getController();
 
@@ -445,14 +446,14 @@ public class MainController {
         this.reviewToEdit = reviewToEdit;
     }
 
-    public static String formatDate(String data){
+    private String formatDate(String data){
         DateTimeFormatter input = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter output = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         LocalDate date = LocalDate.parse(data, input);
         return date.format(output);
     }
 
-    public static String dateToYear(String data){
+    private String dateToYear(String data){
         DateTimeFormatter input = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter output = DateTimeFormatter.ofPattern("yyyy");
         LocalDate date = LocalDate.parse(data, input);
@@ -462,13 +463,7 @@ public class MainController {
     @FXML
     public void initialize(){
 
-        critic.setImage(new Image(new File("src/main/java/com/m44rk0/criticboxfx/images/Critic.png").toURI().toString()));
-
-        searchField.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                searchButtonAction();
-            }
-        });
+        critic.setImage(new Image(new File("src/main/resources/com/m44rk0/criticboxfx/images/Critic.png").toURI().toString()));
 
         if(lastSearchedTitles.isEmpty()){
             showFavorites();

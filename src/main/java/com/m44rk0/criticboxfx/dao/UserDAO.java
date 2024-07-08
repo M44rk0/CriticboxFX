@@ -1,14 +1,12 @@
-package com.m44rk0.criticboxfx.model.user;
+package com.m44rk0.criticboxfx.dao;
 import com.m44rk0.criticboxfx.model.review.EpisodeReview;
 import com.m44rk0.criticboxfx.model.review.Review;
 import com.m44rk0.criticboxfx.model.review.TitleReview;
-import com.m44rk0.criticboxfx.model.search.TitleSearcher;
 import com.m44rk0.criticboxfx.model.title.*;
+import com.m44rk0.criticboxfx.model.user.User;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.DatabaseConnection;
-import info.movito.themoviedbapi.tools.TmdbException;
 import javafx.scene.image.Image;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -59,6 +57,7 @@ public class UserDAO {
 
     // Método para remover um título favorito de um usuário
     public void removeFavorite(User user, Title title) {
+
         String sql = "DELETE FROM UserFavorites WHERE user_id = ? AND title_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -137,8 +136,7 @@ public class UserDAO {
     public ArrayList<Title> getFavoritesByUser(User user) {
         ArrayList<Title> favorites = new ArrayList<>();
 
-        String sql = "SELECT t.title_id, t.name, t.overview, t.poster_path, t.release_date, t.duration, t.popularity, t.type, " +
-                "       ts.total_episodes " +
+        String sql = "SELECT t.title_id, t.name, t.overview, t.poster_path, t.release_date, t.duration, t.popularity, t.type, " + "ts.total_episodes " +
                 "FROM title t " +
                 "LEFT JOIN tvshow ts ON t.title_id = ts.title_id " +
                 "JOIN userfavorites uf ON t.title_id = uf.title_id " +
@@ -174,7 +172,6 @@ public class UserDAO {
                             title.getPosterPath(), 250, 350, false, false);
 
                     titlePosterCache.put(title, posterImage);
-
                     favorites.add(title);
                 }
             }
@@ -191,7 +188,7 @@ public class UserDAO {
         ArrayList<Title> watched = new ArrayList<>();
 
         String sql = "SELECT t.title_id, t.name, t.overview, t.poster_path, t.release_date, t.duration, t.popularity, t.type, " +
-                "       ts.total_episodes " +
+                "ts.total_episodes " +
                 "FROM title t " +
                 "LEFT JOIN tvshow ts ON t.title_id = ts.title_id " +
                 "JOIN userwatched uf ON t.title_id = uf.title_id " +
@@ -240,19 +237,19 @@ public class UserDAO {
     }
 
     //Metodo para buscar a lista de reviews de um usuário
-    public ArrayList<Review> getReviewsByUser(User user) throws TmdbException {
+    public ArrayList<Review> getReviewsByUser(User user) {
         ArrayList<Review> reviews = new ArrayList<>();
 
         String sql = "SELECT r.review_id, r.review_date, r.review_note, r.review_text, r.title_id, t.type AS title_type, " +
                 "CASE WHEN er.review_id IS NOT NULL THEN 'EpisodeReview' " +
-                "     WHEN tr.review_id IS NOT NULL THEN 'TitleReview' " +
-                "     ELSE 'Unknown' END AS review_type, " +
-                "er.season_number, er.episode_name " +
-                "FROM review r " +
-                "LEFT JOIN episodereview er ON r.review_id = er.review_id " +
+                "WHEN tr.review_id IS NOT NULL THEN 'TitleReview' " +
+                "ELSE 'Unknown' END AS review_type, " + "er.season_number, er.episode_name, " +
+                "t.name, t.overview, t.poster_path, t.release_date, t.duration, t.popularity, " + "ts.total_episodes " +
+                "FROM review r " + "LEFT JOIN episodereview er ON r.review_id = er.review_id " +
                 "LEFT JOIN titlereview tr ON r.review_id = tr.review_id " +
                 "JOIN userreviews ur ON r.review_id = ur.review_id " +
                 "JOIN title t ON r.title_id = t.title_id " +
+                "LEFT JOIN tvshow ts ON t.title_id = ts.title_id " +
                 "WHERE ur.user_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -268,15 +265,26 @@ public class UserDAO {
                     String reviewType = rs.getString("review_type");
                     String titleType = rs.getString("title_type");
 
-                    TitleSearcher titleSearcher = new TitleSearcher();
-                    Title title;
+                    String name = rs.getString("name");
+                    String overview = rs.getString("overview");
+                    String posterPath = rs.getString("poster_path");
+                    String releaseDate = String.valueOf(rs.getDate("release_date"));
+                    int duration = rs.getInt("duration");
+                    double popularity = rs.getDouble("popularity");
+                    int totalEpisodes = rs.getInt("total_episodes");
 
+                    Title title;
                     if ("FILM".equals(titleType)) {
-                        title = titleSearcher.searchMovieById(titleId);
+                        title = new Film(titleId, name, overview, posterPath, releaseDate, duration, popularity);
                     } else if ("TVSHOW".equals(titleType)) {
-                        title = titleSearcher.searchTvShowById(titleId);
+                        title = titleDAO.createTvShowWithSeasonsAndEpisodes(titleId, name, overview, posterPath, releaseDate, duration, popularity, totalEpisodes);
                     } else {
                         throw new IllegalArgumentException("Unknown title type: " + titleType);
+                    }
+
+                    if (!titlePosterCache.containsKey(title)) {
+                        Image posterImage = new Image("https://image.tmdb.org/t/p/w500/" + title.getPosterPath(), 250, 350, false, false);
+                        titlePosterCache.put(title, posterImage);
                     }
 
                     Review review;
@@ -286,6 +294,7 @@ public class UserDAO {
                         int seasonNumber = rs.getInt("season_number");
                         String episodeName = rs.getString("episode_name");
                         review = new EpisodeReview(reviewId, title, reviewNote, reviewDate, reviewText, seasonNumber, episodeName);
+                        assert title instanceof TvShow;
                         ((EpisodeReview) review).setSeason(((TvShow) title).getSeasonByNumber(seasonNumber));
                     } else {
                         throw new IllegalArgumentException("Unknown review type: " + reviewType);
@@ -294,8 +303,7 @@ public class UserDAO {
                     reviews.add(review);
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
 

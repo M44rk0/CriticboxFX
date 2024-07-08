@@ -9,7 +9,7 @@
 
 <VBox prefWidth="800.0" style="-fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C);" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.homepage.HomePageController">
    <children>
-      <TabPane fx:id="TabPaneReviews" prefWidth="806.0" style="-fx-background-color: #18181a;" stylesheets="@../style/tab.css" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="TabPaneReviews" prefWidth="806.0" style="-fx-background-color: #18181a;" stylesheets="@../../style/tab.css" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab id="reviewsTab" fx:id="reviewsTab" closable="false" text="Nos Cinemas">
                <content>
@@ -26,7 +26,7 @@
             </Tab>
          </tabs>
       </TabPane>
-      <TabPane fx:id="TabPaneReviews1" layoutX="10.0" layoutY="10.0" prefWidth="806.0" style="-fx-background-color: #18181a;" stylesheets="@../style/tab.css" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="TabPaneReviews1" layoutX="10.0" layoutY="10.0" prefWidth="806.0" style="-fx-background-color: #18181a;" stylesheets="@../../style/tab.css" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab id="reviewsTab" fx:id="reviewsTab1" closable="false" text="Mais Avaliados">
                <content>
@@ -43,7 +43,7 @@
             </Tab>
          </tabs>
       </TabPane>
-      <TabPane fx:id="TabPaneReviews11" layoutX="10.0" layoutY="1162.0" prefWidth="806.0" style="-fx-background-color: #18181a;" stylesheets="@../style/tab.css" tabClosingPolicy="UNAVAILABLE">
+      <TabPane fx:id="TabPaneReviews11" layoutX="10.0" layoutY="1162.0" prefWidth="806.0" style="-fx-background-color: #18181a;" stylesheets="@../../style/tab.css" tabClosingPolicy="UNAVAILABLE">
          <tabs>
             <Tab id="reviewsTab" fx:id="reviewsTab11" closable="false" text="Populares">
                <content>

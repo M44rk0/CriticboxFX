@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
 
-<Pane stylesheets="@../style/favoritepanel.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.favorites.FavoritesPanelController">
+<Pane stylesheets="@../../style/favoritepanel.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.favorites.FavoritesPanelController">
    <children>
       <ImageView fx:id="favoritePoster" fitHeight="350.0" fitWidth="250.0" onMouseClicked="#showDetails" pickOnBounds="true" styleClass="favoritePoster">
          <image>
-            <Image url="@../../../../../../../../../Downloads/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg" />
+            <Image url="@../../../../../../../../../../Downloads/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />

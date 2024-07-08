@@ -1,5 +1,6 @@
-package com.m44rk0.criticboxfx.model.title;
+package com.m44rk0.criticboxfx.dao;
 import com.m44rk0.criticboxfx.model.search.Search;
+import com.m44rk0.criticboxfx.model.title.*;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.DatabaseConnection;
 import javafx.scene.image.Image;

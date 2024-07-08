@@ -1,4 +1,7 @@
-package com.m44rk0.criticboxfx.model.review;
+package com.m44rk0.criticboxfx.dao;
+import com.m44rk0.criticboxfx.model.review.EpisodeReview;
+import com.m44rk0.criticboxfx.model.review.Review;
+import com.m44rk0.criticboxfx.model.review.TitleReview;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.DatabaseConnection;
 

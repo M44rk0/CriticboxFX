@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<Pane fx:id="movieDetailsPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="806.0" style="-fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C); -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: lightgray; -fx-border-width: 0.1;" stylesheets="@../style/moviedetails.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.details.TitleDetailsController">
+<Pane fx:id="movieDetailsPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="806.0" style="-fx-background-color: linear-gradient(to right, #1f1e23, #1F1E22, #181819, #28272C); -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: lightgray; -fx-border-width: 0.1;" stylesheets="@../../style/moviedetails.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.details.TitleDetailsController">
    <padding>
       <Insets left="10.0" right="10.0" top="10.0" />
    </padding>
@@ -27,7 +27,7 @@
          <Pane>
             <children>
                <ImageView fx:id="posterImage" fitHeight="350.0" fitWidth="250.0" pickOnBounds="true">
-                  <Image url="@../../../../../../../../../Downloads/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg" />
+                  <Image url="@../../../../../../../../../../Downloads/MV5BMjMxNjY2MDU1OV5BMl5BanBnXkFtZTgwNzY1MTUwNTM@._V1_SX300.jpg" />
                   <effect>
                      <InnerShadow blurType="GAUSSIAN" choke="0.89" height="5.0" radius="2.0" width="5.0">
                         <color>
@@ -89,17 +89,17 @@
                         <Blend mode="OVERLAY" opacity="0.5" />
                      </effect>
                   </TextFlow>
-                  <Button id="favoriteButton" fx:id="addFavoriteButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="10.0" mnemonicParsing="false" onAction="#addFavorite" prefHeight="30.0" prefWidth="258.0" textFill="WHITE">
+                  <Button id="favoriteButton" fx:id="addFavoriteButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="10.0" mnemonicParsing="false" onAction="#addFavorite" prefHeight="30.0" prefWidth="258.0" text="Favoritar" textFill="WHITE">
                      <font>
-                        <Font name="Tahoma Bold" size="11.0" />
+                        <Font name="Tahoma Bold" size="15.0" />
                      </font>
                      <graphic>
                         <SVGPath fx:id="favoriteStar" content="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z" fill="WHITE" />
                      </graphic>
                   </Button>
-                  <Button id="reviewButton" fx:id="doReviewButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="10.0" mnemonicParsing="false" onAction="#makeReview" prefHeight="30.0" prefWidth="258.0" textFill="WHITE">
+                  <Button id="reviewButton" fx:id="doReviewButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="10.0" mnemonicParsing="false" onAction="#makeReview" prefHeight="30.0" prefWidth="258.0" text="Avaliar" textFill="WHITE">
                      <font>
-                        <Font name="Roboto Mono SemiBold" size="1.0" />
+                        <Font name="Tahoma Bold" size="15.0" />
                      </font>
                      <graphic>
                         <SVGPath content="M18.5,5.5h-4a1,1,0,0,0,0,2h4a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H8.5a1,1,0,0,1-1-1v-1a1,1,0,0,0-2,0v1a3,3,0,0,0,3,3h8.36l3,2.73a1,1,0,0,0,.68.27,1.1,1.1,0,0,0,.4-.08,1,1,0,0,0,.6-.92V8.5A3,3,0,0,0,18.5,5.5Zm-9.42,7H11.5a1,1,0,0,0,1-1V9.08a1,1,0,0,0-.29-.71L6.63,2.79a1,1,0,0,0-1.41,0L2.79,5.22a1,1,0,0,0,0,1.41l5.58,5.58A1,1,0,0,0,9.08,12.5ZM5.92,4.91,10.5,9.49v1h-1L4.91,5.92Z" fill="WHITE" />
@@ -161,7 +161,7 @@
                      </Text>
                   </children>
                </TextFlow>
-               <TextFlow prefHeight="32.0" prefWidth="122.0" style="-fx-border-width: 1;" textAlignment="CENTER">
+               <TextFlow prefHeight="30.0" prefWidth="100.0" style="-fx-border-width: 1;" textAlignment="CENTER">
                   <padding>
                      <Insets bottom="5.0" top="5.0" />
                   </padding>

@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.FlowPane?>
 
-<TabPane fx:id="TabPaneReviews" prefWidth="806.0" style="-fx-background-color: #18181a;" stylesheets="@../style/tab.css"
+<TabPane fx:id="TabPaneReviews" prefWidth="806.0" style="-fx-background-color: #18181a;" stylesheets="@../../style/tab.css"
          tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
          fx:controller="com.m44rk0.criticboxfx.controller.review.ReviewTabController">
    <Tab id="reviewsTab" fx:id="reviewsTab" closable="false" text="Reviews">
