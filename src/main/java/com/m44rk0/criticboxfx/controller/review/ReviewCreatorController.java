@@ -1,6 +1,7 @@
 package com.m44rk0.criticboxfx.controller.review;
 
 import com.m44rk0.criticboxfx.controller.MainController;
+import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.model.review.EpisodeReview;
 import com.m44rk0.criticboxfx.model.review.TitleReview;
 import com.m44rk0.criticboxfx.model.review.Review;
@@ -80,7 +81,6 @@ public class ReviewCreatorController implements CommonController {
             viewController.showUserReviews();
         }
         else {
-
             if (getCurrentRating() == 0 && reviewArea.getText().isBlank()) {
                 AlertMessage.showCommonAlert("Erro de Review", "Esqueceu foi de tudo po, ta de sacanagem?");
             } else if (getCurrentRating() == 0) {
@@ -94,16 +94,16 @@ public class ReviewCreatorController implements CommonController {
                         (seasonBox.getValue() == null || seasonBox.getValue() == 0))) {
 
                     var review = new TitleReview(title, getCurrentRating(), new Date(), reviewArea.getText());
-                    userDAO.addReview(user, review);
-                    user.addReview(review);
+                    userDAO.addReview(CurrentlyUser.getUser(), review);
+                    CurrentlyUser.addReview(review);
                 } else {
 
                     var review = new EpisodeReview(title, getCurrentRating(), new Date(),
                             reviewArea.getText(),seasonBox.getValue(), episodeBox.getValue());
 
                     review.setSeason(((TvShow) title).getSeasonByNumber(seasonBox.getValue()));
-                    userDAO.addReview(user, review);
-                    user.addReview(review);
+                    userDAO.addReview(CurrentlyUser.getUser(), review);
+                    CurrentlyUser.addReview(review);
                 }
                 viewController.restoreSearchResults();
             } else {
@@ -115,7 +115,7 @@ public class ReviewCreatorController implements CommonController {
 
     public boolean containsInReview(Title title) {
 
-        List<Review> userReviews = user.getReviews();
+        List<Review> userReviews = CurrentlyUser.getReviews();
         for (Review review : userReviews) {
             if (review instanceof EpisodeReview episodeReview) {
                 if (review.getTitle().equals(title) &&

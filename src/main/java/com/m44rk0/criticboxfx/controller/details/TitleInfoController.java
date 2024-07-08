@@ -1,6 +1,7 @@
 package com.m44rk0.criticboxfx.controller.details;
 
 import com.m44rk0.criticboxfx.controller.MainController;
+import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import com.m44rk0.criticboxfx.utils.Icon;
@@ -12,7 +13,6 @@ import javafx.scene.text.Text;
 import javafx.fxml.FXML;
 
 import static com.m44rk0.criticboxfx.App.userDAO;
-import static com.m44rk0.criticboxfx.App.user;
 
 public class TitleInfoController implements CommonController {
 
@@ -48,12 +48,12 @@ public class TitleInfoController implements CommonController {
 
     @FXML
     public void addToWatched(){
-        if (user.getWatched().contains(title)) {
-            user.removeWatched(title);
-            userDAO.removeWatched(user, title);
+        if (CurrentlyUser.getWatched().contains(title)) {
+            CurrentlyUser.removeWatched(title);
+            userDAO.removeWatched(CurrentlyUser.getUser(), title);
         } else {
-            user.addWatched(title);
-            userDAO.addWatched(user, title);
+            CurrentlyUser.addWatched(title);
+            userDAO.addWatched(CurrentlyUser.getUser(), title);
         }
 
         setWatchedIcon();

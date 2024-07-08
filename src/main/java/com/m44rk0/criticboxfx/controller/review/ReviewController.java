@@ -1,5 +1,6 @@
 package com.m44rk0.criticboxfx.controller.review;
 import com.m44rk0.criticboxfx.controller.MainController;
+import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.model.review.Review;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
@@ -18,7 +19,6 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.m44rk0.criticboxfx.App.userDAO;
-import static com.m44rk0.criticboxfx.App.user;
 
 public class ReviewController implements CommonController {
 
@@ -71,8 +71,8 @@ public class ReviewController implements CommonController {
     private void RemoveReview(){
         int areYouSure = AlertMessage.showChoiceAlert("Remoção da Review", "Você tem certeza que deseja remover essa review?");
         if(areYouSure == 0){
-            userDAO.removeReview(user, review);
-            user.removeReview(review);
+            userDAO.removeReview(CurrentlyUser.getUser(), review);
+            CurrentlyUser.removeReview(review);
             mainController.showUserReviews();
         }
     }

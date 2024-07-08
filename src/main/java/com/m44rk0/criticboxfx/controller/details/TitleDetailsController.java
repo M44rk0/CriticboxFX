@@ -1,6 +1,7 @@
 package com.m44rk0.criticboxfx.controller.details;
 
 import com.m44rk0.criticboxfx.controller.MainController;
+import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.model.title.Season;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.model.title.TvShow;
@@ -17,7 +18,6 @@ import javafx.scene.image.Image;
 import javafx.geometry.Insets;
 import javafx.scene.text.Text;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 
@@ -110,12 +110,12 @@ public class TitleDetailsController implements CommonController {
 
     @FXML
     public void addFavorite(){
-        if (user.getFavorites().contains(title)) {
-            userDAO.removeFavorite(user, title);
-            user.removeFavorite(title);
+        if (CurrentlyUser.getFavorites().contains(title)) {
+            userDAO.removeFavorite(CurrentlyUser.getUser(), title);
+            CurrentlyUser.removeFavorite(title);
         } else {
-            userDAO.addFavorite(user, title);
-            user.addFavorite(title);
+            userDAO.addFavorite(CurrentlyUser.getUser(), title);
+            CurrentlyUser.addFavorite(title);
         }
         setFavoriteIcon();
     }

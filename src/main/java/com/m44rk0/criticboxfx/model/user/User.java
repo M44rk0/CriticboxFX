@@ -26,6 +26,16 @@ public class User {
         this.watched = new ArrayList<>();
     }
 
+    public User(Integer userId, String name, String username, String password) {
+        this.userID = userId;
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.favorites = new ArrayList<>();
+        this.reviews = new ArrayList<>();
+        this.watched = new ArrayList<>();
+    }
+
     public void addFavorite(Title title){
         favorites.add(title);
     }

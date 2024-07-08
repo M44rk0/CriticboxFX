@@ -1,4 +1,5 @@
 package com.m44rk0.criticboxfx.dao;
+import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.model.search.Search;
 import com.m44rk0.criticboxfx.model.title.*;
 import com.m44rk0.criticboxfx.utils.AlertMessage;

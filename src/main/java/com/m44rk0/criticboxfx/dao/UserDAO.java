@@ -25,6 +25,52 @@ public class UserDAO {
         this.connection = DatabaseConnection.getConnection();
     }
 
+    public boolean userExists(String username, String password) {
+        String sql = "SELECT COUNT(*) FROM user WHERE username = ? AND password = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int count = rs.getInt(1);
+                    return count > 0;
+                }
+            }
+        } catch (SQLException e) {
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
+        }
+
+        return false;
+    }
+
+    public User getUserByCredentials(String username, String password) {
+        String sql = "SELECT user_id, name, username, password FROM User WHERE username = ? AND password = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    int userId = rs.getInt("user_id");
+                    String name = rs.getString("name");
+                    String retrievedUsername = rs.getString("username");
+                    String retrievedPassword = rs.getString("password");
+
+                    return new User(userId, name, retrievedUsername, retrievedPassword);
+                }
+            }
+        } catch (SQLException e) {
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
+        }
+
+        return null;
+    }
+
+
+
     public void addUser(User user) {
 
         String sql = "INSERT INTO User (name, username, password) VALUES (?, ?, ?)";

@@ -8,6 +8,7 @@ import com.m44rk0.criticboxfx.controller.mainview.ViewTabController;
 import com.m44rk0.criticboxfx.controller.review.ReviewCreatorController;
 import com.m44rk0.criticboxfx.controller.review.ReviewController;
 import com.m44rk0.criticboxfx.controller.review.ReviewTabController;
+import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.model.review.EpisodeReview;
 import com.m44rk0.criticboxfx.model.review.Review;
 import com.m44rk0.criticboxfx.model.search.TitleSearcher;
@@ -34,7 +35,7 @@ import javafx.fxml.FXML;
 import java.io.File;
 
 import static com.m44rk0.criticboxfx.App.titleDAO;
-import static com.m44rk0.criticboxfx.App.user;
+
 
 public class MainController {
 
@@ -115,7 +116,7 @@ public class MainController {
             resetScrollBox();
             searchResultNodes.clear();
 
-            FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("resultsTab.fxml"));
+            FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("details/resultsTab.fxml"));
             TabPane resultsTab = tabLoader.load();
             ViewTabController tabController = tabLoader.getController();
             tabController.setResultTabText("Resultados para: " + "\"" + searchField.getText() + "\"");
@@ -138,7 +139,7 @@ public class MainController {
                     controller.turnVisible();
                 }
 
-                if (user.getWatched().contains(title)) {
+                if (CurrentlyUser.getWatched().contains(title)) {
                     controller.setWatchedIcon(Icon.WATCHED.getPath());
                 }
 
@@ -192,7 +193,7 @@ public class MainController {
                         controller.turnVisible();
                     }
 
-                    if (user.getWatched().contains(title)) {
+                    if (CurrentlyUser.getWatched().contains(title)) {
                         controller.setWatchedIcon(Icon.WATCHED.getPath());
                     }
 
@@ -220,7 +221,7 @@ public class MainController {
             resetScrollBox();
             scrollPage.setVvalue(0);
 
-            List<Review> userReviews = user.getReviews().reversed();
+            List<Review> userReviews = CurrentlyUser.getReviews().reversed();
             FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("review/reviewsTab.fxml"));
             TabPane reviewTab = tabLoader.load();
             ReviewTabController tabController = tabLoader.getController();
@@ -296,7 +297,7 @@ public class MainController {
             favoritesFlow.getChildren().clear();
             watchedFlow.getChildren().clear();
 
-            List<Title> favorites = user.getFavorites().reversed();
+            List<Title> favorites = CurrentlyUser.getFavorites().reversed();
             for (Title title : favorites) {
                 FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favorites/favoritesPanel.fxml"));
                 Pane favoritesPanel = fpLoader.load();
@@ -305,7 +306,7 @@ public class MainController {
                 favoritesFlow.getChildren().add(favoritesPanel);
             }
 
-            List<Title> watched = user.getWatched().reversed();
+            List<Title> watched = CurrentlyUser.getWatched().reversed();
             for (Title title : watched) {
                 FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favorites/favoritesPanel.fxml"));
                 Pane favoritesPanel = fpLoader.load();
@@ -395,7 +396,7 @@ public class MainController {
                 controller.turnVisible();
             }
 
-            if(user.getFavorites().contains(title)){
+            if(CurrentlyUser.getFavorites().contains(title)){
                 controller.setFillFavoriteStar(Icon.FILLED_STAR.getPath());
             }
 

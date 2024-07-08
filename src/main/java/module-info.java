@@ -13,6 +13,9 @@ module com.m44rk0.criticboxfx {
     exports com.m44rk0.criticboxfx;
     opens com.m44rk0.criticboxfx to javafx.controls, javafx.fxml;
 
+    exports com.m44rk0.criticboxfx.controller.login;
+    opens com.m44rk0.criticboxfx.controller.login to javafx.controls, javafx.fxml;
+
     exports com.m44rk0.criticboxfx.controller.favorites;
     opens com.m44rk0.criticboxfx.controller.favorites to javafx.controls, javafx.fxml;
 
