@@ -21,8 +21,8 @@ public class Search {
     public static ArrayList<Title> searchAll(String apiKey, String search) throws TmdbException {
         TmdbApi api = new TmdbApi(apiKey);
 
-        var searchMovie = api.getSearch().searchMovie(search, false, "pt-BR", null, 1, null, null).getResults();
-        var searchTVShow = api.getSearch().searchTv(search, null, false, "pt-BR", 1, null).getResults();
+        var searchMovie = api.getSearch().searchMovie(search, true, "pt-BR", null, 1, null, null).getResults();
+        var searchTVShow = api.getSearch().searchTv(search, null, true, "pt-BR", 1, null).getResults();
 
         List<CompletableFuture<Title>> movieFutures = searchMovie.stream()
                 .map(movie -> CompletableFuture.supplyAsync(() -> {

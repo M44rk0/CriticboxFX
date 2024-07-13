@@ -36,36 +36,56 @@ public class TitleDAO {
     }
 
     public void clearLastResults() {
-        String sql = "DELETE FROM lastresults";
+        String sql = "DELETE FROM userlastresults WHERE user_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, CurrentlyUser.getUser().getUserID());
             stmt.executeUpdate();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
     public void addTitleToLastResults(Title title) {
-        String sql = "INSERT INTO lastresults (title_id) VALUES (?)";
+        String insertLastResultsSQL = "INSERT INTO lastresults (title_id) VALUES (?)";
+        String insertUserLastResultsSQL = "INSERT INTO userlastresults (user_id, lastresult_id) VALUES (?, ?)";
 
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, title.getTitleId());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
+        try (PreparedStatement stmt1 = connection.prepareStatement(insertLastResultsSQL, Statement.RETURN_GENERATED_KEYS)) {
+            stmt1.setInt(1, title.getTitleId());
+            stmt1.executeUpdate();
+
+            try (ResultSet generatedKeys = stmt1.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    int lastResultId = generatedKeys.getInt(1);
+
+                    try (PreparedStatement stmt2 = connection.prepareStatement(insertUserLastResultsSQL)) {
+                        stmt2.setInt(1, CurrentlyUser.getUser().getUserID());
+                        stmt2.setInt(2, lastResultId);
+                        stmt2.executeUpdate();
+                    }
+                }
+            }
+        }
+        catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
-    public List<Title> getLastSearchedTitles(){
+    public List<Title> getLastSearchedTitles() {
         ArrayList<Title> lastSearchedTitles = new ArrayList<>();
 
         String sql = "SELECT t.title_id, t.name, t.overview, t.poster_path, t.release_date, t.duration, t.popularity, t.type, " +
                 "       ts.total_episodes " +
                 "FROM lastresults lr " +
+                "JOIN userlastresults ulr ON lr.id = ulr.lastresult_id " +
                 "JOIN title t ON lr.title_id = t.title_id " +
-                "LEFT JOIN tvshow ts ON t.title_id = ts.title_id";
+                "LEFT JOIN tvshow ts ON t.title_id = ts.title_id " +
+                "WHERE ulr.user_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, CurrentlyUser.getUser().getUserID());
+
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     int titleId = rs.getInt("title_id");
@@ -116,47 +136,14 @@ public class TitleDAO {
     }
 
     public void removeTitle(Title title){
-        if (title instanceof Film) {
-            removeFilm(title.getTitleId());
-        }
-        else if (title instanceof TvShow) {
-            removeTvShow(title.getTitleId());
-        }
-        removeTitleFromBaseTable(title.getTitleId());
-    }
-
-    private void removeFilm(int titleId){
-        String sql = "DELETE FROM Film WHERE title_id = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, titleId);
-
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
-        }
-    }
-
-    private void removeTvShow(int titleId){
-        String sql = "DELETE FROM TvShow WHERE title_id = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, titleId);
-
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
-        }
-    }
-
-    private void removeTitleFromBaseTable(int titleId){
         String sql = "DELETE FROM Title WHERE title_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, titleId);
+            stmt.setInt(1, title.getTitleId());
 
             stmt.executeUpdate();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
@@ -182,7 +169,8 @@ public class TitleDAO {
 
             stmt.executeUpdate();
 
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
@@ -191,8 +179,8 @@ public class TitleDAO {
     public TvShow createTvShowWithSeasonsAndEpisodes(int titleId, String name, String overview, String posterPath, String releaseDate, int duration, double popularity, int totalEpisodes){
         TvShow tvShow = new TvShow(titleId, name, duration, overview, posterPath, releaseDate, popularity, totalEpisodes);
 
-        String seasonSql = "SELECT season_id, season_number, season_poster_path " +
-                "FROM season WHERE tvshow_id = ?";
+        String seasonSql = "SELECT season_id, season_number, season_poster_path FROM season WHERE tvshow_id = ?";
+
         try (PreparedStatement seasonStmt = connection.prepareStatement(seasonSql)) {
             seasonStmt.setInt(1, titleId);
             ArrayList<Season> seasons = new ArrayList<>();
@@ -207,7 +195,8 @@ public class TitleDAO {
                 }
                 tvShow.setSeasons(seasons);
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
 
@@ -218,8 +207,8 @@ public class TitleDAO {
     private ArrayList<Episode> getEpisodesForSeason(int seasonId) {
         ArrayList<Episode> episodes = new ArrayList<>();
 
-        String episodeSql = "SELECT episode_name, episode_runtime " +
-                "FROM episode WHERE season_id = ?";
+        String episodeSql = "SELECT episode_name, episode_runtime FROM episode WHERE season_id = ?";
+
         try (PreparedStatement episodeStmt = connection.prepareStatement(episodeSql)) {
             episodeStmt.setInt(1, seasonId);
 
@@ -249,7 +238,8 @@ public class TitleDAO {
             stmt.setInt(1, film.getTitleId());
 
             stmt.executeUpdate();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
@@ -301,7 +291,8 @@ public class TitleDAO {
                     }
                 }
             }
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }

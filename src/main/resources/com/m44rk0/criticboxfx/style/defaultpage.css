@@ -1,21 +1,52 @@
+#searchBar{
+    -fx-text-fill: white;
+    -fx-padding: 0 0 0 20;
+    -fx-background-color:   linear-gradient(to left,  #18181a, #1F1E22, #1F1E22);
+    -fx-border-color : white;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+
+}
+
+#searchButton{
+    -fx-background-color: none;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+#searchButton:hover{
+    -fx-scale-y: 1.05;
+    -fx-scale-x: 1.05;
+    -fx-cursor: hand;
+    -fx-border-width: 2;
+}
+
+#searchButton:pressed{
+    -fx-blend-mode: screen;
+}
 
 .defaultButton{
     -fx-background-color: #2b2a31;
     -fx-border-width: 1;
-    -fx-background-radius: 50;
-    -fx-border-radius: 50;
+    -fx-background-radius: 25;
+    -fx-border-radius: 25;
 }
 
 .defaultButton:hover{
     -fx-scale-y: 1.05;
     -fx-scale-x: 1.05;
     -fx-cursor: hand;
-    -fx-border-width: 5;
-    -fx-effect: innershadow(one-pass-box, rgba(0, 0, 0, 0.8), 2, 6.7, 0, 0);
+    -fx-border-width: 2;
+    -fx-effect: innershadow(one-pass-box, rgba(0, 0, 0, 0.8), 1.5, 6.7, 0, 0);
 }
 
 .defaultButton:pressed{
     -fx-blend-mode: screen;
+}
+
+#leaveButton:hover{
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
 }
 
 

@@ -16,14 +16,14 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #18181a;" stylesheets="@../../style/defaultpage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #18181a;" stylesheets="@../style/defaultpage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.MainController">
    <children>
-      <Pane fx:id="wtfPane" layoutX="1040.0" layoutY="110.0" prefHeight="670.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(to top, #1f1e23, #1F1E22, #181819, #28272C); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: gray; -fx-border-width: 0.1;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="1051.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="110.0" />
-      <HBox fx:id="searchBox" alignment="CENTER_LEFT" layoutX="20.0" layoutY="24.0" prefHeight="80.0" prefWidth="1160.0" spacing="15.0" style="-fx-background-color: linear-gradient(to top, #1f1e23, #1F1E22, #181819, #28272C); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-width: 0.1; -fx-border-color: gray;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+      <Pane fx:id="wtfPane" layoutX="1040.0" layoutY="110.0" prefHeight="670.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(to top,  #18181a, #1F1E22, #1F1E22); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: gray; -fx-border-width: 0.1;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="1051.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="110.0" />
+      <HBox fx:id="searchBox" alignment="CENTER_LEFT" layoutX="20.0" layoutY="24.0" prefHeight="80.0" prefWidth="1160.0" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom,  #18181a, #1F1E22, #1F1E22); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-width: 0.1; -fx-border-color: gray;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>
             <ImageView id="logo" fx:id="critic" fitHeight="43.0" fitWidth="185.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../images/Critic.png" />
+                  <Image url="@../images/Critic.png" />
                </image>
                <HBox.margin>
                   <Insets left="10.0" />
@@ -32,8 +32,8 @@
                   <Rectangle2D />
                </viewport>
             </ImageView>
-            <TextField fx:id="searchField" alignment="CENTER" focusTraversable="false" prefHeight="40.0" prefWidth="800.0" promptText="Digite um filme ou série...." style="-fx-background-color: white;" />
-            <Button fx:id="searchButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" defaultButton="true" graphicTextGap="0.0" mnemonicParsing="false" onAction="#searchButtonAction" prefHeight="40.0" prefWidth="140.0" style="-fx-border-color: linear-gradient( to bottom, gray, gray, transparent, transparent);" styleClass="defaultButton" text="Pesquisar" textFill="WHITE">
+            <TextField id="searchBar" fx:id="searchField" alignment="CENTER" focusTraversable="false" prefHeight="40.0" prefWidth="800.0" promptText="Digite um filme ou série...." />
+            <Button id="searchButton" fx:id="searchButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" defaultButton="true" graphicTextGap="0.0" mnemonicParsing="false" onAction="#searchButtonAction" prefHeight="40.0" prefWidth="140.0" text="Pesquisar" textFill="WHITE">
                <font>
                   <Font name="Roboto Mono SemiBold" size="16.0" />
                </font>
@@ -43,7 +43,7 @@
             </Button>
          </children>
       </HBox>
-      <VBox id="buttonBox" fx:id="buttonBox" alignment="TOP_CENTER" layoutX="20.0" layoutY="110.0" prefHeight="670.0" prefWidth="196.0" spacing="15.0" style="-fx-background-color: linear-gradient(to top, #1f1e23, #1F1E22, #181819, #28272C); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: gray; -fx-border-width: 0.1; -fx-border-insets: 0;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="1011.0" AnchorPane.topAnchor="110.0">
+      <VBox id="buttonBox" fx:id="buttonBox" alignment="TOP_CENTER" layoutX="20.0" layoutY="110.0" prefHeight="670.0" prefWidth="196.0" spacing="15.0" style="-fx-background-color: linear-gradient(to top,  #18181a, #1F1E22, #1F1E22); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: gray; -fx-border-width: 0.1; -fx-border-insets: 0;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="1011.0" AnchorPane.topAnchor="110.0">
          <children>
             <Button id="homeButton" fx:id="homeButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" defaultButton="true" focusTraversable="false" graphicTextGap="0.0" mnemonicParsing="false" onAction="#restoreSearchButtonAction" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient( #4D73F1, transparent, transparent, transparent);;" styleClass="defaultButton" text="Feed" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <opaqueInsets>
@@ -87,28 +87,21 @@
                   <SVGPath content="M6.77,9.15l5.44-5.44a1,1,0,1,0-1.42-1.42L6.06,7,4.21,5.17A1,1,0,0,0,2.79,6.59L5.35,9.15a1,1,0,0,0,1.42,0ZM18.5,6H13a1,1,0,0,0,0,2h5.5a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H8.5a1,1,0,0,1-1-1V12.5a1,1,0,0,0-2,0V16a3,3,0,0,0,3,3h8.36l3,2.73a1,1,0,0,0,.68.27,1.1,1.1,0,0,0,.4-.08,1,1,0,0,0,.6-.92V9A3,3,0,0,0,18.5,6Z" fill="WHITE" scaleX="1.5" scaleY="1.5" />
                </graphic>
             </Button>
-            <Separator orientation="VERTICAL" prefHeight="330.0" prefWidth="16.0" visible="false" />
-            <HBox id="profileButton" fx:id="profileBox" alignment="CENTER" prefHeight="60.0" prefWidth="33.0" spacing="20.0" style="-fx-border-color: linear-gradient(to bottom, lightgray, transparent, transparent, transparent);" styleClass="defaultButton">
+            <Separator orientation="VERTICAL" prefHeight="368.0" prefWidth="16.0" visible="false" />
+            <HBox id="leaveButton" fx:id="profileBox" alignment="CENTER" onMouseClicked="#returnToLogin" prefHeight="40.0" prefWidth="51.0">
                <children>
-                  <Button fx:id="profileButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="20.0" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" style="-fx-background-color: #2b2a31; -fx-border-width: 2; -fx-background-radius: 50; -fx-border-radius: 50;" text="Perfil" textFill="WHITE" textOverrun="CLIP">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <font>
-                        <Font name="Roboto Mono Bold" size="15.0" />
-                     </font>
-                     <graphic>
-                        <SVGPath content="M12,2A10,10,0,0,0,4.65,18.76h0a10,10,0,0,0,14.7,0h0A10,10,0,0,0,12,2Zm0,18a8,8,0,0,1-5.55-2.25,6,6,0,0,1,11.1,0A8,8,0,0,1,12,20ZM10,10a2,2,0,1,1,2,2A2,2,0,0,1,10,10Zm8.91,6A8,8,0,0,0,15,12.62a4,4,0,1,0-6,0A8,8,0,0,0,5.09,16,7.92,7.92,0,0,1,4,12a8,8,0,0,1,16,0A7.92,7.92,0,0,1,18.91,16Z" fill="WHITE" scaleX="1.5" scaleY="1.5" strokeType="INSIDE" strokeWidth="0.0" />
-                     </graphic>
-                  </Button>
+                  <SVGPath content="M4,12a1,1,0,0,0,1,1h7.59l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H5A1,1,0,0,0,4,12ZM17,2H7A3,3,0,0,0,4,5V8A1,1,0,0,0,6,8V5A1,1,0,0,1,7,4H17a1,1,0,0,1,1,1V19a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V16a1,1,0,0,0-2,0v3a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V5A3,3,0,0,0,17,2Z" fill="WHITE" />
                </children>
+               <VBox.margin>
+                  <Insets right="130.0" />
+               </VBox.margin>
             </HBox>
          </children>
          <padding>
-            <Insets bottom="25.0" left="10.0" right="10.0" top="25.0" />
+            <Insets bottom="20.0" left="10.0" right="10.0" top="25.0" />
          </padding>
       </VBox>
-      <ScrollPane fx:id="scrollPage" blendMode="SRC_ATOP" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="230.0" layoutY="112.0" maxHeight="-Infinity" prefHeight="670.0" prefWidth="800.0" style="-fx-background-color: #18181a;" vbarPolicy="NEVER" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="110.0">
+      <ScrollPane fx:id="scrollPage" blendMode="SRC_ATOP" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="230.0" layoutY="112.0" maxHeight="-Infinity" prefHeight="670.0" prefWidth="805.0" style="-fx-background-color: #18181a;" vbarPolicy="NEVER" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="110.0">
          <effect>
             <Blend />
          </effect>

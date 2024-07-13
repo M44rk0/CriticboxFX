@@ -1,5 +1,6 @@
 package com.m44rk0.criticboxfx.controller;
 
+import com.m44rk0.criticboxfx.App;
 import com.m44rk0.criticboxfx.controller.details.TitleDetailsController;
 import com.m44rk0.criticboxfx.controller.details.TitleInfoController;
 import com.m44rk0.criticboxfx.controller.favorites.FavoritesController;
@@ -32,10 +33,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import javafx.scene.Node;
 import javafx.fxml.FXML;
+import javafx.stage.Stage;
 import java.io.File;
 
 import static com.m44rk0.criticboxfx.App.titleDAO;
-
 
 public class MainController {
 
@@ -50,6 +51,8 @@ public class MainController {
 
     @FXML
     private TextField searchField;
+
+    private Stage stage;
 
     //guarda os resultados de pesquisa
     private final List<Node> searchResultNodes = new ArrayList<>();
@@ -91,6 +94,12 @@ public class MainController {
         showFavorites();
     }
 
+    @FXML
+    private void returnToLogin(){
+        stage.close();
+        App.showLoginView(new Stage());
+    }
+
     //realiza a busca
     public void performSearch(){
         try {
@@ -127,7 +136,7 @@ public class MainController {
             }
 
             for (Title title : searchResults) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("titleInfo.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("details/titleInfo.fxml"));
                 Pane movieInfoPane = loader.load();
                 TitleInfoController controller = loader.getController();
 
@@ -165,7 +174,7 @@ public class MainController {
 
     }
         catch (IOException | SQLException e) {
-            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML");
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML dos Results");
         }
     }
 
@@ -211,7 +220,7 @@ public class MainController {
 
         }
         catch (IOException e) {
-            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML");
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML dos Results");
         }
     }
 
@@ -273,13 +282,11 @@ public class MainController {
             }
 
             scrollBox.getChildren().add(reviewTab);
-
             scrollPage.setFitToHeight(userReviews.size() <= 1);
-
 
         }
         catch (IOException e) {
-            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML");
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML do UserReview");
         }
     }
 
@@ -322,7 +329,7 @@ public class MainController {
             scrollBox.getChildren().add(fav);
         }
         catch (IOException e) {
-            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML");
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML dos Favorites");
         }
     }
 
@@ -330,8 +337,8 @@ public class MainController {
     public void showCreateReview(Title title){
         try {
             scrollPage.setVvalue(0);
-            scrollPage.setFitToHeight(true);
             scrollBox.getChildren().clear();
+            scrollPage.setFitToHeight(true);
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("review/createReview.fxml"));
             Pane reviewPane = loader.load();
@@ -360,7 +367,7 @@ public class MainController {
             }
 
         } catch (IOException e) {
-            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML");
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML do CreateReview");
         }
     }
 
@@ -403,7 +410,7 @@ public class MainController {
             scrollBox.getChildren().add(movieDetailsPane);
         }
         catch (IOException e){
-            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML");
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML dos Details");
         }
     }
 
@@ -445,6 +452,10 @@ public class MainController {
 
     public void setReviewToEdit(Review reviewToEdit) {
         this.reviewToEdit = reviewToEdit;
+    }
+
+    public void setStage(Stage stage){
+        this.stage = stage;
     }
 
     private String formatDate(String data){
