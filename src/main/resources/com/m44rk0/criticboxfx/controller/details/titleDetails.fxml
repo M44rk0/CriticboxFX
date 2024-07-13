@@ -3,7 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
@@ -142,7 +141,7 @@
                      <Insets bottom="5.0" top="5.0" />
                   </padding>
                   <children>
-                     <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Duração" textAlignment="CENTER" wrappingWidth="570.0">
+                     <Text fx:id="durationLabelText" fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Duração" textAlignment="CENTER" wrappingWidth="570.0">
                         <font>
                            <Font name="JetBrains Mono Bold" size="15.0" />
                         </font>
@@ -161,10 +160,29 @@
                      </Text>
                   </children>
                </TextFlow>
-               <TextFlow prefHeight="30.0" prefWidth="100.0" style="-fx-border-width: 1;" textAlignment="CENTER">
+               <TextFlow fx:id="episodesLabel" layoutX="216.0" layoutY="11.0" textAlignment="CENTER">
                   <padding>
                      <Insets bottom="5.0" top="5.0" />
                   </padding>
+                  <children>
+                     <Text fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="Episodios" textAlignment="CENTER" wrappingWidth="570.0">
+                        <font>
+                           <Font name="JetBrains Mono Bold" size="15.0" />
+                        </font>
+                     </Text>
+                  </children>
+               </TextFlow>
+               <TextFlow fx:id="episodesField" blendMode="ADD" layoutX="284.0" layoutY="11.0" style="-fx-border-width: 3; -fx-background-color: #1f1e23;">
+                  <padding>
+                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  </padding>
+                  <children>
+                     <Text fx:id="episodesText" blendMode="SCREEN" fill="WHITE" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="70">
+                        <font>
+                           <Font name="JetBrains Mono Bold" size="15.0" />
+                        </font>
+                     </Text>
+                  </children>
                </TextFlow>
             </children>
             <padding>
@@ -173,30 +191,7 @@
          </HBox>
          <VBox prefHeight="0.0" prefWidth="780.0" style="-fx-border-color: white; -fx-border-radius: 0 0 10 10;">
             <children>
-               <HBox alignment="CENTER" prefHeight="44.0" prefWidth="527.0" spacing="5.0">
-                  <children>
-                     <ComboBox id="seasonBox" fx:id="seasonBox" blendMode="SCREEN" prefHeight="27.0" prefWidth="144.0" promptText="Temporada" style="-fx-background-color: #1f1e23;">
-                        <padding>
-                           <Insets left="5.0" right="5.0" />
-                        </padding>
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </ComboBox>
-                     <ComboBox id="episodeBox" fx:id="episodeBox" blendMode="SCREEN" prefHeight="27.0" prefWidth="640.0" promptText="Episódio" style="-fx-background-color: #1f1e23;">
-                        <padding>
-                           <Insets left="5.0" right="5.0" />
-                        </padding>
-                        <cursor>
-                           <Cursor fx:constant="HAND" />
-                        </cursor>
-                     </ComboBox>
-                  </children>
-                  <padding>
-                     <Insets bottom="5.0" />
-                  </padding>
-               </HBox>
-               <FlowPane fx:id="genresFlow" alignment="CENTER_LEFT" hgap="5.0" prefWrapLength="300.0" style="-fx-border-color: white transparent white transparent;" vgap="5.0">
+               <FlowPane fx:id="genresFlow" alignment="CENTER_LEFT" hgap="5.0" prefWrapLength="300.0" style="-fx-border-color: transparent transparent white transparent;" vgap="5.0">
                   <children>
                      <TextFlow textAlignment="CENTER">
                         <children>
@@ -239,7 +234,7 @@
                      <Insets />
                   </VBox.margin>
                   <padding>
-                     <Insets bottom="5.0" top="5.0" />
+                     <Insets bottom="5.0" />
                   </padding>
                </FlowPane>
                <TextFlow prefWidth="780.0" style="-fx-border-width: 1;" textAlignment="CENTER">

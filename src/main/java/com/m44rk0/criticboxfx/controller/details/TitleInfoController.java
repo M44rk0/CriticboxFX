@@ -1,17 +1,29 @@
 package com.m44rk0.criticboxfx.controller.details;
 
 import com.m44rk0.criticboxfx.controller.MainController;
+import com.m44rk0.criticboxfx.controller.mainview.ViewTabController;
 import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.model.title.Title;
+import com.m44rk0.criticboxfx.model.title.TvShow;
+import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import com.m44rk0.criticboxfx.utils.Icon;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.TextFlow;
 import javafx.scene.image.Image;
 import javafx.scene.text.Text;
 import javafx.fxml.FXML;
 
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
+
+import static com.m44rk0.criticboxfx.App.titleDAO;
 import static com.m44rk0.criticboxfx.App.userDAO;
 
 public class TitleInfoController implements CommonController {
@@ -69,7 +81,7 @@ public class TitleInfoController implements CommonController {
     @FXML
     public void showReview(){
         mainController.showCreateReview(title);
-        mainController.setEditReviewIsCalledFrom(1);
+        mainController.setIfTheReviewIsEditable(false);
     }
 
     @FXML
@@ -77,6 +89,108 @@ public class TitleInfoController implements CommonController {
         watchedIcon.setContent(
                 watchedIcon.getContent().equals(Icon.NOT_WATCHED.getPath()) ? Icon.WATCHED.getPath() : Icon.NOT_WATCHED.getPath()
         );
+    }
+
+    //exibe os resultados da busca na tela
+    public void showSearchResults(List<Title> searchResults) {
+        try {
+            mainController.resetScrollBox();
+            mainController.getSearchResultNodes().clear();
+
+            FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("resultsTab.fxml"));
+            TabPane resultsTab = tabLoader.load();
+            ViewTabController tabController = tabLoader.getController();
+            tabController.setResultTabText("Resultados para: " + "\"" + mainController.getSearchField().getText() + "\"");
+            FlowPane resultsPane = tabController.getResultsFlow();
+
+            if (!mainController.getLastSearchedTitles().isEmpty()) {
+                titleDAO.clearLastResults();
+            }
+
+            for (Title title : searchResults) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("titleInfo.fxml"));
+                Pane movieInfoPane = loader.load();
+                TitleInfoController controller = loader.getController();
+
+                mainController.setCommonFields(controller, title);
+
+                if (title instanceof TvShow) {
+                    controller.setSeasonField(((TvShow) title).getSeasons().size() + " Temporada(s)");
+                    controller.setEpisodesField(((TvShow) title).getTotalEpisodes() + " Episódio(s)");
+                    controller.turnVisible();
+                }
+
+                if (CurrentlyUser.getWatched().contains(title)) {
+                    controller.setWatchedIcon(Icon.WATCHED.getPath());
+                }
+
+                resultsPane.getChildren().add(movieInfoPane);
+
+                mainController.getSearchResultNodes().add(movieInfoPane);
+
+                if (!titleDAO.getAllTitleIds().contains(title.getTitleId())) {
+                    titleDAO.addTitle(title);
+                }
+
+                titleDAO.addTitleToLastResults(title);
+            }
+
+            mainController.getScrollBox().getChildren().add(resultsTab);
+
+            mainController.getScrollPage().setFitToHeight(searchResults.size() == 1);
+
+            if (searchResults.isEmpty()) {
+                tabController.setResultTabText("Nenhum resultado existente para: " + "\"" + mainController.getSearchField().getText() + "\"");
+                mainController.getScrollPage().setFitToHeight(true);
+            }
+
+        } catch (IOException | SQLException e) {
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML dos Results");
+        }
+    }
+
+    //restaura os resultados de busca salvos
+    public void restoreSearchResults() {
+        try {
+            mainController.resetScrollBox();
+            FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("resultsTab.fxml"));
+            TabPane resultsTab = tabLoader.load();
+            ViewTabController tabController = tabLoader.getController();
+            FlowPane resultsPane = tabController.getResultsFlow();
+
+            if (mainController.getSearchResultNodes().isEmpty()) {
+                for (Title title : mainController.getLastSearchedTitles()) {
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("titleInfo.fxml"));
+                    Pane movieInfoPane = loader.load();
+                    TitleInfoController controller = loader.getController();
+
+                    mainController.setCommonFields(controller, title);
+
+                    if (title instanceof TvShow) {
+                        controller.setSeasonField(((TvShow) title).getSeasons().size() + " Temporada(s)");
+                        controller.setEpisodesField(((TvShow) title).getTotalEpisodes() + " Episódio(s)");
+                        controller.turnVisible();
+                    }
+
+                    if (CurrentlyUser.getWatched().contains(title)) {
+                        controller.setWatchedIcon(Icon.WATCHED.getPath());
+                    }
+
+                    resultsPane.getChildren().add(movieInfoPane);
+                    mainController.getSearchResultNodes().add(movieInfoPane);
+                }
+                mainController.getScrollBox().getChildren().add(resultsTab);
+            } else {
+                resultsPane.getChildren().addAll(mainController.getSearchResultNodes());
+                mainController.getScrollBox().getChildren().add(resultsTab);
+            }
+
+            mainController.getScrollPage().setFitToHeight(mainController.getSearchResultNodes().size() == 1 || mainController.getSearchResultNodes().isEmpty());
+
+        } catch (IOException e) {
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML dos Results");
+        }
     }
     
     public void setMainController(MainController mainController) {

@@ -1,17 +1,25 @@
 package com.m44rk0.criticboxfx.controller.review;
 import com.m44rk0.criticboxfx.controller.MainController;
 import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
+import com.m44rk0.criticboxfx.model.review.EpisodeReview;
 import com.m44rk0.criticboxfx.model.review.Review;
+import com.m44rk0.criticboxfx.model.title.Season;
 import com.m44rk0.criticboxfx.model.title.Title;
+import com.m44rk0.criticboxfx.model.title.TvShow;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -19,6 +27,8 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.m44rk0.criticboxfx.App.userDAO;
+import static com.m44rk0.criticboxfx.controller.MainController.seasonPosterCache;
+import static com.m44rk0.criticboxfx.controller.MainController.titlePosterCache;
 
 public class ReviewController implements CommonController {
 
@@ -79,9 +89,71 @@ public class ReviewController implements CommonController {
 
     @FXML
     private void EditReview(){
-        mainController.setEditReviewIsCalledFrom(2);
+        mainController.setIfTheReviewIsEditable(true);
         mainController.setReviewToEdit(review);
         mainController.showCreateReview(review.getTitle());
+    }
+
+    public void showUserReviews() {
+        try {
+            mainController.resetScrollBox();
+            mainController.getScrollPage().setVvalue(0);
+
+            List<Review> userReviews = CurrentlyUser.getReviews().reversed();
+            FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("reviewsTab.fxml"));
+            TabPane reviewTab = tabLoader.load();
+            ReviewTabController tabController = tabLoader.getController();
+
+            FlowPane reviewFlow = tabController.getReviewsFlow();
+
+            for (Review review : userReviews) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("userReview.fxml"));
+                Pane reviewPane = loader.load();
+                ReviewController controller = loader.getController();
+
+                controller.setReview(review);
+                controller.setMainController(mainController);
+                controller.setTitleField(review.getTitle().getName());
+                controller.setPosterImage(titlePosterCache.get(review.getTitle()));
+                controller.setReviewField("\"" + review.getReviewText() + "\"");
+                controller.setWatchedField(review.getReviewDate());
+                controller.setSelectedRating(review.getReviewNote());
+
+                if (review instanceof EpisodeReview episodeReview) {
+                    int seasonNumber = episodeReview.getSeasonNumber();
+                    String episodeName = episodeReview.getEpisodeName();
+                    TvShow tvShow = (TvShow) review.getTitle();
+                    Season season = tvShow.getSeasons().stream()
+                            .filter(s -> s.getSeasonNumber() == seasonNumber)
+                            .findFirst()
+                            .orElse(null);
+
+                    if (season != null && tvShow.getSeasons().size() > 1) {
+                        if (!seasonPosterCache.containsKey(episodeReview.getSeason())) {
+                            Image posterImage = new Image("https://image.tmdb.org/t/p/w500/" +
+                                    season.getSeasonPosterPath(), 250, 350, false, false);
+                            controller.setPosterImage(posterImage);
+                            seasonPosterCache.put(episodeReview.getSeason(), posterImage);
+                        } else {
+                            controller.setPosterImage(seasonPosterCache.get(episodeReview.getSeason()));
+                        }
+                    } else {
+                        controller.setPosterImage(titlePosterCache.get(tvShow));
+                    }
+
+                    controller.setInfoTVField(seasonNumber + "ª Temporada - " + episodeName);
+                    controller.turnVisible();
+                }
+
+                reviewFlow.getChildren().add(reviewPane);
+            }
+
+            mainController.getScrollBox().getChildren().add(reviewTab);
+            mainController.getScrollPage().setFitToHeight(userReviews.size() <= 1);
+
+        } catch (IOException e) {
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML do UserReview");
+        }
     }
 
     @Override

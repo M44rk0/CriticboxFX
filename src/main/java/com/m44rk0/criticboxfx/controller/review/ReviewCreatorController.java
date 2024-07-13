@@ -9,13 +9,18 @@ import com.m44rk0.criticboxfx.model.title.*;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static com.m44rk0.criticboxfx.App.*;
@@ -58,27 +63,27 @@ public class ReviewCreatorController implements CommonController {
     private int currentRating = 0;
     private Title title;
     private List<SVGPath> stars;
-    private MainController viewController;
+    private MainController mainController;
 
     @FXML
     void ReturnButtonClick(){
-        if (viewController != null) {
-            viewController.restoreSearchResults();
+        if (mainController != null) {
+            mainController.restoreSearchResults();
         }
     }
 
     @FXML
     public void saveReview() {
 
-        if(viewController.getEditReviewIsCalledFrom() == 2){
+        if(mainController.theReviewIsEditable()){
             int choice = AlertMessage.showChoiceAlert("Edição de Review", "Deseja editar a review?");
-            Review reviewToEdit = viewController.getReviewToEdit();
+            Review reviewToEdit = mainController.getReviewToEdit();
             if(choice == 0){
                 reviewToEdit.editReview(reviewArea.getText(), getCurrentRating());
-                viewController.setEditReviewIsCalledFrom(0);
+                mainController.setIfTheReviewIsEditable(false);
                 reviewDAO.editReview(reviewToEdit);
             }
-            viewController.showUserReviews();
+            mainController.showUserReviews();
         }
         else {
             if (getCurrentRating() == 0 && reviewArea.getText().isBlank()) {
@@ -105,7 +110,7 @@ public class ReviewCreatorController implements CommonController {
                     userDAO.addReview(CurrentlyUser.getUser(), review);
                     CurrentlyUser.addReview(review);
                 }
-                viewController.restoreSearchResults();
+                mainController.restoreSearchResults();
             } else {
                 AlertMessage.showCommonAlert("Review já existe", "Essa Review já existe animal");
             }
@@ -144,6 +149,42 @@ public class ReviewCreatorController implements CommonController {
         return false;
     }
 
+    public void showCreateReview(Title title) {
+        try {
+            mainController.getScrollPage().setVvalue(0);
+            mainController.getScrollBox().getChildren().clear();
+            mainController.getScrollPage().setFitToHeight(true);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("createReview.fxml"));
+            Pane reviewPane = loader.load();
+            ReviewCreatorController controller = loader.getController();
+
+            mainController.setCommonFields(controller, title);
+            controller.setTitleField(title.getName() + " (" + dateToYear(title.getReleaseDate()) + ")");
+
+            //verifica se a review que está sendo exibida é uma review nova ou uma edição
+            if (mainController.theReviewIsEditable()) {
+                controller.setCurrentRating(mainController.getReviewToEdit().getReviewNote());
+                controller.setText(mainController.getReviewToEdit().getReviewText());
+                controller.setSelectedRating(mainController.getReviewToEdit().getReviewNote());
+                mainController.getScrollBox().getChildren().add(reviewPane);
+            } else {
+                if (title instanceof TvShow tvShow) {
+                    controller.setSeasonBox(tvShow.getAllSeasons());
+                    if (!tvShow.getSeasons().isEmpty()) {
+                        controller.setEpisodeBox(tvShow.getSeasons().getFirst().getEpisodeList());
+                    }
+                    controller.turnVisible();
+                }
+
+                mainController.getScrollBox().getChildren().add(reviewPane);
+            }
+
+        } catch (IOException e) {
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML do CreateReview");
+        }
+    }
+
     public void turnVisible(){
         seasonBox.setVisible(true);
         episodeBox.setVisible(true);
@@ -167,22 +208,12 @@ public class ReviewCreatorController implements CommonController {
     public void setReleaseField(String releaseField){
     }
 
-    public ComboBox<Integer> getSeasonBox() {
-        return seasonBox;
-    }
-
-
-    public ComboBox<String> getEpisodeBox() {
-        return episodeBox;
-    }
-
-
     public void setCurrentRating(int currentRating) {
         this.currentRating = currentRating;
     }
 
-    public void setMainController(MainController viewController) {
-        this.viewController = viewController;
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
     }
 
     public void setTitle(Title title) {
@@ -215,6 +246,13 @@ public class ReviewCreatorController implements CommonController {
                 }
             }
         }
+    }
+
+    public String dateToYear(String data) {
+        DateTimeFormatter input = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter output = DateTimeFormatter.ofPattern("yyyy");
+        LocalDate date = LocalDate.parse(data, input);
+        return date.format(output);
     }
 
     public void setSelectedRating(int rating) {

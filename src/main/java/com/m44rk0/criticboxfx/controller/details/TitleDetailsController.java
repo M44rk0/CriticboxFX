@@ -2,15 +2,18 @@ package com.m44rk0.criticboxfx.controller.details;
 
 import com.m44rk0.criticboxfx.controller.MainController;
 import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
-import com.m44rk0.criticboxfx.model.title.Season;
 import com.m44rk0.criticboxfx.model.title.Title;
+import com.m44rk0.criticboxfx.model.title.TitleDetails;
 import com.m44rk0.criticboxfx.model.title.TvShow;
+import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import com.m44rk0.criticboxfx.utils.Icon;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ComboBox;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.scene.text.TextFlow;
@@ -18,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.geometry.Insets;
 import javafx.scene.text.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
 
@@ -45,6 +49,18 @@ public class TitleDetailsController implements CommonController {
 
     @FXML
     private TextFlow durationLabel;
+
+    @FXML
+    private Text durationLabelText;
+
+    @FXML
+    private TextFlow episodesField;
+
+    @FXML
+    private Text episodesText;
+
+    @FXML
+    private TextFlow episodesLabel;
 
     @FXML
     private Text memberText;
@@ -105,7 +121,7 @@ public class TitleDetailsController implements CommonController {
     @FXML
     void makeReview(){
             mainController.showCreateReview(title);
-            mainController.setEditReviewIsCalledFrom(1);
+            mainController.setIfTheReviewIsEditable(false);
     }
 
     @FXML
@@ -118,6 +134,44 @@ public class TitleDetailsController implements CommonController {
             CurrentlyUser.addFavorite(title);
         }
         setFavoriteIcon();
+    }
+
+    public void showTitleDetails(Title title) {
+        try {
+            mainController.resetScrollBox();
+            mainController.getScrollPage().setVvalue(0);
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("titleDetails.fxml"));
+            Pane movieDetailsPane = loader.load();
+            TitleDetailsController controller = loader.getController();
+
+            mainController.setCommonFields(controller, title);
+            TitleDetails details = new TitleDetails(title);
+
+            controller.setDurationField(title.getDuration());
+            controller.setGenreFlow(details.getGenres());
+            controller.setDirectorFlow(details.getDirectors());
+            controller.setCastFlow(details.getCast());
+            controller.setWriterFlow(details.getWriters());
+            controller.setProducerFlow(details.getProducers());
+            controller.setArtDirectFlow(details.getArtDirection());
+            controller.setSoundFlow(details.getSoundTeam());
+            controller.setCameraFlow(details.getPhotographyTeam());
+            controller.setVfxFlow(details.getVisualEffectsTeam());
+
+            if (title instanceof TvShow) {
+                controller.changeDurationToSeasons((TvShow) title);
+                controller.turnEpisodesVisible((TvShow) title);
+            }
+
+            if (CurrentlyUser.getFavorites().contains(title)) {
+                controller.setFillFavoriteStar(Icon.FILLED_STAR.getPath());
+            }
+
+            mainController.getScrollBox().getChildren().add(movieDetailsPane);
+        } catch (IOException e) {
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML dos Details");
+        }
     }
 
     private void setFavoriteIcon() {
@@ -204,9 +258,9 @@ public class TitleDetailsController implements CommonController {
         target.getStyleClass().addAll(source.getStyleClass());
     }
 
-    public void hideDuration(){
-        durationField.setVisible(false);
-        durationLabel.setVisible(false);
+    public void changeDurationToSeasons(TvShow tvshow){
+        durationLabelText.setText("Temporadas");
+        durationText.setText(String.valueOf(tvshow.getSeasons().size()));
     }
 
     private void setFlow(ArrayList<String> members, FlowPane flowPane) {
@@ -227,43 +281,17 @@ public class TitleDetailsController implements CommonController {
         }
     }
 
-    public void setEpisodeBox(ArrayList<String> episodes) {
-        this.episodeBox.getItems().clear();
-        this.episodeBox.getItems().addAll(episodes);
+    public void turnEpisodesVisible(TvShow tvshow){
+        episodesText.setText(String.valueOf(tvshow.getTotalEpisodes()));
+        episodesLabel.setVisible(true);
+        episodesField.setVisible(true);
     }
 
-    public void setSeasonBox(ArrayList<Integer> seasons) {
-        this.seasonBox.getItems().addAll(seasons);
-    }
-
-    public void turnVisible(){
-        seasonBox.setVisible(true);
-        episodeBox.setVisible(true);
-    }
-
-    private void updateEpisodeBox(int seasonNumber) {
-        if (title instanceof TvShow tvShow) {
-            for (Season season : tvShow.getSeasons()) {
-                if (season.getSeasonNumber() == seasonNumber) {
-                    setEpisodeBox(season.getEpisodeList());
-                    break;
-                }
-            }
-        }
-    }
 
     @FXML
     public void initialize(){
-
-        seasonBox.setVisible(false);
-        episodeBox.setVisible(false);
-
-        seasonBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                updateEpisodeBox(newValue);
-            }
-        });
-
+        episodesLabel.setVisible(false);
+        episodesField.setVisible(false);
     }
 
 }
