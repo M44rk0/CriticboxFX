@@ -55,36 +55,6 @@ public class FavoritesController implements CommonController {
 
     private MainController mainController;
 
-    @Override
-    public void setTitle(Title title) {
-
-    }
-
-    @Override
-    public void setTitleField(String title) {
-
-    }
-
-    @Override
-    public void setOverviewField(String overview) {
-
-    }
-
-    @Override
-    public void setPosterImage(Image posterImage) {
-
-    }
-
-    @Override
-    public void setReleaseField(String releaseDate) {
-
-    }
-
-    @Override
-    public void setMainController(MainController controller) {
-        this.mainController = controller;
-    }
-
     public void showFavorites() {
         try {
             mainController.getScrollPage().setVvalue(0);
@@ -117,6 +87,36 @@ public class FavoritesController implements CommonController {
         catch (IOException e) {
             AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML dos Favorites");
         }
+    }
+
+    @Override
+    public void setTitle(Title title) {
+
+    }
+
+    @Override
+    public void setTitleField(String title) {
+
+    }
+
+    @Override
+    public void setOverviewField(String overview) {
+
+    }
+
+    @Override
+    public void setPosterImage(Image posterImage) {
+
+    }
+
+    @Override
+    public void setReleaseField(String releaseDate) {
+
+    }
+
+    @Override
+    public void setMainController(MainController controller) {
+        this.mainController = controller;
     }
 
 }

@@ -25,12 +25,11 @@ public class UserDAO {
         this.connection = DatabaseConnection.getConnection();
     }
 
-    public boolean userExists(String username, String password) {
-        String sql = "SELECT COUNT(*) FROM user WHERE username = ? AND password = ?";
+    public boolean userExists(String username) {
+        String sql = "SELECT COUNT(*) FROM user WHERE username = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, username);
-            stmt.setString(2, password);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -68,9 +67,7 @@ public class UserDAO {
 
         return null;
     }
-
-
-
+    
     public void addUser(User user) {
 
         String sql = "INSERT INTO User (name, username, password) VALUES (?, ?, ?)";

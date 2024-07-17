@@ -71,29 +71,6 @@ public class ReviewController implements CommonController {
     private MainController mainController;
     private Review review;
 
-    @Override
-    public void setPosterImage(Image posterImage) {
-        this.posterImage.setImage(posterImage);
-
-    }
-
-    @FXML
-    private void RemoveReview(){
-        int areYouSure = AlertMessage.showChoiceAlert("Remoção da Review", "Você tem certeza que deseja remover essa review?");
-        if(areYouSure == 0){
-            userDAO.removeReview(CurrentlyUser.getUser(), review);
-            CurrentlyUser.removeReview(review);
-            mainController.showUserReviews();
-        }
-    }
-
-    @FXML
-    private void EditReview(){
-        mainController.setIfTheReviewIsEditable(true);
-        mainController.setReviewToEdit(review);
-        mainController.showCreateReview(review.getTitle());
-    }
-
     public void showUserReviews() {
         try {
             mainController.resetScrollBox();
@@ -157,8 +134,30 @@ public class ReviewController implements CommonController {
     }
 
     @Override
-    public void setTitle(Title title) {
+    public void setPosterImage(Image posterImage) {
+        this.posterImage.setImage(posterImage);
 
+    }
+
+    @FXML
+    private void RemoveReview(){
+        int areYouSure = AlertMessage.showChoiceAlert("Remoção da Review", "Você tem certeza que deseja remover essa review?");
+        if(areYouSure == 0){
+            userDAO.removeReview(CurrentlyUser.getUser(), review);
+            CurrentlyUser.removeReview(review);
+            mainController.showUserReviews();
+        }
+    }
+
+    @FXML
+    private void EditReview(){
+        mainController.setIfTheReviewIsEditable(true);
+        mainController.setReviewToEdit(review);
+        mainController.showCreateReview(review.getTitle());
+    }
+
+    @Override
+    public void setTitle(Title title) {
     }
 
     @Override

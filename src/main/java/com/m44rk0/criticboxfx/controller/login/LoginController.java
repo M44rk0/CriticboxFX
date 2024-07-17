@@ -54,14 +54,22 @@ public class LoginController {
             stage.close();
             App.showMainView();
         } else {
-            AlertMessage.showCommonAlert("Login Error", "Usuário ou Senha Inválidos.");
+            AlertMessage.showCommonAlert("Erro de Login", "Usuário ou Senha Inválidos.");
         }
     }
 
     @FXML
     public void register(){
         if(!Objects.equals(getPasswordRegisterText(), getPasswordConfirmRegisterText())){
-            AlertMessage.showCommonAlert("Login error", "Senhas não são enguais");
+            AlertMessage.showCommonAlert("Erro de Cadastro", "Senhas não coincidem.");
+        }
+
+        else if(userDAO.userExists(getUserRegisterText())){
+            AlertMessage.showCommonAlert("Erro de Cadastro", "Usúario já está cadastrado.");
+        }
+
+        else if (getPasswordRegisterText().isEmpty() || getPasswordRegisterText().isEmpty() || getNameRegisterText().isEmpty() || getUserRegisterText().isEmpty()) {
+            AlertMessage.showCommonAlert("Erro de Cadastro", "Preencha todos os campos!");
         }
         else {
             userRegister.clear();
@@ -70,7 +78,7 @@ public class LoginController {
             passwordConfirmRegister.clear();
             User user = new User(getNameRegisterText(), getUserRegisterText(), getPasswordRegisterText());
             userDAO.addUser(user);
-            AlertMessage.showCommonAlert("Confirmação de Cadastro", "Usuário cadastrado com sucesso, faça seu login");
+            AlertMessage.showCommonAlert("Confirmação de Cadastro", "Usuário cadastrado com sucesso, faça seu login!");
         }
     }
 

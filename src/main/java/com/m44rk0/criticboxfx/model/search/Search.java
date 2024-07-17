@@ -17,7 +17,6 @@ public class Search {
 
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    //Busca Assíncrona pra econimizar alguns segundos (8s pra 3s "Velozes e Furiosos")
     public static ArrayList<Title> searchAll(String apiKey, String search) throws TmdbException {
         TmdbApi api = new TmdbApi(apiKey);
 

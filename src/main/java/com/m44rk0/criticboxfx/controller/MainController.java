@@ -194,6 +194,7 @@ public class MainController {
         }
     }
 
+    //exibe a tela de criar reviews
     public void showCreateReview(Title title) {
         try {
             if (reviewCreatorController == null) {
@@ -203,12 +204,13 @@ public class MainController {
                 reviewCreatorController.setMainController(this);
             }
             reviewCreatorController.showCreateReview(title);
-        }
-        catch (IOException e) {
+
+        } catch (IOException e) {
             AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML dos Favorites");
         }
     }
 
+    //exibe a tela de detalhes de um titulo
     public void showTitleDetails(Title title) {
         try {
             if(titleDetailsController == null) {
@@ -218,8 +220,8 @@ public class MainController {
                 titleDetailsController.setMainController(this);
             }
             titleDetailsController.showTitleDetails(title);
-        }
-        catch (IOException e) {
+
+        } catch (IOException e) {
             AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML dos Details");
         }
     }

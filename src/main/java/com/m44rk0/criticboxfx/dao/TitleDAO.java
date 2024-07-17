@@ -135,19 +135,6 @@ public class TitleDAO {
         }
     }
 
-    public void removeTitle(Title title){
-        String sql = "DELETE FROM Title WHERE title_id = ?";
-
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, title.getTitleId());
-
-            stmt.executeUpdate();
-        }
-        catch (SQLException e) {
-            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
-        }
-    }
-
     private void addTitleToBaseTable(Title title){
         String sql = "INSERT INTO Title (title_id, name, overview, poster_path, release_date, duration, popularity, type) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";

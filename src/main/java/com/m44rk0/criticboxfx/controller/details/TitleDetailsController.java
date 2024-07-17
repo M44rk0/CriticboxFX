@@ -106,36 +106,6 @@ public class TitleDetailsController implements CommonController {
 
     private Title title;
 
-    @FXML
-    void handleReturnButtonClick() {
-        if (mainController != null) {
-            if(mainController.getDetailsIsCalledFrom() == 1) {
-                mainController.restoreSearchResults();
-            }
-            else if (mainController.getDetailsIsCalledFrom() == 2){
-                mainController.showFavorites();
-                }
-        }
-    }
-
-    @FXML
-    void makeReview(){
-            mainController.showCreateReview(title);
-            mainController.setIfTheReviewIsEditable(false);
-    }
-
-    @FXML
-    public void addFavorite(){
-        if (CurrentlyUser.getFavorites().contains(title)) {
-            userDAO.removeFavorite(CurrentlyUser.getUser(), title);
-            CurrentlyUser.removeFavorite(title);
-        } else {
-            userDAO.addFavorite(CurrentlyUser.getUser(), title);
-            CurrentlyUser.addFavorite(title);
-        }
-        setFavoriteIcon();
-    }
-
     public void showTitleDetails(Title title) {
         try {
             mainController.resetScrollBox();
@@ -174,13 +144,34 @@ public class TitleDetailsController implements CommonController {
         }
     }
 
-    private void setFavoriteIcon() {
+    @FXML
+    void handleReturnButtonClick() {
+        if (mainController != null) {
+            if(mainController.getDetailsIsCalledFrom() == 1) {
+                mainController.restoreSearchResults();
+            }
+            else if (mainController.getDetailsIsCalledFrom() == 2){
+                mainController.showFavorites();
+                }
+        }
+    }
 
-        favoriteStar.setContent(
-                favoriteStar.getContent().equals(Icon.UNFILLED_STAR.getPath()) ? Icon.FILLED_STAR.getPath() : Icon.UNFILLED_STAR.getPath()
-        );
+    @FXML
+    void makeReview(){
+            mainController.showCreateReview(title);
+            mainController.setIfTheReviewIsEditable(false);
+    }
 
-        favoriteStar.setFill(Color.WHITE);
+    @FXML
+    public void addFavorite(){
+        if (CurrentlyUser.getFavorites().contains(title)) {
+            userDAO.removeFavorite(CurrentlyUser.getUser(), title);
+            CurrentlyUser.removeFavorite(title);
+        } else {
+            userDAO.addFavorite(CurrentlyUser.getUser(), title);
+            CurrentlyUser.addFavorite(title);
+        }
+        setFavoriteIcon();
     }
 
     public void setMainController(MainController mainController) {
@@ -251,6 +242,15 @@ public class TitleDetailsController implements CommonController {
         favoriteStar.setContent(fillFavoriteStar);
     }
 
+    private void setFavoriteIcon() {
+
+        favoriteStar.setContent(
+                favoriteStar.getContent().equals(Icon.UNFILLED_STAR.getPath()) ? Icon.FILLED_STAR.getPath() : Icon.UNFILLED_STAR.getPath()
+        );
+
+        favoriteStar.setFill(Color.WHITE);
+    }
+
     private void copyTextStyles(Text source, Text target) {
         target.setFont(source.getFont());
         target.setFill(source.getFill());
@@ -286,7 +286,6 @@ public class TitleDetailsController implements CommonController {
         episodesLabel.setVisible(true);
         episodesField.setVisible(true);
     }
-
 
     @FXML
     public void initialize(){

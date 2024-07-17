@@ -58,39 +58,6 @@ public class TitleInfoController implements CommonController {
     private Title title;
     private MainController mainController;
 
-    @FXML
-    public void addToWatched(){
-        if (CurrentlyUser.getWatched().contains(title)) {
-            CurrentlyUser.removeWatched(title);
-            userDAO.removeWatched(CurrentlyUser.getUser(), title);
-        } else {
-            CurrentlyUser.addWatched(title);
-            userDAO.addWatched(CurrentlyUser.getUser(), title);
-        }
-
-        setWatchedIcon();
-
-    }
-
-    @FXML
-    public void showDetails(){
-        mainController.showTitleDetails(title);
-        mainController.setDetailsIsCalledFrom(1);
-    }
-
-    @FXML
-    public void showReview(){
-        mainController.showCreateReview(title);
-        mainController.setIfTheReviewIsEditable(false);
-    }
-
-    @FXML
-    private void setWatchedIcon() {
-        watchedIcon.setContent(
-                watchedIcon.getContent().equals(Icon.NOT_WATCHED.getPath()) ? Icon.WATCHED.getPath() : Icon.NOT_WATCHED.getPath()
-        );
-    }
-
     //exibe os resultados da busca na tela
     public void showSearchResults(List<Title> searchResults) {
         try {
@@ -192,7 +159,40 @@ public class TitleInfoController implements CommonController {
             AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML dos Results");
         }
     }
-    
+
+    @FXML
+    public void addToWatched(){
+        if (CurrentlyUser.getWatched().contains(title)) {
+            CurrentlyUser.removeWatched(title);
+            userDAO.removeWatched(CurrentlyUser.getUser(), title);
+        } else {
+            CurrentlyUser.addWatched(title);
+            userDAO.addWatched(CurrentlyUser.getUser(), title);
+        }
+
+        setWatchedIcon();
+
+    }
+
+    @FXML
+    public void showDetails(){
+        mainController.showTitleDetails(title);
+        mainController.setDetailsIsCalledFrom(1);
+    }
+
+    @FXML
+    public void showReview(){
+        mainController.showCreateReview(title);
+        mainController.setIfTheReviewIsEditable(false);
+    }
+
+    @FXML
+    private void setWatchedIcon() {
+        watchedIcon.setContent(
+                watchedIcon.getContent().equals(Icon.NOT_WATCHED.getPath()) ? Icon.WATCHED.getPath() : Icon.NOT_WATCHED.getPath()
+        );
+    }
+
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
