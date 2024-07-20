@@ -2,26 +2,35 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.effect.Blend?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #18181a;" stylesheets="@../style/defaultpage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.MainController">
    <children>
-      <Pane fx:id="wtfPane" layoutX="1040.0" layoutY="110.0" prefHeight="670.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(to top,  #18181a, #1F1E22, #1F1E22); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: gray; -fx-border-width: 0.1;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="1051.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="110.0" />
-      <HBox fx:id="searchBox" alignment="CENTER_LEFT" layoutX="20.0" layoutY="24.0" prefHeight="80.0" prefWidth="1160.0" spacing="15.0" style="-fx-background-color: linear-gradient(to bottom,  #18181a, #1F1E22, #1F1E22); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-width: 0.1; -fx-border-color: gray;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+      <Pane fx:id="wtfPane" blendMode="SRC_ATOP" layoutX="1040.0" layoutY="110.0" prefHeight="670.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(to top,  #18181a, #1F1E22, #1F1E22); -fx-background-radius: 0 0 10 0; -fx-border-radius: 10; -fx-border-width: 0.1;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="1051.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="110.0">
+         <effect>
+            <DropShadow blurType="GAUSSIAN" height="20.0" radius="9.5" spread="0.2" width="20.0">
+               <color>
+                  <Color opacity="0.49618321657180786" />
+               </color>
+            </DropShadow>
+         </effect></Pane>
+      <HBox fx:id="searchBox" alignment="CENTER_LEFT" blendMode="SRC_ATOP" layoutX="20.0" layoutY="20.0" prefHeight="80.0" prefWidth="990.0" spacing="20.0" style="-fx-background-color: linear-gradient(to bottom,  #18181a, #1F1E22, #1F1E22); -fx-background-radius: 10 10 0 0; -fx-border-radius: 10; -fx-border-width: 0.1;" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <children>
-            <ImageView id="logo" fx:id="critic" fitHeight="43.0" fitWidth="185.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView id="logo" fx:id="critic" fitHeight="22.0" fitWidth="196.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/Critic.png" />
                </image>
@@ -32,20 +41,37 @@
                   <Rectangle2D />
                </viewport>
             </ImageView>
-            <TextField id="searchBar" fx:id="searchField" alignment="CENTER" focusTraversable="false" prefHeight="40.0" prefWidth="800.0" promptText="Digite um filme ou série...." />
-            <Button id="searchButton" fx:id="searchButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" defaultButton="true" graphicTextGap="0.0" mnemonicParsing="false" onAction="#searchButtonAction" prefHeight="40.0" prefWidth="140.0" text="Pesquisar" textFill="WHITE">
+            <TextField id="searchBar" fx:id="searchField" alignment="CENTER" focusTraversable="false" prefHeight="40.0" prefWidth="810.0" promptText="Digite um filme ou série....">
                <font>
-                  <Font name="Roboto Mono SemiBold" size="16.0" />
+                  <Font name="Segoe UI" size="12.0" />
+               </font>
+            </TextField>
+            <Button id="searchButton" fx:id="searchButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" defaultButton="true" graphicTextGap="0.0" mnemonicParsing="false" onAction="#searchButtonAction" prefHeight="40.0" prefWidth="120.0" text="Pesquisar" textFill="WHITE">
+               <font>
+                  <Font name="Roboto Mono SemiBold" size="19.0" />
                </font>
                <graphic>
                   <SVGPath content="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z" fill="WHITE" />
                </graphic>
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
          </children>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" height="20.0" radius="9.5" spread="0.2" width="20.0">
+               <color>
+                  <Color opacity="0.49618321657180786" />
+               </color>
+            </DropShadow>
+         </effect>
       </HBox>
-      <VBox id="buttonBox" fx:id="buttonBox" alignment="TOP_CENTER" layoutX="20.0" layoutY="110.0" prefHeight="670.0" prefWidth="196.0" spacing="15.0" style="-fx-background-color: linear-gradient(to top,  #18181a, #1F1E22, #1F1E22); -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: gray; -fx-border-width: 0.1; -fx-border-insets: 0;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="1011.0" AnchorPane.topAnchor="110.0">
+      <VBox id="buttonBox" fx:id="buttonBox" alignment="TOP_CENTER" blendMode="SRC_ATOP" layoutX="20.0" layoutY="110.0" prefHeight="670.0" prefWidth="196.0" spacing="15.0" style="-fx-background-color: linear-gradient(to top,  #18181a, #1F1E22, #1F1E22); -fx-background-radius: 0 0 0 10; -fx-border-radius: 10; -fx-border-width: 0.1; -fx-border-insets: 0;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="1011.0" AnchorPane.topAnchor="110.0">
          <children>
-            <Button id="homeButton" fx:id="homeButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" defaultButton="true" focusTraversable="false" graphicTextGap="0.0" mnemonicParsing="false" onAction="#restoreSearchButtonAction" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient( #4D73F1, transparent, transparent, transparent);;" styleClass="defaultButton" text="Feed" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button id="homeButton" fx:id="homeButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false" onAction="#restoreSearchButtonAction" prefHeight="60.0" prefWidth="180.0" styleClass="defaultButton" text="Feed" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -53,7 +79,7 @@
                   <Font name="Roboto Mono Bold" size="20.0" />
                </font>
                <graphic>
-                  <SVGPath content="M21.66,10.25l-9-8a1,1,0,0,0-1.32,0l-9,8a1,1,0,0,0-.27,1.11A1,1,0,0,0,3,12H4v9a1,1,0,0,0,1,1H19a1,1,0,0,0,1-1V12h1a1,1,0,0,0,.93-.64A1,1,0,0,0,21.66,10.25ZM13,20H11V17a1,1,0,0,1,2,0Zm5,0H15V17a3,3,0,0,0-6,0v3H6V12H18ZM5.63,10,12,4.34,18.37,10Z" fill="WHITE" scaleX="1.5" scaleY="1.5" strokeType="INSIDE" strokeWidth="0.0" />
+                  <SVGPath id="homeIcon" content="M21.66,10.25l-9-8a1,1,0,0,0-1.32,0l-9,8a1,1,0,0,0-.27,1.11A1,1,0,0,0,3,12H4v9a1,1,0,0,0,1,1H19a1,1,0,0,0,1-1V12h1a1,1,0,0,0,.93-.64A1,1,0,0,0,21.66,10.25ZM13,20H11V17a1,1,0,0,1,2,0Zm5,0H15V17a3,3,0,0,0-6,0v3H6V12H18ZM5.63,10,12,4.34,18.37,10Z" fill="WHITE" scaleX="1.5" scaleY="1.5" stroke="WHITE" strokeLineCap="ROUND" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="buttonIcon" />
                </graphic>
                <padding>
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
@@ -61,8 +87,11 @@
                <VBox.margin>
                   <Insets />
                </VBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
-            <Button fx:id="favoriteButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" layoutX="10.0" layoutY="304.0" mnemonicParsing="false" onAction="#favoritesButtonAction" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient(yellow, transparent, transparent, transparent);" styleClass="defaultButton" text="Favoritos" textFill="WHITE" textOverrun="CLIP" wrapText="true">
+            <Button id="favoriteButton" fx:id="favoriteButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="10.0" layoutY="304.0" mnemonicParsing="false" onAction="#favoritesButtonAction" prefHeight="60.0" prefWidth="180.0" styleClass="defaultButton" text="Favoritos" textFill="WHITE" textOverrun="CLIP" wrapText="true">
                <font>
                   <Font name="Roboto Mono Bold" size="20.0" />
                </font>
@@ -70,10 +99,13 @@
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </padding>
                <graphic>
-                  <SVGPath content="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z" fill="WHITE" scaleX="1.5" scaleY="1.5" />
+                  <SVGPath id="favoriteIcon" content="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z" fill="WHITE" scaleX="1.5" scaleY="1.5" styleClass="buttonIcon" />
                </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
-            <Button fx:id="reviewButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" focusTraversable="false" graphicTextGap="0.0" layoutX="20.0" layoutY="35.0" mnemonicParsing="false" onAction="#reviewButtonAction" prefHeight="60.0" prefWidth="180.0" style="-fx-border-color: linear-gradient( #5EB03E, transparent, transparent, transparent);" styleClass="defaultButton" text="Reviews" textAlignment="CENTER" textFill="WHITE" wrapText="true">
+            <Button id="reviewButton" fx:id="reviewButton" alignment="CENTER" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="20.0" layoutY="35.0" mnemonicParsing="false" onAction="#reviewButtonAction" prefHeight="60.0" prefWidth="180.0" styleClass="defaultButton" text="Reviews" textAlignment="CENTER" textFill="WHITE" wrapText="true">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -84,29 +116,42 @@
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </padding>
                <graphic>
-                  <SVGPath content="M6.77,9.15l5.44-5.44a1,1,0,1,0-1.42-1.42L6.06,7,4.21,5.17A1,1,0,0,0,2.79,6.59L5.35,9.15a1,1,0,0,0,1.42,0ZM18.5,6H13a1,1,0,0,0,0,2h5.5a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H8.5a1,1,0,0,1-1-1V12.5a1,1,0,0,0-2,0V16a3,3,0,0,0,3,3h8.36l3,2.73a1,1,0,0,0,.68.27,1.1,1.1,0,0,0,.4-.08,1,1,0,0,0,.6-.92V9A3,3,0,0,0,18.5,6Z" fill="WHITE" scaleX="1.5" scaleY="1.5" />
+                  <SVGPath id="reviewIcon" content="M6.77,9.15l5.44-5.44a1,1,0,1,0-1.42-1.42L6.06,7,4.21,5.17A1,1,0,0,0,2.79,6.59L5.35,9.15a1,1,0,0,0,1.42,0ZM18.5,6H13a1,1,0,0,0,0,2h5.5a1,1,0,0,1,1,1v9.72l-1.57-1.45a1,1,0,0,0-.68-.27H8.5a1,1,0,0,1-1-1V12.5a1,1,0,0,0-2,0V16a3,3,0,0,0,3,3h8.36l3,2.73a1,1,0,0,0,.68.27,1.1,1.1,0,0,0,.4-.08,1,1,0,0,0,.6-.92V9A3,3,0,0,0,18.5,6Z" fill="WHITE" scaleX="1.5" scaleY="1.5" styleClass="buttonIcon" />
                </graphic>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Separator orientation="VERTICAL" prefHeight="368.0" prefWidth="16.0" visible="false" />
             <HBox id="leaveButton" fx:id="profileBox" alignment="CENTER" onMouseClicked="#returnToLogin" prefHeight="40.0" prefWidth="51.0">
                <children>
-                  <SVGPath content="M4,12a1,1,0,0,0,1,1h7.59l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H5A1,1,0,0,0,4,12ZM17,2H7A3,3,0,0,0,4,5V8A1,1,0,0,0,6,8V5A1,1,0,0,1,7,4H17a1,1,0,0,1,1,1V19a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V16a1,1,0,0,0-2,0v3a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V5A3,3,0,0,0,17,2Z" fill="WHITE" />
+                  <SVGPath content="M4,12a1,1,0,0,0,1,1h7.59l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H5A1,1,0,0,0,4,12ZM17,2H7A3,3,0,0,0,4,5V8A1,1,0,0,0,6,8V5A1,1,0,0,1,7,4H17a1,1,0,0,1,1,1V19a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V16a1,1,0,0,0-2,0v3a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V5A3,3,0,0,0,17,2Z" fill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></SVGPath>
                </children>
                <VBox.margin>
                   <Insets right="130.0" />
                </VBox.margin>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </HBox>
          </children>
          <padding>
-            <Insets bottom="20.0" left="10.0" right="10.0" top="25.0" />
+            <Insets bottom="20.0" left="15.0" right="15.0" top="25.0" />
          </padding>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" height="20.0" radius="9.5" spread="0.2" width="20.0">
+               <color>
+                  <Color opacity="0.49618321657180786" />
+               </color>
+            </DropShadow>
+         </effect>
       </VBox>
       <ScrollPane fx:id="scrollPage" blendMode="SRC_ATOP" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="230.0" layoutY="112.0" maxHeight="-Infinity" prefHeight="670.0" prefWidth="805.0" style="-fx-background-color: #18181a;" vbarPolicy="NEVER" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="110.0">
-         <effect>
-            <Blend />
-         </effect>
          <content>
-            <VBox fx:id="scrollBox" prefWidth="805.0" spacing="10.0" style="-fx-background-color: #18181a;" />
+            <VBox fx:id="scrollBox" blendMode="SRC_ATOP" prefWidth="805.0" spacing="10.0" style="-fx-background-color: #18181a;" />
          </content>
       </ScrollPane>
    </children>
