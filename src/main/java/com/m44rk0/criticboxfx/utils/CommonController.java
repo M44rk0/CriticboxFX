@@ -13,4 +13,5 @@ public interface CommonController {
     public void setReleaseField(String releaseDate);
     public void setMainController(MainController controller);
 
+
 }

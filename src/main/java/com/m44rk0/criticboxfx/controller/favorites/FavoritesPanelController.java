@@ -21,17 +21,9 @@ public class FavoritesPanelController implements CommonController {
         mainController.setDetailsIsCalledFrom(2);
     }
 
-    public void setTitle(Title title){
+    @Override
+    public void setTitle(Title title) {
         this.title = title;
-    }
-
-    public void setMainController(MainController mainController) {
-        this.mainController = mainController;
-    }
-
-    @FXML
-    public void setPosterImage(Image poster){
-        favoritePoster.setImage(poster);
     }
 
     @Override
@@ -45,7 +37,17 @@ public class FavoritesPanelController implements CommonController {
     }
 
     @Override
+    public void setPosterImage(Image posterImage) {
+        favoritePoster.setImage(posterImage);
+    }
+
+    @Override
     public void setReleaseField(String releaseDate) {
 
+    }
+
+    @Override
+    public void setMainController(MainController controller) {
+        this.mainController = controller;
     }
 }

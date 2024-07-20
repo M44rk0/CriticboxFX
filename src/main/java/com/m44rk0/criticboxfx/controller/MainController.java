@@ -36,7 +36,7 @@ import static com.m44rk0.criticboxfx.App.titleDAO;
 public class MainController {
 
     @FXML
-    private ImageView critic = new ImageView(new File("src/main/resources/com/m44rk0/criticboxfx/images/Critic.png").toURI().toString());
+    private final ImageView critic = new ImageView(new File("src/main/resources/com/m44rk0/criticboxfx/images/Critic.png").toURI().toString());
 
     @FXML
     private VBox scrollBox;
@@ -48,7 +48,6 @@ public class MainController {
     private TextField searchField;
 
     private Stage stage;
-    private FavoritesController favoritesController;
     private ReviewController reviewController;
     private ReviewCreatorController reviewCreatorController;
     private TitleDetailsController titleDetailsController;
@@ -174,19 +173,17 @@ public class MainController {
                 reviewController.showUserReviews();
 
             } catch (IOException e) {
-                AlertMessage.showCommonAlert("Erro de Inicialização", "Erro ao configurar ReviewController");
+                AlertMessage.showCommonAlert("Erro de Inicialização", "Erro ao iniciar o FXML do Review");
             }
     }
 
     //exibe a tela de favoritos e assistidos pelo usuário
     public void showFavorites() {
         try {
-            if (favoritesController == null) {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("favorites/favoritesAndWatched.fxml"));
-                loader.load();
-                favoritesController = loader.getController();
-                favoritesController.setMainController(this);
-            }
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("favorites/favoritesAndWatched.fxml"));
+            loader.load();
+            FavoritesController favoritesController = loader.getController();
+            favoritesController.setMainController(this);
             favoritesController.showFavorites();
 
         } catch (IOException e) {
@@ -228,7 +225,6 @@ public class MainController {
 
     //função pra setar os campos comuns em todos os controladores dado um título
     public void setCommonFields(CommonController controller, Title title) {
-        controller.setMainController(this);
         controller.setTitle(title);
         controller.setTitleField(title.getName());
         controller.setOverviewField(title.getOverview());

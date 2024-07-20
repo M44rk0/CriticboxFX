@@ -44,8 +44,6 @@ public class TvShow extends Title {
         this.seasons = new ArrayList<>();
     }
 
-
-
     public TvShow(){
     }
 

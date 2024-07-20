@@ -9,7 +9,6 @@ import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import com.m44rk0.criticboxfx.utils.Icon;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ComboBox;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -20,7 +19,6 @@ import javafx.scene.text.TextFlow;
 import javafx.scene.image.Image;
 import javafx.geometry.Insets;
 import javafx.scene.text.Text;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import javafx.fxml.FXML;
@@ -42,13 +40,7 @@ public class TitleDetailsController implements CommonController {
     private Text tittleText;
 
     @FXML
-    private TextFlow durationField;
-
-    @FXML
     private Text durationText;
-
-    @FXML
-    private TextFlow durationLabel;
 
     @FXML
     private Text durationLabelText;
@@ -94,13 +86,6 @@ public class TitleDetailsController implements CommonController {
 
     @FXML
     private FlowPane vfxFlow;
-
-    @FXML
-    private ComboBox<Integer> seasonBox;
-
-    @FXML
-    private ComboBox<String> episodeBox;
-
 
     private MainController mainController;
 

@@ -172,7 +172,7 @@ public class Search {
         });
     }
 
-    private static boolean isValidMovie(Title resultMovie) {
+    protected static boolean isValidMovie(Title resultMovie) {
         if (resultMovie instanceof Film film) {
             return isReleased(film.getReleaseDate()) &&
                     film.getPosterPath() != null &&
@@ -183,7 +183,7 @@ public class Search {
         return false;
     }
 
-    private static boolean isValidTvShow(Title resultSerie) {
+    protected static boolean isValidTvShow(Title resultSerie) {
         if (resultSerie instanceof TvShow tvShow) {
             return isReleased(tvShow.getReleaseDate()) &&
                     tvShow.getPosterPath() != null &&
