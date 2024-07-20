@@ -15,56 +15,28 @@ public abstract class Title {
         return titleId;
     }
 
-    public void setTitleId(Integer titleId) {
-        this.titleId = titleId;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getOverview() {
         return overview;
     }
 
-    public void setOverview(String overview) {
-        this.overview = overview;
-    }
-
     public String getPosterPath() {
         return posterPath;
-    }
-
-    public void setPosterPath(String posterPath) {
-        this.posterPath = posterPath;
     }
 
     public String getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
-        this.releaseDate = releaseDate;
-    }
-
     public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(Integer duration) {
-        this.duration = duration;
-    }
-
     public Double getPopularity() {
         return popularity;
-    }
-
-    public void setPopularity(Double popularity) {
-        this.popularity = popularity;
     }
 
     @Override

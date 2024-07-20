@@ -11,7 +11,6 @@
 
 .defaultButton{
     -fx-background-color: #2b2a31;
-    -fx-border-color:  linear-gradient(to bottom, lightgray, transparent, transparent, transparent);
     -fx-background-radius: 30;
     -fx-border-radius: 30;
     -fx-border-width: 0.5;
@@ -22,27 +21,38 @@
     -fx-scale-x: 1.05;
     -fx-cursor: hand;
     -fx-border-width: 2;
-    -fx-effect: innershadow(one-pass-box, rgba(0, 0, 0, 0.8), 2, 6.7, 0, 0);
 }
 
-.defaultButton:pressed{
+.defaultButton:hover{
     -fx-background-color: #44424c;
 }
 
+.defaultButton:pressed{
+    -fx-background-color: #2b2a31;
+}
+
 #loginPane{
-    -fx-background-color: black;
+    -fx-background-color: #18181a;
     -fx-border-radius: 15;
-    -fx-border-color: white;
     -fx-background-radius: 15;
-    -fx-border-width: 0.6;
+    -fx-border-width: 0.1;
 }
 
 #loginPane:hover{
     -fx-scale-x: 1.02;
     -fx-scale-y: 1.02;
+    -fx-effect: dropshadow(two-pass-box, #000000, 15, 0.0, 0.0, 0.0);
+}
+
+#registerPane{
+    -fx-background-color: #18181a;
+    -fx-border-radius: 15;
+    -fx-background-radius: 15;
+    -fx-border-width: 0.1;
 }
 
 #registerPane:hover{
     -fx-scale-x: 1.02;
     -fx-scale-y: 1.02;
+    -fx-effect: dropshadow(two-pass-box, #000000, 15, 0.0, 0.0, 0.0);
 }

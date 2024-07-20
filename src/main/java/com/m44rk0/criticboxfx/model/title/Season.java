@@ -30,7 +30,7 @@ public class Season {
 
     public ArrayList<String> getEpisodeList() {
         return episodes.stream()
-                .map(Episode::getEpisodeName)
+                .map(Episode::episodeName)
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 

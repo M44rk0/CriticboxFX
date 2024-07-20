@@ -7,12 +7,10 @@ import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -26,32 +24,6 @@ public class FavoritesController implements CommonController {
 
     @FXML
     private FlowPane watchedFlow;
-
-    @FXML
-    private Tab favoritesTab;
-
-    @FXML
-    private Tab watchedTab;
-
-    public TabPane getTabPaneFavorites() {
-        return TabPaneFavorites;
-    }
-
-    public FlowPane getFavoritesFlow() {
-        return favoritesFlow;
-    }
-
-    public FlowPane getWatchedFlow() {
-        return watchedFlow;
-    }
-
-    public Tab getFavoritesTab() {
-        return favoritesTab;
-    }
-
-    public Tab getWatchedTab() {
-        return watchedTab;
-    }
 
     private MainController mainController;
 

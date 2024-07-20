@@ -1,47 +1,54 @@
 #searchBar{
     -fx-text-fill: white;
     -fx-padding: 0 0 0 20;
-    -fx-background-color:   linear-gradient(to left,  #18181a, #1F1E22, #1F1E22);
+    -fx-background-color: #1F1E22;
+    -fx-blend-mode: screen;
     -fx-border-color : white;
+    -fx-border-width: 0;
     -fx-border-radius: 5;
     -fx-background-radius: 5;
+
+}
+
+#searchBar:focused{
+    -fx-border-width: 0.5;
+    -fx-blend-mode: none;
 
 }
 
 #searchButton{
-    -fx-background-color: none;
-    -fx-border-radius: 5;
-    -fx-background-radius: 5;
+    -fx-background-color: #2b2a31;
+    -fx-border-width: 1;
+    -fx-background-radius: 15;
+    -fx-border-radius: 15;
 }
 
 #searchButton:hover{
-    -fx-scale-y: 1.05;
-    -fx-scale-x: 1.05;
-    -fx-cursor: hand;
-    -fx-border-width: 2;
+    -fx-blend-mode: screen;
+    -fx-border-width: 0;
+    -fx-effect: innershadow(one-pass-box, rgba(0, 0, 0, 0.8), 1.5, 6.7, 0, 0);
 }
 
 #searchButton:pressed{
-    -fx-blend-mode: screen;
+    -fx-blend-mode: none;
+    -fx-border-width: 0.5;
 }
+
 
 .defaultButton{
     -fx-background-color: #2b2a31;
-    -fx-border-width: 1;
-    -fx-background-radius: 25;
-    -fx-border-radius: 25;
+    -fx-border-width: 0.5;
+    -fx-background-radius: 20;
+    -fx-border-radius: 20;
 }
 
 .defaultButton:hover{
-    -fx-scale-y: 1.05;
-    -fx-scale-x: 1.05;
-    -fx-cursor: hand;
-    -fx-border-width: 2;
+    -fx-blend-mode: screen;
     -fx-effect: innershadow(one-pass-box, rgba(0, 0, 0, 0.8), 1.5, 6.7, 0, 0);
 }
 
 .defaultButton:pressed{
-    -fx-blend-mode: screen;
+    -fx-blend-mode: none;
 }
 
 #leaveButton:hover{

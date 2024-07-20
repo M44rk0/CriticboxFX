@@ -4,7 +4,6 @@ import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.model.user.User;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -17,8 +16,6 @@ import static com.m44rk0.criticboxfx.App.userDAO;
 
 public class LoginController {
 
-    @FXML
-    private Button loginButton;
 
     @FXML
     private TextField nameRegister;
@@ -31,9 +28,6 @@ public class LoginController {
 
     @FXML
     private PasswordField passwordRegister;
-
-    @FXML
-    private Button registerButton;
 
     @FXML
     private TextField userLogin;
@@ -108,10 +102,6 @@ public class LoginController {
 
     public String getPasswordConfirmRegisterText(){
         return passwordConfirmRegister.getText();
-    }
-
-    public void isInvalid(){
-        invalid.setVisible(true);
     }
 
 }

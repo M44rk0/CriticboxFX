@@ -56,6 +56,7 @@ public class TitleInfoController implements CommonController {
     private SVGPath watchedIcon;
 
     private Title title;
+
     private MainController mainController;
 
     //exibe os resultados da busca na tela

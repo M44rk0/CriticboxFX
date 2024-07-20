@@ -1,6 +1,7 @@
 package com.m44rk0.criticboxfx.model.title;
 
 import com.m44rk0.criticboxfx.model.search.TitleSearcher;
+import com.m44rk0.criticboxfx.utils.AlertMessage;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.model.core.NamedIdElement;
 import info.movito.themoviedbapi.model.movies.Cast;
@@ -58,7 +59,7 @@ public class TitleDetails {
             }
         }
          catch (TmdbException e) {
-                e.printStackTrace();
+             AlertMessage.showCommonAlert("Erro de Busca", "Erro de Busca");
             }
     }
 

@@ -268,8 +268,8 @@ public class TitleDAO {
 
                         for (Episode episode : season.getEpisodes()) {
                             try (PreparedStatement stmtEpisode = connection.prepareStatement(sqlInsertEpisode)) {
-                                stmtEpisode.setString(1, episode.getEpisodeName());
-                                stmtEpisode.setInt(2, episode.getEpisodeRuntime());
+                                stmtEpisode.setString(1, episode.episodeName());
+                                stmtEpisode.setInt(2, episode.episodeRuntime());
                                 stmtEpisode.setInt(3, seasonId);
 
                                 stmtEpisode.executeUpdate();

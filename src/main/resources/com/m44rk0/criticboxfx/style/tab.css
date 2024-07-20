@@ -1,5 +1,6 @@
 * {
-    -fx-primary-color: #1f2121;
+    -fx-primary-color: #1F1E22;
+    /*-fx-primary-color: #1f2121;*/
     -fx-secondary-color: #191414;
 
     -fx-focus-color: -fx-secondary-color;
