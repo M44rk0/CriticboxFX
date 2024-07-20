@@ -225,6 +225,7 @@ public class MainController {
 
     //função pra setar os campos comuns em todos os controladores dado um título
     public void setCommonFields(CommonController controller, Title title) {
+        controller.setMainController(this); // <--
         controller.setTitle(title);
         controller.setTitleField(title.getName());
         controller.setOverviewField(title.getOverview());
