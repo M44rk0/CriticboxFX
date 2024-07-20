@@ -1,0 +1,155 @@
+[33mcommit 0c08e8e1f02b13657e1dda07f28c8546d670dbcb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Sat Jul 20 00:56:25 2024 -0300
+
+    commit
+
+[33mcommit d90e029ca2e3802e0e2cf2c4b53686857cb60f93[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Sat Jul 20 00:54:32 2024 -0300
+
+    implementação básica de testes
+
+[33mcommit dc46928d022a458cbd9515493bf3c65e0af563bd[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Sat Jul 20 00:54:04 2024 -0300
+
+    mudanças na UI
+
+[33mcommit 199bf0f9fad3e5bc3fa5568c2bf2523b2fc9771e[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Sat Jul 20 00:53:40 2024 -0300
+
+    removendo código inutilizado
+
+[33mcommit 1e896fc67c41bee72d66f14c1fc89982e6253120[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Wed Jul 17 19:31:01 2024 -0300
+
+    refatorando a mainController
+
+[33mcommit 40846ee0bef7cc4803b964ddfa2f700ab3893cfd[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Sat Jul 13 02:19:12 2024 -0300
+
+    refatorando a mainController
+
+[33mcommit 580698f95a10aaf65ea4d9ca8ba83269ac157984[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Fri Jul 12 22:41:06 2024 -0300
+
+    Login funcionando
+
+[33mcommit f3620fbe53362249c96c83d1da9162faadc9cc36[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Mon Jul 8 01:07:27 2024 -0300
+
+    Login
+
+[33mcommit ae6b111d23857504d68f5068613b2f0b3b217736[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Sun Jul 7 21:26:40 2024 -0300
+
+    Busca dos titulos do banco de dados
+
+[33mcommit 488d4680001decce96782ab8df7b4e596d75971d[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Sun Jul 7 12:06:43 2024 -0300
+
+    Busca dos titulos do banco de dados
+
+[33mcommit ea63850ee41ac93ea80c0fb9ebfe655b4dd7bf74[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Sat Jul 6 22:34:52 2024 -0300
+
+    Integração com banco de dados
+
+[33mcommit dc09e8cfa1baa595894d6f06b40cd55fd25a11b7[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Sat Jul 6 00:53:34 2024 -0300
+
+    Integração com banco de dados
+
+[33mcommit e93ff4658859a94856c83327f30c7f377c6bd7ae[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Fri Jul 5 16:46:42 2024 -0300
+
+    commit
+
+[33mcommit 8ada761043a7bb0c27fc9d06cb683b4252485784[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Tue Jul 2 15:00:39 2024 -0300
+
+    Separando Details do Title
+
+[33mcommit d8b29dc0a465c295d69fc8076d67d7ec450f22c3[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Sat Jun 29 00:04:26 2024 -0300
+
+    commit
+
+[33mcommit 82c03c5103cc8ccc665b5073094fe6e17ed5a2cd[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Fri Jun 28 18:41:24 2024 -0300
+
+    remoção e edição de review
+
+[33mcommit 9664215312eea3c31e1facfe8c32917ffa1622ab[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Thu Jun 27 23:04:28 2024 -0300
+
+    remoção e edição de review
+
+[33mcommit bccd84f8c5048f4f459571b7e4c67c5527e70de1[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Tue Jun 25 19:07:11 2024 -0300
+
+    guardando as imagens em cache
+
+[33mcommit a72297c78f5993f456dd95466efaa84ad674ded4[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Tue Jun 25 12:07:18 2024 -0300
+
+    melhorando a interface
+
+[33mcommit 986704df2a06fcfd16243c63e8dca781c1fa5e34[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Mon Jun 24 15:16:41 2024 -0300
+
+    commit
+
+[33mcommit 636e72afd51c0ae86dba96ee939bc0fb3d0bd344[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Mon Jun 24 15:01:41 2024 -0300
+
+    commit
+
+[33mcommit 92ee6bcbc10f6c8512918fb0452debbc8c5d32e4[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Mon Jun 24 02:40:11 2024 -0300
+
+    removendo código inutilizado
+
+[33mcommit cbd6f399c7639e9f21986957a14e0668bd0f3d70[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Sun Jun 23 21:28:28 2024 -0300
+
+    implementando assistidos
+
+[33mcommit c62bb84dfbe3b4f5cb8da2f892847bc16fd4bfdb[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Sat Jun 22 20:58:43 2024 -0300
+
+    Implementando review
+
+[33mcommit 756b1d138be1823b069c8e68b97548681da5317b[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Fri Jun 21 20:37:07 2024 -0300
+
+    Implementando review
+
+[33mcommit 3553526b9235149024e2eb050af4ae91a5f0d82b[m
+Author: Marco Antonio <marcokjjkk@gmail.com>
+Date:   Wed Jun 19 15:23:28 2024 -0300
+
+    first commit
