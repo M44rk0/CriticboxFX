@@ -9,6 +9,7 @@ import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import com.m44rk0.criticboxfx.utils.Icon;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
@@ -21,6 +22,7 @@ import javafx.fxml.FXML;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.m44rk0.criticboxfx.App.titleDAO;
@@ -63,8 +65,13 @@ public class TitleInfoController implements CommonController {
     private SVGPath watchedIcon;
 
     private Title title;
-
     private MainController mainController;
+
+    // Guarda os resultados de pesquisa
+    private final List<Node> searchResultNodes = new ArrayList<>();
+
+    // Busca os últimos resultados do usuário atual
+    public static List<Title> lastSearchedTitles = titleDAO.getLastSearchedTitles();
 
     /**
      * Exibe os resultados da busca na tela.
@@ -77,7 +84,7 @@ public class TitleInfoController implements CommonController {
     public void showSearchResults(List<Title> searchResults) {
         try {
             mainController.resetScrollBox();
-            mainController.getSearchResultNodes().clear();
+            searchResultNodes.clear();
 
             FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("resultsTab.fxml"));
             TabPane resultsTab = tabLoader.load();
@@ -85,7 +92,7 @@ public class TitleInfoController implements CommonController {
             tabController.setResultTabText("Resultados para: " + "\"" + mainController.getSearchField().getText() + "\"");
             FlowPane resultsPane = tabController.getResultsFlow();
 
-            if (!mainController.getLastSearchedTitles().isEmpty()) {
+            if (!lastSearchedTitles.isEmpty()) {
                 titleDAO.clearLastResults();
             }
 
@@ -107,7 +114,7 @@ public class TitleInfoController implements CommonController {
                 }
 
                 resultsPane.getChildren().add(movieInfoPane);
-                mainController.getSearchResultNodes().add(movieInfoPane);
+                searchResultNodes.add(movieInfoPane);
 
                 if (!titleDAO.getAllTitleIds().contains(title.getTitleId())) {
                     titleDAO.addTitle(title);
@@ -140,8 +147,8 @@ public class TitleInfoController implements CommonController {
             ViewTabController tabController = tabLoader.getController();
             FlowPane resultsPane = tabController.getResultsFlow();
 
-            if (mainController.getSearchResultNodes().isEmpty()) {
-                for (Title title : mainController.getLastSearchedTitles()) {
+            if (searchResultNodes.isEmpty()) {
+                for (Title title : lastSearchedTitles) {
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("titleInfo.fxml"));
                     Pane movieInfoPane = loader.load();
                     TitleInfoController controller = loader.getController();
@@ -159,15 +166,15 @@ public class TitleInfoController implements CommonController {
                     }
 
                     resultsPane.getChildren().add(movieInfoPane);
-                    mainController.getSearchResultNodes().add(movieInfoPane);
+                    searchResultNodes.add(movieInfoPane);
                 }
                 mainController.getScrollBox().getChildren().add(resultsTab);
             } else {
-                resultsPane.getChildren().addAll(mainController.getSearchResultNodes());
+                resultsPane.getChildren().addAll(searchResultNodes);
                 mainController.getScrollBox().getChildren().add(resultsTab);
             }
 
-            mainController.getScrollPage().setFitToHeight(mainController.getSearchResultNodes().size() == 1 || mainController.getSearchResultNodes().isEmpty());
+            mainController.getScrollPage().setFitToHeight(searchResultNodes.size() == 1 || searchResultNodes.isEmpty());
 
         } catch (IOException e) {
             AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML dos Results");
@@ -196,7 +203,7 @@ public class TitleInfoController implements CommonController {
     @FXML
     public void showDetails(){
         mainController.showTitleDetails(title);
-        mainController.setDetailsIsCalledFrom(1);
+        mainController.getTitleDetailsController().setDetailsIsCalledFrom(1);
     }
 
     /**
@@ -205,7 +212,7 @@ public class TitleInfoController implements CommonController {
     @FXML
     public void showReview(){
         mainController.showCreateReview(title);
-        mainController.setIfTheReviewIsEditable(false);
+        mainController.getReviewCreatorController().setIfTheReviewIsEditable(false);
     }
 
     /**
@@ -219,69 +226,12 @@ public class TitleInfoController implements CommonController {
     }
 
     /**
-     * Define o controlador principal.
-     *
-     * @param mainController O controlador principal.
-     */
-    public void setMainController(MainController mainController) {
-        this.mainController = mainController;
-    }
-
-    /**
-     * Define o campo de visão geral do título.
-     *
-     * @param overviewField O texto da visão geral.
-     */
-    public void setOverviewField(String overviewField) {
-        if (overviewField.length() > 240) {
-            overviewField = overviewField.substring(0, 237) + "...";
-        }
-        this.overviewText.setText(overviewField);
-    }
-
-    /**
-     * Define a imagem do pôster.
-     *
-     * @param posterImage A imagem do pôster.
-     */
-    public void setPosterImage(Image posterImage) {
-        this.posterImage.setImage(posterImage);
-    }
-
-    /**
-     * Define o campo de data de lançamento.
-     *
-     * @param releaseField A data de lançamento.
-     */
-    public void setReleaseField(String releaseField){
-        this.releaseText.setText(releaseField);
-    }
-
-    /**
-     * Define o campo de título.
-     *
-     * @param titleField O título.
-     */
-    public void setTitleField(String titleField) {
-        this.tittleText.setText(titleField);
-    }
-
-    /**
      * Retorna o título atual.
      *
      * @return O título atual.
      */
     public Title getTitle() {
         return title;
-    }
-
-    /**
-     * Define o título atual.
-     *
-     * @param title O título.
-     */
-    public void setTitle(Title title) {
-        this.title = title;
     }
 
     /**
@@ -327,5 +277,39 @@ public class TitleInfoController implements CommonController {
         episodesField.setVisible(false);
         seasonField.setVisible(false);
     }
+
+    @Override
+    public void setTitle(Title title) {
+        this.title = title;
+    }
+
+    @Override
+    public void setTitleField(String titleField) {
+        this.tittleText.setText(titleField);
+    }
+
+    @Override
+    public void setOverviewField(String overviewField) {
+        if (overviewField.length() > 240) {
+            overviewField = overviewField.substring(0, 237) + "...";
+        }
+        this.overviewText.setText(overviewField);
+    }
+
+    @Override
+    public void setPosterImage(Image posterImage) {
+        this.posterImage.setImage(posterImage);
+    }
+
+    @Override
+    public void setReleaseField(String releaseField){
+        this.releaseText.setText(releaseField);
+    }
+
+    @Override
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
+    }
+
 }
 

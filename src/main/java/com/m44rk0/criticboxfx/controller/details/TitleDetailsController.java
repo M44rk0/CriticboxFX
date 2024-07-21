@@ -98,6 +98,11 @@ public class TitleDetailsController implements CommonController {
 
     private Title title;
 
+    // Ajusta o botão de "return" a depender de onde ele foi clicado
+    // 1 == página de favoritos (return volta pra página de favoritos)
+    // 2 == página de resultados (return volta pra página de resultados)
+    private static Integer detailsIsCalledFrom = 0;
+
     /**
      * Exibe os detalhes do título fornecido na interface do usuário.
      * <p>
@@ -151,10 +156,10 @@ public class TitleDetailsController implements CommonController {
     @FXML
     void handleReturnButtonClick() {
         if (mainController != null) {
-            if(mainController.getDetailsIsCalledFrom() == 1) {
+            if(detailsIsCalledFrom == 1) {
                 mainController.restoreSearchResults();
             }
-            else if (mainController.getDetailsIsCalledFrom() == 2){
+            else if (detailsIsCalledFrom == 2){
                 mainController.showFavorites();
             }
         }
@@ -167,7 +172,7 @@ public class TitleDetailsController implements CommonController {
     @FXML
     void makeReview(){
         mainController.showCreateReview(title);
-        mainController.setIfTheReviewIsEditable(false);
+        mainController.getReviewCreatorController().setIfTheReviewIsEditable(false);
     }
 
     /**
@@ -184,60 +189,6 @@ public class TitleDetailsController implements CommonController {
             CurrentlyUser.addFavorite(title);
         }
         setFavoriteIcon();
-    }
-
-    /**
-     * Define o controlador principal para este controlador.
-     *
-     * @param mainController O controlador principal a ser definido.
-     */
-    public void setMainController(MainController mainController) {
-        this.mainController = mainController;
-    }
-
-    /**
-     * Define o título a ser exibido nos detalhes.
-     *
-     * @param title O título a ser definido.
-     */
-    public void setTitle(Title title) {
-        this.title = title;
-    }
-
-    /**
-     * Define o campo de duração na interface do usuário.
-     *
-     * @param durationField A duração do título em minutos.
-     */
-    public void setDurationField(Integer durationField){
-        this.durationText.setText(durationField + " min");
-    }
-
-    /**
-     * Define o campo de data de lançamento na interface do usuário.
-     *
-     * @param releaseField A data de lançamento do título.
-     */
-    public void setReleaseField(String releaseField){
-        this.releaseText.setText(releaseField);
-    }
-
-    /**
-     * Define o campo de título na interface do usuário.
-     *
-     * @param titleField O título a ser exibido.
-     */
-    public void setTitleField(String titleField) {
-        this.tittleText.setText(titleField);
-    }
-
-    /**
-     * Define o campo de visão geral na interface do usuário.
-     *
-     * @param overviewField A visão geral do título.
-     */
-    public void setOverviewField(String overviewField) {
-        this.overviewText.setText(overviewField);
     }
 
     /**
@@ -322,15 +273,6 @@ public class TitleDetailsController implements CommonController {
     }
 
     /**
-     * Define a imagem do pôster na interface do usuário.
-     *
-     * @param posterImage A imagem do pôster a ser exibida.
-     */
-    public void setPosterImage(Image posterImage) {
-        this.posterImage.setImage(posterImage);
-    }
-
-    /**
      * Define o ícone de estrela de favorito com base no estado fornecido.
      *
      * @param fillFavoriteStar O conteúdo SVG para o ícone de favorito.
@@ -363,6 +305,15 @@ public class TitleDetailsController implements CommonController {
     }
 
     /**
+     * Define a duração de um título.
+     *
+     * @param durationField A duração do título.
+     */
+    public void setDurationField(Integer durationField){
+        this.durationText.setText(durationField + " min");
+    }
+
+    /**
      * Altera a exibição do campo de duração para exibir o número de temporadas para uma série de TV.
      *
      * @param tvshow A série de TV cujas temporadas serão exibidas.
@@ -381,6 +332,15 @@ public class TitleDetailsController implements CommonController {
         episodesText.setText(String.valueOf(tvshow.getTotalEpisodes()));
         episodesLabel.setVisible(true);
         episodesField.setVisible(true);
+    }
+
+    /**
+     * Define o valor de {@code detailsIsCalledFrom}.
+     *
+     * @param whereDetailsIsCalled o valor a ser definido
+     */
+    public void setDetailsIsCalledFrom(Integer whereDetailsIsCalled) {
+        detailsIsCalledFrom = whereDetailsIsCalled;
     }
 
     /**
@@ -413,5 +373,36 @@ public class TitleDetailsController implements CommonController {
             flowPane.getChildren().add(memberField);
         }
     }
+
+    @Override
+    public void setTitle(Title title) {
+        this.title = title;
+    }
+
+    @Override
+    public void setTitleField(String titleField) {
+        this.tittleText.setText(titleField);
+    }
+
+    @Override
+    public void setOverviewField(String overviewField) {
+        this.overviewText.setText(overviewField);
+    }
+
+    @Override
+    public void setPosterImage(Image posterImage) {
+        this.posterImage.setImage(posterImage);
+    }
+
+    @Override
+    public void setReleaseField(String releaseField){
+        this.releaseText.setText(releaseField);
+    }
+
+    @Override
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
+    }
+
 }
 

@@ -1,8 +1,9 @@
 package com.m44rk0.criticboxfx.model.search;
-import com.m44rk0.criticboxfx.model.title.Film;
-import com.m44rk0.criticboxfx.model.title.Title;
-import com.m44rk0.criticboxfx.model.title.TvShow;
+import com.m44rk0.criticboxfx.model.title.*;
 import info.movito.themoviedbapi.TmdbApi;
+import info.movito.themoviedbapi.TmdbTvSeasons;
+import info.movito.themoviedbapi.model.tv.season.TvSeasonDb;
+import info.movito.themoviedbapi.model.tv.series.TvSeriesDb;
 import info.movito.themoviedbapi.tools.TmdbException;
 import javafx.scene.image.Image;
 import java.time.LocalDate;
@@ -10,8 +11,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-
-import static com.m44rk0.criticboxfx.controller.MainController.titlePosterCache;
 
 /**
  * Classe responsável pela lógica de busca de títulos (filmes e séries) utilizando a API do TMDb e sua classe Wrapper.
@@ -22,6 +21,12 @@ public class Search {
      * Formato de data utilizado no formato "yyyy-MM-dd".
      */
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    // Guarda as imagens de todos os títulos buscados para evitar carregar a mesma imagem várias vezes em outras telas
+    public static final Map<Title, Image> titlePosterCache = new HashMap<>();
+
+    // Guarda as imagens das temporadas de um TV show
+    public static final Map<Season, Image> seasonPosterCache = new HashMap<>();
 
     /**
      * Busca todos os títulos válidos (filmes e séries) relacionados ao termo de busca fornecido.
@@ -208,6 +213,53 @@ public class Search {
             return resultSerie;
         }
         return null;
+    }
+
+    /**
+     * Método privado para obter as temporadas da série de TV usando dados de um objeto TvSeriesDb.
+     *
+     * @param seriesDb O objeto TvSeriesDb contendo os dados da série de TV.
+     * @return A lista de temporadas.
+     * @throws TmdbException Se houver um erro ao acessar os dados das temporadas.
+     */
+    public static ArrayList<Season> searchTvShowSeasons(TvSeriesDb seriesDb) throws TmdbException {
+        TmdbApi apiKey = new TmdbApi(new TitleSearcher().getAPI_KEY());
+        TvSeriesDb serie = apiKey.getTvSeries().getDetails(seriesDb.getId(), "pt-BR");
+
+        ArrayList<Season> seasons = new ArrayList<>();
+        TmdbTvSeasons tvSeasons = apiKey.getTvSeasons();
+
+        for (int i = 0; i < serie.getSeasons().size(); i++) {
+            String seasonAirDate = serie.getSeasons().get(i).getAirDate();
+
+            if (Search.isReleased(seasonAirDate)) {
+                Integer seasonNumber = serie.getSeasons().get(i).getSeasonNumber();
+                String seasonPosterPath = serie.getSeasons().get(i).getPosterPath();
+                ArrayList<Episode> episodes = new ArrayList<>();
+
+                if (seasonNumber != 0) {
+                    TvSeasonDb tvSeasonDb = tvSeasons.getDetails(seriesDb.getId(), seasonNumber, "pt-BR");
+
+                    for (int j = 0; j < tvSeasonDb.getEpisodes().size(); j++) {
+                        String episodeAirDate = tvSeasonDb.getEpisodes().get(j).getAirDate();
+
+                        if (Search.isReleased(episodeAirDate) && tvSeasonDb.getEpisodes().get(j).getRuntime() != null) {
+                            Episode episode = new Episode(tvSeasonDb.getEpisodes().get(j).getName(), tvSeasonDb.getEpisodes().get(j).getRuntime());
+                            episodes.add(episode);
+                        }
+                    }
+
+                    Image posterImage = new Image("https://image.tmdb.org/t/p/w500/" +
+                            seasonPosterPath, 250, 350, false, false);
+
+                    Season season = new Season(seasonNumber, episodes, seasonPosterPath);
+                    seasonPosterCache.put(season, posterImage);
+
+                    seasons.add(season);
+                }
+            }
+        }
+        return seasons;
     }
 
     /**

@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.m44rk0.criticboxfx.App.userDAO;
-import static com.m44rk0.criticboxfx.controller.MainController.seasonPosterCache;
-import static com.m44rk0.criticboxfx.controller.MainController.titlePosterCache;
+import static com.m44rk0.criticboxfx.model.search.Search.seasonPosterCache;
+import static com.m44rk0.criticboxfx.model.search.Search.titlePosterCache;
 
 /**
  * Controlador para gerenciar a exibição e edição de Reviews do usuário.
@@ -139,16 +139,6 @@ public class ReviewController implements CommonController {
     }
 
     /**
-     * Define a imagem do poster.
-     *
-     * @param posterImage A imagem do poster.
-     */
-    @Override
-    public void setPosterImage(Image posterImage) {
-        this.posterImage.setImage(posterImage);
-    }
-
-    /**
      * Remove a review do usuário após confirmação.
      */
     @FXML
@@ -166,46 +156,10 @@ public class ReviewController implements CommonController {
      */
     @FXML
     private void EditReview() {
-        mainController.setIfTheReviewIsEditable(true);
-        mainController.setReviewToEdit(review);
+        mainController.getReviewCreatorController().setReviewToEdit(review);
+        mainController.getReviewCreatorController().setIfTheReviewIsEditable(true);
+        System.out.println("teste");
         mainController.showCreateReview(review.getTitle());
-    }
-
-    /**
-     * Define o título.
-     *
-     * @param title O título.
-     */
-    @Override
-    public void setTitle(Title title) {
-    }
-
-    /**
-     * Define o campo do título.
-     *
-     * @param titleField O campo do título.
-     */
-    @Override
-    public void setTitleField(String titleField) {
-        this.tittleText.setText(titleField);
-    }
-
-    /**
-     * Define o campo da visão geral.
-     *
-     * @param overview A visão geral.
-     */
-    @Override
-    public void setOverviewField(String overview) {
-    }
-
-    /**
-     * Define o campo da data de lançamento.
-     *
-     * @param releaseDate A data de lançamento.
-     */
-    @Override
-    public void setReleaseField(String releaseDate) {
     }
 
     /**
@@ -227,21 +181,12 @@ public class ReviewController implements CommonController {
     }
 
     /**
-     * Define o campo de informações da TV.
+     * Define o campo de informações da série de TV.
      *
-     * @param infoTV As informações da TV.
+     * @param infoTV As informações da série de TV.
      */
     public void setInfoTVField(String infoTV) {
         this.infoTVText.setText(infoTV);
-    }
-
-    /**
-     * Define o controlador principal.
-     *
-     * @param mainController O controlador principal.
-     */
-    public void setMainController(MainController mainController) {
-        this.mainController = mainController;
     }
 
     /**
@@ -292,6 +237,36 @@ public class ReviewController implements CommonController {
     public void initialize() {
         stars = Arrays.asList(star1, star2, star3, star4, star5);
         infoTVField.setVisible(false);
+    }
+
+    @Override
+    public void setTitle(Title title) {
+    }
+
+    @Override
+    public void setTitleField(String titleField) {
+        if (titleField.length() > 45) {
+            titleField = titleField.substring(0, 42) + "...";
+        }
+        this.tittleText.setText(titleField);
+    }
+
+    @Override
+    public void setOverviewField(String overview) {
+    }
+
+    @Override
+    public void setPosterImage(Image posterImage) {
+        this.posterImage.setImage(posterImage);
+    }
+
+    @Override
+    public void setReleaseField(String releaseDate) {
+    }
+
+    @Override
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
     }
 }
 

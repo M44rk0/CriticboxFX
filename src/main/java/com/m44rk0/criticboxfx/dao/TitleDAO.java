@@ -10,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.m44rk0.criticboxfx.controller.MainController.titlePosterCache;
+import static com.m44rk0.criticboxfx.model.search.Search.titlePosterCache;
 
 /**
  * Classe de Data Access Object (DAO) para gerenciar operações relacionadas a títulos no banco de dados.

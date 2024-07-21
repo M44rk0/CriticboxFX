@@ -91,11 +91,6 @@ public class FavoritesController implements CommonController {
     public void setReleaseField(String releaseDate) {
     }
 
-    /**
-     * Define o controlador principal.
-     *
-     * @param controller O controlador principal.
-     */
     @Override
     public void setMainController(MainController controller) {
         this.mainController = controller;

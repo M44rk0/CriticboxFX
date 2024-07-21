@@ -7,31 +7,25 @@ import com.m44rk0.criticboxfx.controller.favorites.FavoritesController;
 import com.m44rk0.criticboxfx.controller.review.ReviewController;
 import com.m44rk0.criticboxfx.controller.review.ReviewCreatorController;
 import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
-import com.m44rk0.criticboxfx.model.review.Review;
 import com.m44rk0.criticboxfx.model.search.TitleSearcher;
-import com.m44rk0.criticboxfx.model.title.Season;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import info.movito.themoviedbapi.tools.TmdbException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static com.m44rk0.criticboxfx.App.titleDAO;
+import static com.m44rk0.criticboxfx.controller.details.TitleInfoController.lastSearchedTitles;
+import static com.m44rk0.criticboxfx.model.search.Search.titlePosterCache;
 
 /**
  * Controlador principal da aplicação, responsável por gerenciar as interações com a interface do usuário.
@@ -53,36 +47,14 @@ public class MainController {
     private Label currentlyUserName;
 
     private Stage stage;
+
     private ReviewController reviewController;
-    private ReviewCreatorController reviewCreatorController;
-    private TitleDetailsController titleDetailsController;
+
     private TitleInfoController titleInfoController;
 
+    private ReviewCreatorController reviewCreatorController;
 
-    //TODO Arrumar as responsabilidades aqui, mó bagunça filho.
-
-    // Guarda os resultados de pesquisa
-    private final List<Node> searchResultNodes = new ArrayList<>();
-
-    // Guarda as imagens de todos os títulos buscados para evitar carregar a mesma imagem várias vezes em outras telas
-    public static final Map<Title, Image> titlePosterCache = new HashMap<>();
-
-    // Guarda as imagens das temporadas de um TV show
-    public static final Map<Season, Image> seasonPosterCache = new HashMap<>();
-
-    // Busca os últimos resultados do usuário atual
-    public List<Title> lastSearchedTitles = titleDAO.getLastSearchedTitles();
-
-    // Ajusta o botão de "return" a depender de onde ele foi clicado
-    // 1 == página de favoritos (return volta pra página de favoritos)
-    // 2 == página de resultados (return volta pra página de resultados)
-    private Integer detailsIsCalledFrom = 0;
-
-    // "Avisa" que a tela de criação de review será para edição de uma review
-    private Boolean isTheReviewEditable = false;
-
-    // Guarda o review que vai ser editado e que será aberto na página de criação de reviews
-    private Review reviewToEdit;
+    private TitleDetailsController titleDetailsController;
 
     /**
      * Ação do botão de busca. Realiza a busca com o parâmetro fornecido no campo de busca.
@@ -295,60 +267,6 @@ public class MainController {
     }
 
     /**
-     * Obtém o valor de {@code detailsIsCalledFrom}.
-     *
-     * @return o valor de {@code detailsIsCalledFrom}
-     */
-    public Integer getDetailsIsCalledFrom() {
-        return detailsIsCalledFrom;
-    }
-
-    /**
-     * Define o valor de {@code detailsIsCalledFrom}.
-     *
-     * @param detailsIsCalledFrom o valor a ser definido
-     */
-    public void setDetailsIsCalledFrom(Integer detailsIsCalledFrom) {
-        this.detailsIsCalledFrom = detailsIsCalledFrom;
-    }
-
-    /**
-     * Verifica se a review está em modo de edição.
-     *
-     * @return {@code true} se a review está em modo de edição, caso contrário {@code false}
-     */
-    public Boolean theReviewIsEditable() {
-        return isTheReviewEditable;
-    }
-
-    /**
-     * Define se a review está em modo de edição.
-     *
-     * @param theReviewEditable {@code true} se a review deve estar em modo de edição, caso contrário {@code false}
-     */
-    public void setIfTheReviewIsEditable(Boolean theReviewEditable) {
-        isTheReviewEditable = theReviewEditable;
-    }
-
-    /**
-     * Obtém o review que será editado.
-     *
-     * @return o review a ser editado
-     */
-    public Review getReviewToEdit() {
-        return reviewToEdit;
-    }
-
-    /**
-     * Define o review que será editado.
-     *
-     * @param reviewToEdit o review a ser editado
-     */
-    public void setReviewToEdit(Review reviewToEdit) {
-        this.reviewToEdit = reviewToEdit;
-    }
-
-    /**
      * Define o estágio atual da aplicação.
      *
      * @param stage o estágio a ser definido
@@ -398,22 +316,55 @@ public class MainController {
     }
 
     /**
-     * Obtém a lista de nós de resultados de busca.
+     * Obtém o controlador da tela de criação de reviews.
+     * <p>
+     * Este método carrega o FXML para a tela de criação de reviews se ainda não estiver carregado.
+     * Se ocorrer um erro durante o carregamento do FXML, um alerta comum é exibido.
+     * </p>
      *
-     * @return a lista de nós de resultados de busca
+     * @return O controlador da tela de criação de reviews, que é uma instância de {@link ReviewCreatorController}.
      */
-    public List<Node> getSearchResultNodes() {
-        return searchResultNodes;
+    public ReviewCreatorController getReviewCreatorController() {
+        try {
+            if (reviewCreatorController == null) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("review/createReview.fxml"));
+                loader.load();
+                reviewCreatorController = loader.getController();
+                reviewCreatorController.setMainController(this);
+            }
+
+        } catch (IOException e) {
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML do Review Creator");
+        }
+
+        return reviewCreatorController;
     }
 
     /**
-     * Obtém a lista de títulos buscados recentemente.
+     * Obtém o controlador da tela de detalhes do título.
+     * <p>
+     * Este método carrega o FXML para a tela de detalhes do título se ainda não estiver carregado.
+     * Se ocorrer um erro durante o carregamento do FXML, um alerta comum é exibido.
+     * </p>
      *
-     * @return a lista de títulos buscados recentemente
+     * @return O controlador da tela de detalhes do título, que é uma instância de {@link TitleDetailsController}.
      */
-    public List<Title> getLastSearchedTitles() {
-        return lastSearchedTitles;
+    public TitleDetailsController getTitleDetailsController() {
+        try {
+            if (titleDetailsController == null) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("details/titleDetails.fxml"));
+                loader.load();
+                titleDetailsController = loader.getController();
+                titleDetailsController.setMainController(this);
+            }
+
+        } catch (IOException e) {
+            AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML do Title Details");
+        }
+
+        return titleDetailsController;
     }
+
 }
 
 

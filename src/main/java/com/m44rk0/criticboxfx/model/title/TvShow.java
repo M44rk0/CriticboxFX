@@ -1,20 +1,8 @@
 package com.m44rk0.criticboxfx.model.title;
 
 import com.m44rk0.criticboxfx.model.search.Search;
-import com.m44rk0.criticboxfx.model.search.TitleSearcher;
-import info.movito.themoviedbapi.model.tv.season.TvSeasonDb;
 import info.movito.themoviedbapi.model.tv.series.TvSeriesDb;
 import info.movito.themoviedbapi.tools.TmdbException;
-import info.movito.themoviedbapi.TmdbTvSeasons;
-import info.movito.themoviedbapi.TmdbApi;
-import javafx.scene.image.Image;
-
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import static com.m44rk0.criticboxfx.controller.MainController.seasonPosterCache;
-
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -48,7 +36,7 @@ public class TvShow extends Title {
         this.posterPath = tvshow.getPosterPath();
         this.releaseDate = tvshow.getFirstAirDate();
         this.popularity = tvshow.getPopularity();
-        this.seasons = getTvShowSeasons(tvshow);
+        this.seasons = Search.searchTvShowSeasons(tvshow);
         this.totalEpisodes = getEpisodes();
     }
 
@@ -127,68 +115,12 @@ public class TvShow extends Title {
     }
 
     /**
-     * Define o número total de episódios da série de TV.
-     *
-     * @param totalEpisodes O novo número total de episódios.
-     */
-    public void setTotalEpisodes(Integer totalEpisodes) {
-        this.totalEpisodes = totalEpisodes;
-    }
-
-    /**
      * Define a lista de temporadas da série de TV.
      *
      * @param seasons A nova lista de temporadas.
      */
     public void setSeasons(ArrayList<Season> seasons) {
         this.seasons = seasons;
-    }
-
-    /**
-     * Método privado para obter as temporadas da série de TV usando dados de um objeto TvSeriesDb.
-     *
-     * @param seriesDb O objeto TvSeriesDb contendo os dados da série de TV.
-     * @return A lista de temporadas.
-     * @throws TmdbException Se houver um erro ao acessar os dados das temporadas.
-     */
-    private ArrayList<Season> getTvShowSeasons(TvSeriesDb seriesDb) throws TmdbException {
-        TmdbApi apiKey = new TmdbApi(new TitleSearcher().getAPI_KEY());
-        TvSeriesDb serie = apiKey.getTvSeries().getDetails(seriesDb.getId(), "pt-BR");
-
-        ArrayList<Season> seasons = new ArrayList<>();
-        TmdbTvSeasons tvSeasons = apiKey.getTvSeasons();
-
-        for (int i = 0; i < serie.getSeasons().size(); i++) {
-            String seasonAirDate = serie.getSeasons().get(i).getAirDate();
-
-            if (Search.isReleased(seasonAirDate)) {
-                Integer seasonNumber = serie.getSeasons().get(i).getSeasonNumber();
-                String seasonPosterPath = serie.getSeasons().get(i).getPosterPath();
-                ArrayList<Episode> episodes = new ArrayList<>();
-
-                if (seasonNumber != 0) {
-                    TvSeasonDb tvSeasonDb = tvSeasons.getDetails(seriesDb.getId(), seasonNumber, "pt-BR");
-
-                    for (int j = 0; j < tvSeasonDb.getEpisodes().size(); j++) {
-                        String episodeAirDate = tvSeasonDb.getEpisodes().get(j).getAirDate();
-
-                        if (Search.isReleased(episodeAirDate) && tvSeasonDb.getEpisodes().get(j).getRuntime() != null) {
-                            Episode episode = new Episode(tvSeasonDb.getEpisodes().get(j).getName(), tvSeasonDb.getEpisodes().get(j).getRuntime());
-                            episodes.add(episode);
-                        }
-                    }
-
-                    Image posterImage = new Image("https://image.tmdb.org/t/p/w500/" +
-                            seasonPosterPath, 250, 350, false, false);
-
-                    Season season = new Season(seasonNumber, episodes, seasonPosterPath);
-                    seasonPosterCache.put(season, posterImage);
-
-                    seasons.add(season);
-                }
-            }
-        }
-        return seasons;
     }
 
     /**

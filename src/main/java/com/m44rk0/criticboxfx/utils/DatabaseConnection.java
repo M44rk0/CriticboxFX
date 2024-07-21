@@ -37,7 +37,7 @@ public class DatabaseConnection {
             try {
                 connection = DriverManager.getConnection(URL, USER, PASSWORD);
             } catch (SQLException e) {
-                e.printStackTrace();
+                AlertMessage.showErrorAlert("SQL Error", e.getMessage());
             }
         }
         return connection;
@@ -54,7 +54,7 @@ public class DatabaseConnection {
             try {
                 connection.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                AlertMessage.showErrorAlert("SQL Error", e.getMessage());
             }
         }
     }

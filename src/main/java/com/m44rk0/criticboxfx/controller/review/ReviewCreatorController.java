@@ -69,6 +69,12 @@ public class ReviewCreatorController implements CommonController {
     private List<SVGPath> stars;
     private MainController mainController;
 
+    // "Avisa" que a tela de criação de review será para edição de uma review
+    private static Boolean isTheReviewEditable;
+
+    // Guarda o review que vai ser editado e que será aberto na página de criação de reviews
+    private static Review reviewToEdit;
+
     /**
      * Método chamado ao clicar no botão de retornar, que retorna a página dos resultados da busca.
      */
@@ -85,12 +91,11 @@ public class ReviewCreatorController implements CommonController {
     @FXML
     public void saveReview() {
         try {
-            if (mainController.theReviewIsEditable()) {
+            if (theReviewIsEditable()) {
                 int choice = AlertMessage.showChoiceAlert("Edição de Review", "Deseja editar a review?");
-                Review reviewToEdit = mainController.getReviewToEdit();
                 if (choice == 0) {
                     reviewToEdit.editReview(reviewArea.getText(), getCurrentRating());
-                    mainController.setIfTheReviewIsEditable(false);
+                    setIfTheReviewIsEditable(false);
                     reviewDAO.editReview(reviewToEdit);
                 }
                 mainController.showUserReviews();
@@ -119,13 +124,14 @@ public class ReviewCreatorController implements CommonController {
                     }
                     mainController.restoreSearchResults();
                 } else {
-                    AlertMessage.showCommonAlert("Review já existe", "Essa Review já existe animal");
+                    AlertMessage.showCommonAlert("Review já existe", "Essa Review já existe");
                 }
             }
         } catch (InvalidReviewException e) {
             AlertMessage.showCommonAlert("Erro de Review", e.getMessage());
         }
     }
+
 
     /**
      * Verifica se uma review já existe para um determinado título.
@@ -177,10 +183,10 @@ public class ReviewCreatorController implements CommonController {
             controller.setTitleField(title.getName() + " (" + dateToYear(title.getReleaseDate()) + ")");
 
             // verifica se a review que está sendo exibida é uma review nova ou uma edição
-            if (mainController.theReviewIsEditable()) {
-                controller.setCurrentRating(mainController.getReviewToEdit().getReviewNote());
-                controller.setText(mainController.getReviewToEdit().getReviewText());
-                controller.setSelectedRating(mainController.getReviewToEdit().getReviewNote());
+            if (isTheReviewEditable) {
+                controller.setCurrentRating(reviewToEdit.getReviewNote());
+                controller.setText(reviewToEdit.getReviewText());
+                controller.setSelectedRating(reviewToEdit.getReviewNote());
                 mainController.getScrollBox().getChildren().add(reviewPane);
             } else {
                 if (title instanceof TvShow tvShow) {
@@ -207,63 +213,12 @@ public class ReviewCreatorController implements CommonController {
     }
 
     /**
-     * Define a imagem do poster.
-     *
-     * @param posterImage a imagem do poster
-     */
-    public void setPosterImage(Image posterImage) {
-        this.posterImage.setImage(posterImage);
-    }
-
-    /**
-     * Define o campo de visão geral.
-     *
-     * @param overviewField o texto da visão geral
-     */
-    public void setOverviewField(String overviewField) {
-        if (overviewField.length() > 540) {
-            overviewField = overviewField.substring(0, 537) + "...";
-        }
-        this.overviewText.setText(overviewField);
-    }
-
-    /**
-     * Define o campo de título.
-     *
-     * @param titleField o título do campo
-     */
-    public void setTitleField(String titleField) {
-        this.tittleText.setText(titleField);
-    }
-
-    public void setReleaseField(String releaseField) {
-    }
-
-    /**
      * Define a avaliação atual.
      *
      * @param currentRating a avaliação atual
      */
     public void setCurrentRating(int currentRating) {
         this.currentRating = currentRating;
-    }
-
-    /**
-     * Define o controlador principal.
-     *
-     * @param mainController o controlador principal
-     */
-    public void setMainController(MainController mainController) {
-        this.mainController = mainController;
-    }
-
-    /**
-     * Define o título atual.
-     *
-     * @param title o título atual
-     */
-    public void setTitle(Title title) {
-        this.title = title;
     }
 
     /**
@@ -349,6 +304,33 @@ public class ReviewCreatorController implements CommonController {
     }
 
     /**
+     * Verifica se a review está em modo de edição.
+     *
+     * @return {@code true} se a review está em modo de edição, caso contrário {@code false}
+     */
+    public Boolean theReviewIsEditable() {
+        return isTheReviewEditable;
+    }
+
+    /**
+     * Define se a review está em modo de edição.
+     *
+     * @param theReviewEditable {@code true} se a review deve estar em modo de edição, caso contrário {@code false}
+     */
+    public void setIfTheReviewIsEditable(Boolean theReviewEditable) {
+        isTheReviewEditable = theReviewEditable;
+    }
+
+    /**
+     * Define o review que será editado.
+     *
+     * @param review o review a ser editado
+     */
+    public void setReviewToEdit(Review review) {
+        reviewToEdit = review;
+    }
+
+    /**
      * Método de inicialização do controlador.
      */
     @FXML
@@ -374,6 +356,38 @@ public class ReviewCreatorController implements CommonController {
                 reviewArea.setText(oldValue);
             }
         });
+    }
+
+    @Override
+    public void setTitle(Title title) {
+        this.title = title;
+    }
+
+    @Override
+    public void setTitleField(String titleField) {
+        this.tittleText.setText(titleField);
+    }
+
+    @Override
+    public void setOverviewField(String overviewField) {
+        if (overviewField.length() > 540) {
+            overviewField = overviewField.substring(0, 537) + "...";
+        }
+        this.overviewText.setText(overviewField);
+    }
+
+    @Override
+    public void setPosterImage(Image posterImage) {
+        this.posterImage.setImage(posterImage);
+    }
+
+    @Override
+    public void setReleaseField(String releaseField) {
+    }
+
+    @Override
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
     }
 }
 
