@@ -26,6 +26,13 @@ import java.util.List;
 import static com.m44rk0.criticboxfx.App.titleDAO;
 import static com.m44rk0.criticboxfx.App.userDAO;
 
+/**
+ * Controlador para exibir após uma busca as informações básicas de um título, incluindo filme ou série de TV.
+ * <p>
+ * Esta classe gerencia a interface gráfica do usuário para a visualização de informações básicas de um título, incluindo
+ * somente o nome, poster, lançamento, descrição e quantidade de temporadas e episódios caso seja uma série de TV.
+ * </p>
+ */
 public class TitleInfoController implements CommonController {
 
     @FXML
@@ -59,7 +66,14 @@ public class TitleInfoController implements CommonController {
 
     private MainController mainController;
 
-    //exibe os resultados da busca na tela
+    /**
+     * Exibe os resultados da busca na tela.
+     * <p>
+     * Carrega o layout FXML para exibição e preenche os campos com as informações
+     * de cada título presente na lista de resultados.
+     * </p>
+     * @param searchResults A lista de títulos retornados pela busca.
+     */
     public void showSearchResults(List<Title> searchResults) {
         try {
             mainController.resetScrollBox();
@@ -93,7 +107,6 @@ public class TitleInfoController implements CommonController {
                 }
 
                 resultsPane.getChildren().add(movieInfoPane);
-
                 mainController.getSearchResultNodes().add(movieInfoPane);
 
                 if (!titleDAO.getAllTitleIds().contains(title.getTitleId())) {
@@ -104,7 +117,6 @@ public class TitleInfoController implements CommonController {
             }
 
             mainController.getScrollBox().getChildren().add(resultsTab);
-
             mainController.getScrollPage().setFitToHeight(searchResults.size() == 1);
 
             if (searchResults.isEmpty()) {
@@ -117,8 +129,10 @@ public class TitleInfoController implements CommonController {
         }
     }
 
-    //restaura os resultados de busca salvos
-    public void restoreSearchResults() {
+    /**
+     * Restaura os resultados anteriores que foram salvos em cache.
+     */
+    public void restoreCachedSearchResults() {
         try {
             mainController.resetScrollBox();
             FXMLLoader tabLoader = new FXMLLoader(getClass().getResource("resultsTab.fxml"));
@@ -128,7 +142,6 @@ public class TitleInfoController implements CommonController {
 
             if (mainController.getSearchResultNodes().isEmpty()) {
                 for (Title title : mainController.getLastSearchedTitles()) {
-
                     FXMLLoader loader = new FXMLLoader(getClass().getResource("titleInfo.fxml"));
                     Pane movieInfoPane = loader.load();
                     TitleInfoController controller = loader.getController();
@@ -161,6 +174,9 @@ public class TitleInfoController implements CommonController {
         }
     }
 
+    /**
+     * Adiciona ou remove o título selecionado da lista de assistidos do usuário.
+     */
     @FXML
     public void addToWatched(){
         if (CurrentlyUser.getWatched().contains(title)) {
@@ -172,21 +188,29 @@ public class TitleInfoController implements CommonController {
         }
 
         setWatchedIcon();
-
     }
 
+    /**
+     * Exibe os detalhes do título na interface do usuário.
+     */
     @FXML
     public void showDetails(){
         mainController.showTitleDetails(title);
         mainController.setDetailsIsCalledFrom(1);
     }
 
+    /**
+     * Abre a interface de criação de Review para o título atual.
+     */
     @FXML
     public void showReview(){
         mainController.showCreateReview(title);
         mainController.setIfTheReviewIsEditable(false);
     }
 
+    /**
+     * Atualiza o ícone de "assistido" para o título atual.
+     */
     @FXML
     private void setWatchedIcon() {
         watchedIcon.setContent(
@@ -194,10 +218,20 @@ public class TitleInfoController implements CommonController {
         );
     }
 
+    /**
+     * Define o controlador principal.
+     *
+     * @param mainController O controlador principal.
+     */
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
 
+    /**
+     * Define o campo de visão geral do título.
+     *
+     * @param overviewField O texto da visão geral.
+     */
     public void setOverviewField(String overviewField) {
         if (overviewField.length() > 240) {
             overviewField = overviewField.substring(0, 237) + "...";
@@ -205,47 +239,93 @@ public class TitleInfoController implements CommonController {
         this.overviewText.setText(overviewField);
     }
 
+    /**
+     * Define a imagem do pôster.
+     *
+     * @param posterImage A imagem do pôster.
+     */
     public void setPosterImage(Image posterImage) {
         this.posterImage.setImage(posterImage);
     }
 
+    /**
+     * Define o campo de data de lançamento.
+     *
+     * @param releaseField A data de lançamento.
+     */
     public void setReleaseField(String releaseField){
         this.releaseText.setText(releaseField);
     }
 
+    /**
+     * Define o campo de título.
+     *
+     * @param titleField O título.
+     */
     public void setTitleField(String titleField) {
         this.tittleText.setText(titleField);
     }
 
+    /**
+     * Retorna o título atual.
+     *
+     * @return O título atual.
+     */
     public Title getTitle() {
         return title;
     }
 
+    /**
+     * Define o título atual.
+     *
+     * @param title O título.
+     */
     public void setTitle(Title title) {
         this.title = title;
     }
 
+    /**
+     * Define o ícone de "assistido".
+     *
+     * @param watchedIcon O ícone de "assistido".
+     */
     public void setWatchedIcon(String watchedIcon){
         this.watchedIcon.setContent(watchedIcon);
     }
 
+    /**
+     * Define o campo de episódios.
+     *
+     * @param episodesField O texto de episódios.
+     */
     public void setEpisodesField(String episodesField){
         this.episodesText.setText(episodesField);
     }
 
+    /**
+     * Define o campo de temporadas.
+     *
+     * @param seasonField O texto de temporadas.
+     */
     public void setSeasonField(String seasonField){
         this.seasonText.setText(seasonField);
     }
 
+    /**
+     * Torna visíveis os campos de episódios e temporadas.
+     */
     public void turnVisible(){
         episodesField.setVisible(true);
         seasonField.setVisible(true);
     }
 
+    /**
+     * Inicializa o controlador, definindo o estado inicial dos componentes da interface.
+     */
     @FXML
     public void initialize(){
         episodesField.setVisible(false);
         seasonField.setVisible(false);
     }
-
 }
+

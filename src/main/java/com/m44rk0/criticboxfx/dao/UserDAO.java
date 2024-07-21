@@ -17,14 +17,30 @@ import static com.m44rk0.criticboxfx.App.reviewDAO;
 import static com.m44rk0.criticboxfx.App.titleDAO;
 import static com.m44rk0.criticboxfx.controller.MainController.titlePosterCache;
 
+/**
+ * Gerencia as operações de acesso a dados relacionadas aos usuários no banco de dados.
+ * Inclui métodos para verificar a existência de um usuário, recuperar um usuário por suas credenciais,
+ * adicionar e remover favoritos e títulos assistidos, adicionar e remover avaliações, e recuperar listas de favoritos,
+ * títulos assistidos e avaliações de um usuário.
+ */
 public class UserDAO {
 
     private final Connection connection;
 
+    /**
+     * Construtor para criar uma instância de TitleDAO.
+     * Estabelece a conexão com o banco de dados usando a classe {@link DatabaseConnection}.
+     */
     public UserDAO() {
         this.connection = DatabaseConnection.getConnection();
     }
 
+    /**
+     * Verifica se um usuário com o nome de usuário fornecido existe no banco de dados.
+     *
+     * @param username O nome de usuário a ser verificado.
+     * @return {@code true} se o usuário existir, {@code false} caso contrário.
+     */
     public boolean userExists(String username) {
         String sql = "SELECT COUNT(*) FROM user WHERE username = ?";
 
@@ -44,6 +60,13 @@ public class UserDAO {
         return false;
     }
 
+    /**
+     * Recupera um usuário a partir das credenciais fornecidas.
+     *
+     * @param username O nome de usuário do usuário a ser recuperado.
+     * @param password A senha do usuário a ser recuperado.
+     * @return O objeto {@link User} correspondente às credenciais fornecidas, ou {@code null} se não encontrado.
+     */
     public User getUserByCredentials(String username, String password) {
         String sql = "SELECT user_id, name, username, password FROM User WHERE username = ? AND password = ?";
 
@@ -67,7 +90,12 @@ public class UserDAO {
 
         return null;
     }
-    
+
+    /**
+     * Adiciona um novo usuário ao banco de dados.
+     *
+     * @param user O usuário a ser adicionado.
+     */
     public void addUser(User user) {
 
         String sql = "INSERT INTO User (name, username, password) VALUES (?, ?, ?)";
@@ -77,13 +105,18 @@ public class UserDAO {
             stmt.setString(2, user.getUsername());
             stmt.setString(3, user.getPassword());
             stmt.executeUpdate();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
-    // Método para adicionar um título favorito para um usuário
+
+    /**
+     * Adiciona um título à lista de favoritos de um usuário.
+     *
+     * @param user O usuário que está adicionando o título aos favoritos.
+     * @param title O título a ser adicionado aos favoritos.
+     */
     public void addFavorite(User user, Title title) {
 
         String sql = "INSERT INTO UserFavorites (user_id, title_id) VALUES (?, ?)";
@@ -92,13 +125,17 @@ public class UserDAO {
             stmt.setInt(1, user.getUserID());
             stmt.setInt(2, title.getTitleId());
             stmt.executeUpdate();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
-    // Método para remover um título favorito de um usuário
+    /**
+     * Remove um título da lista de favoritos de um usuário.
+     *
+     * @param user O usuário que está removendo o título dos favoritos.
+     * @param title O título a ser removido dos favoritos.
+     */
     public void removeFavorite(User user, Title title) {
 
         String sql = "DELETE FROM UserFavorites WHERE user_id = ? AND title_id = ?";
@@ -107,13 +144,17 @@ public class UserDAO {
             stmt.setInt(1, user.getUserID());
             stmt.setInt(2, title.getTitleId());
             stmt.executeUpdate();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
-    // Método para adicionar um título assistido para um usuário
+    /**
+     * Adiciona um título à lista de títulos assistidos de um usuário.
+     *
+     * @param user O usuário que está adicionando o título à lista de assistidos.
+     * @param title O título a ser adicionado à lista de assistidos.
+     */
     public void addWatched(User user, Title title){
 
         String sql = "INSERT INTO UserWatched (user_id, title_id) VALUES (?, ?)";
@@ -122,13 +163,17 @@ public class UserDAO {
             stmt.setInt(1, user.getUserID());
             stmt.setInt(2, title.getTitleId());
             stmt.executeUpdate();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
-    // Método para remover um título assistido de um usuário
+    /**
+     * Remove um título da lista de títulos assistidos de um usuário.
+     *
+     * @param user O usuário que está removendo o título da lista de assistidos.
+     * @param title O título a ser removido da lista de assistidos.
+     */
     public void removeWatched(User user, Title title){
 
         String sql = "DELETE FROM UserWatched WHERE user_id = ? AND title_id = ?";
@@ -137,13 +182,17 @@ public class UserDAO {
             stmt.setInt(1, user.getUserID());
             stmt.setInt(2, title.getTitleId());
             stmt.executeUpdate();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
-    // Método para adicionar um título favorito para um usuário
+    /**
+     * Adiciona uma avaliação feita por um usuário.
+     *
+     * @param user O usuário que está adicionando a avaliação.
+     * @param review A avaliação a ser adicionada.
+     */
     public void addReview(User user, Review review){
         reviewDAO.addReview(review);
 
@@ -153,13 +202,17 @@ public class UserDAO {
             stmt.setInt(1, user.getUserID());
             stmt.setInt(2, review.getReviewID());
             stmt.executeUpdate();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
-    // Método para remover um título favorito de um usuário
+    /**
+     * Remove uma avaliação feita por um usuário.
+     *
+     * @param user O usuário que está removendo a avaliação.
+     * @param review A avaliação a ser removida.
+     */
     public void removeReview(User user, Review review){
         reviewDAO.removeReview(review);
 
@@ -169,13 +222,17 @@ public class UserDAO {
             stmt.setInt(1, user.getUserID());
             stmt.setInt(2, review.getReviewID());
             stmt.executeUpdate();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
-    //Metodo para buscar a lista de favoritos de um usuário
+    /**
+     * Recupera a lista de títulos favoritos de um usuário.
+     *
+     * @param user O usuário cujos favoritos serão recuperados.
+     * @return Uma lista de títulos favoritos do usuário.
+     */
     public ArrayList<Title> getFavoritesByUser(User user) {
         ArrayList<Title> favorites = new ArrayList<>();
 
@@ -218,15 +275,19 @@ public class UserDAO {
                     favorites.add(title);
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
 
         return favorites;
     }
 
-    //Metodo para buscar a lista de assistidos de um usuário
+    /**
+     * Recupera a lista de títulos assistidos de um usuário.
+     *
+     * @param user O usuário cujos títulos assistidos serão recuperados.
+     * @return Uma lista de títulos assistidos do usuário.
+     */
     public ArrayList<Title> getWatchedByUser(User user) {
         ArrayList<Title> watched = new ArrayList<>();
 
@@ -271,15 +332,19 @@ public class UserDAO {
                     watched.add(title);
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
 
         return watched;
     }
 
-    //Metodo para buscar a lista de reviews de um usuário
+    /**
+     * Recupera a lista de avaliações feitas por um usuário.
+     *
+     * @param user O usuário cujas avaliações serão recuperadas.
+     * @return Uma lista de avaliações feitas pelo usuário.
+     */
     public ArrayList<Review> getReviewsByUser(User user) {
         ArrayList<Review> reviews = new ArrayList<>();
 

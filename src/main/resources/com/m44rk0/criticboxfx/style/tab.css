@@ -10,7 +10,6 @@
     -fx-background-color: -fx-primary-color;
     -fx-border-color: gray gray transparent gray;
     -fx-border-width: 0.1;
-
 }
 .tab-pane .tab:selected {
     -fx-background-color: -fx-secondary-color;

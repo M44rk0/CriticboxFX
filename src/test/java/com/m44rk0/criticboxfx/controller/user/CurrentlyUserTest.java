@@ -13,13 +13,21 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CurrentlyUserTest {
+/**
+ * Testes unitários para a classe {@link CurrentlyUser}.
+ * Testa as funcionalidades relacionadas à adição, remoção e manipulação de favoritos, títulos assistidos e avaliações do usuário atual.
+ */
+public class CurrentlyUserTest {
 
     private Film film1;
     private TvShow tvShow1;
     private Review review1;
     private Review review2;
 
+    /**
+     * Configuração inicial para os testes.
+     * Cria um usuário e inicializa filmes, programas de TV e avaliações para os testes.
+     */
     @BeforeEach
     void setUp() {
         User user = new User("John Doe", "johndoe", "password123");
@@ -32,6 +40,10 @@ class CurrentlyUserTest {
         review2 = new EpisodeReview(tvShow1, 5, new Date(), "Boa tbm!", 1, "Episódio teste");
     }
 
+    /**
+     * Testa a adição de favoritos.
+     * Verifica se filmes e programas de TV são corretamente adicionados à lista de favoritos do usuário.
+     */
     @Test
     void testAddFavorite() {
         CurrentlyUser.addFavorite(film1);
@@ -40,6 +52,10 @@ class CurrentlyUserTest {
         assertTrue(CurrentlyUser.getFavorites().contains(tvShow1));
     }
 
+    /**
+     * Testa a remoção de favoritos.
+     * Verifica se filmes e programas de TV são corretamente removidos da lista de favoritos do usuário.
+     */
     @Test
     void testRemoveFavorite() {
         CurrentlyUser.addFavorite(film1);
@@ -50,6 +66,10 @@ class CurrentlyUserTest {
         assertFalse(CurrentlyUser.getFavorites().contains(tvShow1));
     }
 
+    /**
+     * Testa a adição de títulos assistidos.
+     * Verifica se filmes e programas de TV são corretamente adicionados à lista de títulos assistidos do usuário.
+     */
     @Test
     void testAddWatched() {
         CurrentlyUser.addWatched(film1);
@@ -58,6 +78,10 @@ class CurrentlyUserTest {
         assertTrue(CurrentlyUser.getWatched().contains(tvShow1));
     }
 
+    /**
+     * Testa a remoção de títulos assistidos.
+     * Verifica se filmes e programas de TV são corretamente removidos da lista de títulos assistidos do usuário.
+     */
     @Test
     void testRemoveWatched() {
         CurrentlyUser.addWatched(film1);
@@ -68,6 +92,10 @@ class CurrentlyUserTest {
         assertFalse(CurrentlyUser.getWatched().contains(tvShow1));
     }
 
+    /**
+     * Testa a adição de avaliações.
+     * Verifica se as avaliações são corretamente adicionadas à lista de avaliações do usuário.
+     */
     @Test
     void testAddReview() {
         CurrentlyUser.addReview(review1);
@@ -76,6 +104,10 @@ class CurrentlyUserTest {
         assertTrue(CurrentlyUser.getReviews().contains(review2));
     }
 
+    /**
+     * Testa a remoção de avaliações.
+     * Verifica se as avaliações são corretamente removidas da lista de avaliações do usuário.
+     */
     @Test
     void testRemoveReview() {
         CurrentlyUser.addReview(review1);
@@ -86,6 +118,10 @@ class CurrentlyUserTest {
         assertFalse(CurrentlyUser.getReviews().contains(review2));
     }
 
+    /**
+     * Testa a definição de favoritos.
+     * Verifica se a lista de favoritos do usuário é corretamente atualizada com uma nova lista.
+     */
     @Test
     void testSetFavorites() {
         ArrayList<Film> favorites = new ArrayList<>();
@@ -94,6 +130,10 @@ class CurrentlyUserTest {
         assertEquals(favorites, CurrentlyUser.getFavorites());
     }
 
+    /**
+     * Testa a definição de títulos assistidos.
+     * Verifica se a lista de títulos assistidos do usuário é corretamente atualizada com uma nova lista.
+     */
     @Test
     void testSetWatched() {
         ArrayList<Film> watched = new ArrayList<>();
@@ -102,6 +142,10 @@ class CurrentlyUserTest {
         assertEquals(watched, CurrentlyUser.getWatched());
     }
 
+    /**
+     * Testa a definição de avaliações.
+     * Verifica se a lista de avaliações do usuário é corretamente atualizada com uma nova lista.
+     */
     @Test
     void testSetReviews() {
         ArrayList<Review> reviews = new ArrayList<>();
@@ -110,3 +154,4 @@ class CurrentlyUserTest {
         assertEquals(reviews, CurrentlyUser.getReviews());
     }
 }
+

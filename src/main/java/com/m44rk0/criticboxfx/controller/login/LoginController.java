@@ -9,13 +9,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import com.m44rk0.criticboxfx.App;
-
 import java.util.Objects;
 
 import static com.m44rk0.criticboxfx.App.userDAO;
 
+/**
+ * Controlador para gerenciar a lógica de login e registro na interface do usuário.
+ */
 public class LoginController {
-
 
     @FXML
     private TextField nameRegister;
@@ -40,6 +41,11 @@ public class LoginController {
 
     private Stage stage;
 
+    /**
+     * Método para realizar o login do usuário.
+     * Verifica as credenciais do usuário e, se válidas, fecha a tela de login e exibe a tela principal.
+     * Caso contrário, exibe uma mensagem de erro.
+     */
     @FXML
     public void login() {
         User user = userDAO.getUserByCredentials(getUserLoginText(), getPasswordLoginText());
@@ -52,20 +58,20 @@ public class LoginController {
         }
     }
 
+    /**
+     * Método para registrar um novo usuário.
+     * Verifica se as senhas coincidem, se o usuário já existe, e se todos os campos estão preenchidos.
+     * Se as verificações passarem, registra o novo usuário.
+     */
     @FXML
-    public void register(){
-        if(!Objects.equals(getPasswordRegisterText(), getPasswordConfirmRegisterText())){
+    public void register() {
+        if (!Objects.equals(getPasswordRegisterText(), getPasswordConfirmRegisterText())) {
             AlertMessage.showCommonAlert("Erro de Cadastro", "Senhas não coincidem.");
-        }
-
-        else if(userDAO.userExists(getUserRegisterText())){
-            AlertMessage.showCommonAlert("Erro de Cadastro", "Usúario já está cadastrado.");
-        }
-
-        else if (getPasswordRegisterText().isEmpty() || getPasswordRegisterText().isEmpty() || getNameRegisterText().isEmpty() || getUserRegisterText().isEmpty()) {
+        } else if (userDAO.userExists(getUserRegisterText())) {
+            AlertMessage.showCommonAlert("Erro de Cadastro", "Usuário já está cadastrado.");
+        } else if (getPasswordRegisterText().isEmpty() || getPasswordConfirmRegisterText().isEmpty() || getNameRegisterText().isEmpty() || getUserRegisterText().isEmpty()) {
             AlertMessage.showCommonAlert("Erro de Cadastro", "Preencha todos os campos!");
-        }
-        else {
+        } else {
             userRegister.clear();
             nameRegister.clear();
             passwordRegister.clear();
@@ -76,33 +82,68 @@ public class LoginController {
         }
     }
 
+    /**
+     * Define o stage (janela) atual.
+     *
+     * @param stage O stage a ser definido.
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    public String getUserLoginText(){
+    /**
+     * Obtém o texto do campo de login do usuário.
+     *
+     * @return O texto do campo de login do usuário.
+     */
+    public String getUserLoginText() {
         return userLogin.getText();
     }
 
-    public String getPasswordLoginText(){
+    /**
+     * Obtém o texto do campo de senha de login.
+     *
+     * @return O texto do campo de senha de login.
+     */
+    public String getPasswordLoginText() {
         return passwordLogin.getText();
     }
 
-    public String getNameRegisterText(){
+    /**
+     * Obtém o texto do campo de nome do registro.
+     *
+     * @return O texto do campo de nome do registro.
+     */
+    public String getNameRegisterText() {
         return nameRegister.getText();
     }
 
-    public String getUserRegisterText(){
+    /**
+     * Obtém o texto do campo de usuário do registro.
+     *
+     * @return O texto do campo de usuário do registro.
+     */
+    public String getUserRegisterText() {
         return userRegister.getText();
     }
 
-    public String getPasswordRegisterText(){
+    /**
+     * Obtém o texto do campo de senha do registro.
+     *
+     * @return O texto do campo de senha do registro.
+     */
+    public String getPasswordRegisterText() {
         return passwordRegister.getText();
     }
 
-    public String getPasswordConfirmRegisterText(){
+    /**
+     * Obtém o texto do campo de confirmação de senha do registro.
+     *
+     * @return O texto do campo de confirmação de senha do registro.
+     */
+    public String getPasswordConfirmRegisterText() {
         return passwordConfirmRegister.getText();
     }
-
 }
+
 

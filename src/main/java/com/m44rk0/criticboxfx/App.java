@@ -13,21 +13,50 @@ import java.io.IOException;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Classe principal do aplicativo que estende {@link Application}.
+ * Gerencia a inicialização da aplicação e a transição entre diferentes visualizações.
+ */
 public class App extends Application {
 
+    /**
+     * Instância do {@link UserDAO} para operações relacionadas aos usuários.
+     */
     public static UserDAO userDAO = new UserDAO();
+
+    /**
+     * Instância do {@link TitleDAO} para operações relacionadas aos títulos.
+     */
     public static TitleDAO titleDAO = new TitleDAO();
+
+    /**
+     * Instância do {@link ReviewDAO} para operações relacionadas às avaliações.
+     */
     public static ReviewDAO reviewDAO = new ReviewDAO();
 
+    /**
+     * Método principal da aplicação.
+     * Lança a aplicação JavaFX.
+     */
     public static void main(String[] args) {
         launch();
     }
 
+    /**
+     * Inicializa a aplicação e mostra a tela de login.
+     *
+     * @param stage O palco principal da aplicação.
+     */
     @Override
     public void start(Stage stage) {
         showLoginView(stage);
     }
 
+    /**
+     * Exibe a tela de login.
+     *
+     * @param stage O palco onde a tela de login será exibida.
+     */
     public static void showLoginView(Stage stage) {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("controller/login/login.fxml"));
@@ -43,6 +72,10 @@ public class App extends Application {
         }
     }
 
+    /**
+     * Exibe a tela principal após o login.
+     * Inicializa os dados do usuário atual, como avaliações, favoritos e títulos assistidos.
+     */
     public static void showMainView() {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("controller/criticbox.fxml"));
@@ -54,6 +87,7 @@ public class App extends Application {
             stage.setScene(scene);
             stage.show();
 
+            // Atualiza as informações do usuário atual
             CurrentlyUser.setReviews(userDAO.getReviewsByUser(CurrentlyUser.getUser()));
             CurrentlyUser.setFavorites(userDAO.getFavoritesByUser(CurrentlyUser.getUser()));
             CurrentlyUser.setWatched(userDAO.getWatchedByUser(CurrentlyUser.getUser()));
@@ -63,3 +97,4 @@ public class App extends Application {
         }
     }
 }
+

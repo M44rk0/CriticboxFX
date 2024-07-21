@@ -4,6 +4,7 @@
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
@@ -122,20 +123,42 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <Separator orientation="VERTICAL" prefHeight="368.0" prefWidth="16.0" visible="false" />
-            <HBox id="leaveButton" fx:id="profileBox" alignment="CENTER" onMouseClicked="#returnToLogin" prefHeight="40.0" prefWidth="51.0">
+            <Separator orientation="VERTICAL" prefHeight="374.0" prefWidth="16.0" visible="false" />
+            <HBox alignment="CENTER" spacing="60.0">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
                <children>
-                  <SVGPath content="M4,12a1,1,0,0,0,1,1h7.59l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H5A1,1,0,0,0,4,12ZM17,2H7A3,3,0,0,0,4,5V8A1,1,0,0,0,6,8V5A1,1,0,0,1,7,4H17a1,1,0,0,1,1,1V19a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V16a1,1,0,0,0-2,0v3a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V5A3,3,0,0,0,17,2Z" fill="WHITE">
+                  <HBox fx:id="profileBox" alignment="CENTER" prefHeight="31.0" prefWidth="90.0" spacing="10.0">
+                     <children>
+                        <SVGPath content="M12,2A10,10,0,0,0,4.65,18.76h0a10,10,0,0,0,14.7,0h0A10,10,0,0,0,12,2Zm0,18a8,8,0,0,1-5.55-2.25,6,6,0,0,1,11.1,0A8,8,0,0,1,12,20ZM10,10a2,2,0,1,1,2,2A2,2,0,0,1,10,10Zm8.91,6A8,8,0,0,0,15,12.62a4,4,0,1,0-6,0A8,8,0,0,0,5.09,16,7.92,7.92,0,0,1,4,12a8,8,0,0,1,16,0A7.92,7.92,0,0,1,18.91,16Z" fill="WHITE">
+                           <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                           </cursor>
+                        </SVGPath>
+                        <Label fx:id="currentlyUserName" contentDisplay="TOP" graphicTextGap="10.0" opacity="0.6" prefHeight="19.0" prefWidth="72.0" text="Marco" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Bold" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
+                  </HBox>
+                  <HBox id="leaveButton" fx:id="profileBox1" alignment="CENTER" onMouseClicked="#returnToLogin" prefHeight="36.0" prefWidth="28.0">
+                     <children>
+                        <SVGPath content="M4,12a1,1,0,0,0,1,1h7.59l-2.3,2.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0l4-4a1,1,0,0,0,.21-.33,1,1,0,0,0,0-.76,1,1,0,0,0-.21-.33l-4-4a1,1,0,1,0-1.42,1.42L12.59,11H5A1,1,0,0,0,4,12ZM17,2H7A3,3,0,0,0,4,5V8A1,1,0,0,0,6,8V5A1,1,0,0,1,7,4H17a1,1,0,0,1,1,1V19a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V16a1,1,0,0,0-2,0v3a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V5A3,3,0,0,0,17,2Z" fill="WHITE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </SVGPath>
+                     </children>
                      <cursor>
                         <Cursor fx:constant="HAND" />
-                     </cursor></SVGPath>
+                     </cursor>
+                  </HBox>
                </children>
-               <VBox.margin>
-                  <Insets right="130.0" />
-               </VBox.margin>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
             </HBox>
          </children>
          <padding>
@@ -149,7 +172,7 @@
             </DropShadow>
          </effect>
       </VBox>
-      <ScrollPane fx:id="scrollPage" blendMode="SRC_ATOP" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="230.0" layoutY="112.0" maxHeight="-Infinity" prefHeight="670.0" prefWidth="805.0" style="-fx-background-color: #18181a;" vbarPolicy="NEVER" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="110.0">
+      <ScrollPane fx:id="scrollPage" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" layoutX="230.0" layoutY="112.0" maxHeight="-Infinity" prefHeight="670.0" prefWidth="805.0" style="-fx-background-color: #18181a;" vbarPolicy="NEVER" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="190.0" AnchorPane.topAnchor="110.0">
          <content>
             <VBox fx:id="scrollBox" blendMode="SRC_ATOP" prefWidth="805.0" spacing="10.0" style="-fx-background-color: #18181a;" />
          </content>

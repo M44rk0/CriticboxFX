@@ -30,8 +30,10 @@ import static com.m44rk0.criticboxfx.App.userDAO;
 import static com.m44rk0.criticboxfx.controller.MainController.seasonPosterCache;
 import static com.m44rk0.criticboxfx.controller.MainController.titlePosterCache;
 
+/**
+ * Controlador para gerenciar a exibição e edição de Reviews do usuário.
+ */
 public class ReviewController implements CommonController {
-
 
     @FXML
     private ImageView posterImage;
@@ -71,6 +73,9 @@ public class ReviewController implements CommonController {
     private MainController mainController;
     private Review review;
 
+    /**
+     * Carrega as Reviews do usuário atual e as exibe na interface.
+     */
     public void showUserReviews() {
         try {
             mainController.resetScrollBox();
@@ -133,78 +138,144 @@ public class ReviewController implements CommonController {
         }
     }
 
+    /**
+     * Define a imagem do poster.
+     *
+     * @param posterImage A imagem do poster.
+     */
     @Override
     public void setPosterImage(Image posterImage) {
         this.posterImage.setImage(posterImage);
-
     }
 
+    /**
+     * Remove a review do usuário após confirmação.
+     */
     @FXML
-    private void RemoveReview(){
+    private void RemoveReview() {
         int areYouSure = AlertMessage.showChoiceAlert("Remoção da Review", "Você tem certeza que deseja remover essa review?");
-        if(areYouSure == 0){
+        if (areYouSure == 0) {
             userDAO.removeReview(CurrentlyUser.getUser(), review);
             CurrentlyUser.removeReview(review);
             mainController.showUserReviews();
         }
     }
 
+    /**
+     * Edita a review do usuário.
+     */
     @FXML
-    private void EditReview(){
+    private void EditReview() {
         mainController.setIfTheReviewIsEditable(true);
         mainController.setReviewToEdit(review);
         mainController.showCreateReview(review.getTitle());
     }
 
+    /**
+     * Define o título.
+     *
+     * @param title O título.
+     */
     @Override
     public void setTitle(Title title) {
     }
 
+    /**
+     * Define o campo do título.
+     *
+     * @param titleField O campo do título.
+     */
     @Override
     public void setTitleField(String titleField) {
         this.tittleText.setText(titleField);
     }
 
+    /**
+     * Define o campo da visão geral.
+     *
+     * @param overview A visão geral.
+     */
     @Override
     public void setOverviewField(String overview) {
     }
 
+    /**
+     * Define o campo da data de lançamento.
+     *
+     * @param releaseDate A data de lançamento.
+     */
     @Override
     public void setReleaseField(String releaseDate) {
     }
 
-    public void setWatchedField(Date reviewDate){
+    /**
+     * Define o campo da data de assistido.
+     *
+     * @param reviewDate A data da review.
+     */
+    public void setWatchedField(Date reviewDate) {
         this.watchedText.setText(formatDate(reviewDate));
     }
 
+    /**
+     * Define o campo da review.
+     *
+     * @param overviewField O campo da review.
+     */
     public void setReviewField(String overviewField) {
         this.reviewText.setText(overviewField);
     }
 
-    public void setInfoTVField(String infoTV){
+    /**
+     * Define o campo de informações da TV.
+     *
+     * @param infoTV As informações da TV.
+     */
+    public void setInfoTVField(String infoTV) {
         this.infoTVText.setText(infoTV);
     }
 
+    /**
+     * Define o controlador principal.
+     *
+     * @param mainController O controlador principal.
+     */
     public void setMainController(MainController mainController) {
         this.mainController = mainController;
     }
 
-    public void setReview(Review review){
-        this.review = review;    }
+    /**
+     * Define a review.
+     *
+     * @param review A review.
+     */
+    public void setReview(Review review) {
+        this.review = review;
+    }
 
-    public void turnVisible(){
+    /**
+     * Torna o campo de informações de uma série de TV visível.
+     */
+    public void turnVisible() {
         infoTVField.setVisible(true);
     }
 
+    /**
+     * Formata a data para o formato "Assistido em dd 'de' MMM 'de' yyyy".
+     *
+     * @param date A data a ser formatada.
+     * @return A data formatada como string.
+     */
     private String formatDate(Date date) {
-
         SimpleDateFormat format = new SimpleDateFormat("dd 'de' MMM 'de' yyyy", Locale.forLanguageTag("pt-BR"));
-
-        String dataFormatada = format.format(date);
-
-        return "Assistido em " + dataFormatada;
+        return "Assistido em " + format.format(date);
     }
 
+    /**
+     * Define a classificação selecionada exibindo as estrelas.
+     *
+     * @param rating A classificação selecionada.
+     */
     public void setSelectedRating(int rating) {
         for (int i = 0; i < stars.size(); i++) {
             if (i < rating) {
@@ -215,10 +286,12 @@ public class ReviewController implements CommonController {
         }
     }
 
-    public void initialize(){
+    /**
+     * Inicializa os componentes do controlador.
+     */
+    public void initialize() {
         stars = Arrays.asList(star1, star2, star3, star4, star5);
         infoTVField.setVisible(false);
     }
-
-
 }
+

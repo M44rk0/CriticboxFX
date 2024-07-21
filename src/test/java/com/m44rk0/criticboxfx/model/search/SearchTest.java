@@ -6,10 +6,16 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
-class SearchTest {
+/**
+ * Testes unitários para a classe {@link Search}.
+ * Testa as funcionalidades relacionadas à busca, como ordenação por popularidade e validação de títulos.
+ */
+public class SearchTest {
 
-    private static final String API_KEY = new TitleSearcher().getAPI_KEY();
-
+    /**
+     * Testa a funcionalidade de ordenação por popularidade.
+     * Verifica se a lista de títulos é corretamente ordenada pela popularidade em ordem decrescente.
+     */
     @Test
     void testSortByPopularity() {
 
@@ -24,6 +30,12 @@ class SearchTest {
         assertTrue(isSortedByPopularity(titles));
     }
 
+    /**
+     * Verifica se a lista de títulos está ordenada por popularidade em ordem decrescente.
+     *
+     * @param titles Lista de títulos a ser verificada.
+     * @return Verdadeiro se a lista estiver ordenada por popularidade, falso caso contrário.
+     */
     private boolean isSortedByPopularity(ArrayList<Title> titles) {
 
         for (int i = 0; i < titles.size() - 1; i++) {
@@ -34,6 +46,10 @@ class SearchTest {
         return true;
     }
 
+    /**
+     * Testa a validação de filmes.
+     * Verifica se um filme é considerado válido ou inválido com base em seus atributos.
+     */
     @Test
     void testIsValidMovie() {
 
@@ -44,6 +60,10 @@ class SearchTest {
         assertFalse(Search.isValidMovie(invalidMovie));
     }
 
+    /**
+     * Testa a validação de programas de TV.
+     * Verifica se um programa de TV é considerado válido ou inválido com base em seus atributos.
+     */
     @Test
     void testIsValidTvShow() {
 
@@ -54,6 +74,10 @@ class SearchTest {
         assertFalse(Search.isValidTvShow(invalidTvShow));
     }
 
+    /**
+     * Testa a verificação de lançamento.
+     * Verifica se uma data fornecida é considerada uma data de lançamento válida.
+     */
     @Test
     void testIsReleased() {
         assertTrue(Search.isReleased("2022-01-01"));
@@ -63,3 +87,4 @@ class SearchTest {
     }
 
 }
+

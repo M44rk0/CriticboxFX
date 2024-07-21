@@ -12,14 +12,28 @@ import java.util.List;
 
 import static com.m44rk0.criticboxfx.controller.MainController.titlePosterCache;
 
+/**
+ * Classe de Data Access Object (DAO) para gerenciar operações relacionadas a títulos no banco de dados.
+ * Esta classe fornece métodos para adicionar, remover e recuperar títulos, além de gerenciar os resultados de busca do usuário.
+ */
 public class TitleDAO {
 
     private final Connection connection;
 
+    /**
+     * Construtor para criar uma instância de TitleDAO.
+     * Estabelece a conexão com o banco de dados usando a classe {@link DatabaseConnection}.
+     */
     public TitleDAO() {
         this.connection = DatabaseConnection.getConnection();
     }
 
+    /**
+     * Recupera todos os IDs de título do banco de dados.
+     *
+     * @return Uma lista contendo todos os IDs de título.
+     * @throws SQLException Se ocorrer um erro durante a consulta.
+     */
     public List<Integer> getAllTitleIds() throws SQLException {
         List<Integer> titleIds = new ArrayList<>();
         String sql = "SELECT title_id FROM Title";
@@ -35,18 +49,25 @@ public class TitleDAO {
         return titleIds;
     }
 
+    /**
+     * Limpa os resultados da última busca do usuário atual.
+     */
     public void clearLastResults() {
         String sql = "DELETE FROM userlastresults WHERE user_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, CurrentlyUser.getUser().getUserID());
             stmt.executeUpdate();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
+    /**
+     * Adiciona um título aos resultados da última busca do usuário atual.
+     *
+     * @param title O título a ser adicionado.
+     */
     public void addTitleToLastResults(Title title) {
         String insertLastResultsSQL = "INSERT INTO lastresults (title_id) VALUES (?)";
         String insertUserLastResultsSQL = "INSERT INTO userlastresults (user_id, lastresult_id) VALUES (?, ?)";
@@ -66,12 +87,16 @@ public class TitleDAO {
                     }
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
+    /**
+     * Recupera os títulos da última busca do usuário atual.
+     *
+     * @return Uma lista de títulos da última busca do usuário.
+     */
     public List<Title> getLastSearchedTitles() {
         ArrayList<Title> lastSearchedTitles = new ArrayList<>();
 
@@ -117,8 +142,7 @@ public class TitleDAO {
                     lastSearchedTitles.add(title);
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
 
@@ -127,7 +151,13 @@ public class TitleDAO {
         return lastSearchedTitles;
     }
 
-    public void addTitle(Title title){
+    /**
+     * Adiciona um título ao banco de dados. Dependendo do tipo de título (filme ou série),
+     * o título é adicionado à tabela correspondente.
+     *
+     * @param title O título a ser adicionado.
+     */
+    public void addTitle(Title title) {
         if (title instanceof Film) {
             addFilm((Film) title);
         } else if (title instanceof TvShow) {
@@ -135,7 +165,12 @@ public class TitleDAO {
         }
     }
 
-    private void addTitleToBaseTable(Title title){
+    /**
+     * Adiciona um título à tabela base de títulos.
+     *
+     * @param title O título a ser adicionado.
+     */
+    private void addTitleToBaseTable(Title title) {
         String sql = "INSERT INTO Title (title_id, name, overview, poster_path, release_date, duration, popularity, type) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -156,14 +191,25 @@ public class TitleDAO {
 
             stmt.executeUpdate();
 
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
-    //cria um TvShow com suas respectivas temporadas e episódios
-    public TvShow createTvShowWithSeasonsAndEpisodes(int titleId, String name, String overview, String posterPath, String releaseDate, int duration, double popularity, int totalEpisodes){
+    /**
+     * Cria um objeto {@link TvShow} com suas respectivas temporadas e episódios.
+     *
+     * @param titleId ID do título da série.
+     * @param name Nome da série.
+     * @param overview Descrição da série.
+     * @param posterPath Caminho para o poster da série.
+     * @param releaseDate Data de lançamento da série.
+     * @param duration Duração dos episódios da série.
+     * @param popularity Popularidade da série.
+     * @param totalEpisodes Número total de episódios.
+     * @return Um objeto {@link TvShow} com temporadas e episódios.
+     */
+    public TvShow createTvShowWithSeasonsAndEpisodes(int titleId, String name, String overview, String posterPath, String releaseDate, int duration, double popularity, int totalEpisodes) {
         TvShow tvShow = new TvShow(titleId, name, duration, overview, posterPath, releaseDate, popularity, totalEpisodes);
 
         String seasonSql = "SELECT season_id, season_number, season_poster_path FROM season WHERE tvshow_id = ?";
@@ -182,15 +228,19 @@ public class TitleDAO {
                 }
                 tvShow.setSeasons(seasons);
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
 
         return tvShow;
     }
 
-    //busca os episódios de uma temporada
+    /**
+     * Recupera os episódios de uma temporada específica.
+     *
+     * @param seasonId ID da temporada.
+     * @return Uma lista de episódios da temporada.
+     */
     private ArrayList<Episode> getEpisodesForSeason(int seasonId) {
         ArrayList<Episode> episodes = new ArrayList<>();
 
@@ -208,30 +258,37 @@ public class TitleDAO {
                     episodes.add(episode);
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
 
         return episodes;
     }
 
-    private void addFilm(Film film){
+    /**
+     * Adiciona um filme ao banco de dados.
+     *
+     * @param film O filme a ser adicionado.
+     */
+    private void addFilm(Film film) {
         addTitleToBaseTable(film);
 
         String sql = "INSERT INTO Film (title_id) VALUES (?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, film.getTitleId());
-
             stmt.executeUpdate();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
 
-    private void addTvShow(TvShow tvShow){
+    /**
+     * Adiciona uma série ao banco de dados.
+     *
+     * @param tvShow A série a ser adicionada.
+     */
+    private void addTvShow(TvShow tvShow) {
         addTitleToBaseTable(tvShow);
 
         String sql = "INSERT INTO TvShow (title_id, total_episodes) VALUES (?,?)";
@@ -239,7 +296,6 @@ public class TitleDAO {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, tvShow.getTitleId());
             stmt.setInt(2, tvShow.getTotalEpisodes());
-
             stmt.executeUpdate();
         } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
@@ -250,6 +306,12 @@ public class TitleDAO {
         }
     }
 
+    /**
+     * Adiciona uma temporada ao banco de dados, incluindo seus episódios.
+     *
+     * @param season A temporada a ser adicionada.
+     * @param tvShowId ID da série a qual a temporada pertence.
+     */
     public void addSeason(Season season, int tvShowId) {
         String sqlInsertSeason = "INSERT INTO Season (season_number, season_poster_path, tvshow_id) VALUES (?, ?, ?)";
         String sqlInsertEpisode = "INSERT INTO Episode (episode_name, episode_runtime, season_id) VALUES (?, ?, ?)";
@@ -278,13 +340,9 @@ public class TitleDAO {
                     }
                 }
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }
     }
-
-
-
-
 }
+

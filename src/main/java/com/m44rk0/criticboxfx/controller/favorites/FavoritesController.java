@@ -14,6 +14,9 @@ import javafx.scene.layout.Pane;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Controlador para gerenciar a exibição dos favoritos e assistidos na interface do usuário.
+ */
 public class FavoritesController implements CommonController {
 
     @FXML
@@ -27,11 +30,15 @@ public class FavoritesController implements CommonController {
 
     private MainController mainController;
 
+    /**
+     * Exibe os títulos favoritos e assistidos na interface do usuário.
+     */
     public void showFavorites() {
         try {
             mainController.getScrollPage().setVvalue(0);
             mainController.resetScrollBox();
 
+            // Obtém a lista de favoritos do usuário atual em ordem de adição.
             List<Title> favorites = CurrentlyUser.getFavorites().reversed();
             for (Title title : favorites) {
                 FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
@@ -41,6 +48,7 @@ public class FavoritesController implements CommonController {
                 favoritesFlow.getChildren().add(favoritesPanel);
             }
 
+            // Obtém a lista de títulos assistidos do usuário atual em ordem de adição.
             List<Title> watched = CurrentlyUser.getWatched().reversed();
             for (Title title : watched) {
                 FXMLLoader fpLoader = new FXMLLoader(getClass().getResource("favoritesPanel.fxml"));
@@ -50,45 +58,46 @@ public class FavoritesController implements CommonController {
                 watchedFlow.getChildren().add(favoritesPanel);
             }
 
+            // Ajusta a altura da página de rolagem se não houver favoritos ou assistidos, ou se ambos tiverem menos de 4 títulos.
             if (watched.isEmpty() && favorites.isEmpty() || (watched.size() < 4 && favorites.size() < 4)) {
                 mainController.getScrollPage().setFitToHeight(true);
             }
 
+            // Adiciona o TabPane de favoritos à página de rolagem principal
             mainController.getScrollBox().getChildren().add(TabPaneFavorites);
-        }
-        catch (IOException e) {
+
+        } catch (IOException e) {
             AlertMessage.showCommonAlert("Erro de Inicialização", "Erro no carregamento do FXML dos Favorites");
         }
     }
 
     @Override
     public void setTitle(Title title) {
-
     }
 
     @Override
     public void setTitleField(String title) {
-
     }
 
     @Override
     public void setOverviewField(String overview) {
-
     }
 
     @Override
     public void setPosterImage(Image posterImage) {
-
     }
 
     @Override
     public void setReleaseField(String releaseDate) {
-
     }
 
+    /**
+     * Define o controlador principal.
+     *
+     * @param controller O controlador principal.
+     */
     @Override
     public void setMainController(MainController controller) {
         this.mainController = controller;
     }
-
 }
