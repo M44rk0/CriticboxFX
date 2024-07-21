@@ -8,6 +8,7 @@ import com.m44rk0.criticboxfx.model.title.TvShow;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import com.m44rk0.criticboxfx.utils.Icon;
+import com.m44rk0.criticboxfx.utils.DetailsSource;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.TabPane;
@@ -203,7 +204,7 @@ public class TitleInfoController implements CommonController {
     @FXML
     public void showDetails(){
         mainController.showTitleDetails(title);
-        mainController.getTitleDetailsController().setDetailsIsCalledFrom(1);
+        mainController.getTitleDetailsController().setDetailsIsCalledFrom(DetailsSource.RESULTS_PAGE);
     }
 
     /**

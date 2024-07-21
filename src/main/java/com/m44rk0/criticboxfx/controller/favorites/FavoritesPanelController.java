@@ -3,6 +3,7 @@ package com.m44rk0.criticboxfx.controller.favorites;
 import com.m44rk0.criticboxfx.controller.MainController;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.utils.CommonController;
+import com.m44rk0.criticboxfx.utils.DetailsSource;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.fxml.FXML;
@@ -24,7 +25,7 @@ public class FavoritesPanelController implements CommonController {
     @FXML
     public void showDetails() {
         mainController.showTitleDetails(title);
-        mainController.getTitleDetailsController().setDetailsIsCalledFrom(2);
+        mainController.getTitleDetailsController().setDetailsIsCalledFrom(DetailsSource.FAVORITES);
     }
 
     @Override

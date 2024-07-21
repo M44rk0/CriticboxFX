@@ -8,6 +8,7 @@ import com.m44rk0.criticboxfx.model.title.TvShow;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import com.m44rk0.criticboxfx.utils.Icon;
+import com.m44rk0.criticboxfx.utils.DetailsSource;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
@@ -53,16 +54,16 @@ public class TitleDetailsController implements CommonController {
     private Text durationLabelText;
 
     @FXML
-    private TextFlow episodesField;
-
-    @FXML
     private Text episodesText;
 
     @FXML
-    private TextFlow episodesLabel;
+    private Text memberText;
 
     @FXML
-    private Text memberText;
+    private TextFlow episodesField;
+
+    @FXML
+    private TextFlow episodesLabel;
 
     @FXML
     private SVGPath favoriteStar;
@@ -99,9 +100,10 @@ public class TitleDetailsController implements CommonController {
     private Title title;
 
     // Ajusta o botão de "return" a depender de onde ele foi clicado
-    // 1 == página de favoritos (return volta pra página de favoritos)
-    // 2 == página de resultados (return volta pra página de resultados)
-    private static Integer detailsIsCalledFrom = 0;
+    // NONE == Padrão
+    // FAVORITES == página de favoritos (return volta pra página de favoritos)
+    // RESULTS_PAGE == página de resultados (return volta pra página de resultados)
+    private static DetailsSource detailsIsCalledFrom = DetailsSource.NONE;
 
     /**
      * Exibe os detalhes do título fornecido na interface do usuário.
@@ -156,10 +158,10 @@ public class TitleDetailsController implements CommonController {
     @FXML
     void handleReturnButtonClick() {
         if (mainController != null) {
-            if(detailsIsCalledFrom == 1) {
+            if(detailsIsCalledFrom == DetailsSource.RESULTS_PAGE){
                 mainController.restoreSearchResults();
             }
-            else if (detailsIsCalledFrom == 2){
+            else if (detailsIsCalledFrom == DetailsSource.FAVORITES){
                 mainController.showFavorites();
             }
         }
@@ -339,7 +341,7 @@ public class TitleDetailsController implements CommonController {
      *
      * @param whereDetailsIsCalled o valor a ser definido
      */
-    public void setDetailsIsCalledFrom(Integer whereDetailsIsCalled) {
+    public void setDetailsIsCalledFrom(DetailsSource whereDetailsIsCalled) {
         detailsIsCalledFrom = whereDetailsIsCalled;
     }
 

@@ -7,11 +7,12 @@ module com.m44rk0.criticboxfx {
     requires org.kordamp.ikonli.javafx;
     requires io.github.cdimascio.dotenv.java;
     requires java.sql;
-    requires org.hibernate.orm.core;
-    requires java.persistence;
 
     exports com.m44rk0.criticboxfx;
     opens com.m44rk0.criticboxfx to javafx.controls, javafx.fxml;
+
+    exports com.m44rk0.criticboxfx.controller.user;
+    opens com.m44rk0.criticboxfx.controller.user to javafx.controls, javafx.fxml;
 
     exports com.m44rk0.criticboxfx.utils;
     opens com.m44rk0.criticboxfx.utils to javafx.controls, javafx.fxml;

@@ -9,6 +9,11 @@
     -fx-border-width: 0.5;
 }
 
+.defaultTextField:focused{
+    -fx-border-color: white;
+    -fx-border-width: 1;
+}
+
 .defaultButton{
     -fx-background-color: #2b2a31;
     -fx-background-radius: 30;

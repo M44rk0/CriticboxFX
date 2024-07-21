@@ -349,16 +349,12 @@ public class UserDAO {
         ArrayList<Review> reviews = new ArrayList<>();
 
         String sql = "SELECT r.review_id, r.review_date, r.review_note, r.review_text, r.title_id, t.type AS title_type, " +
-                "CASE WHEN er.review_id IS NOT NULL THEN 'EpisodeReview' " +
-                "WHEN tr.review_id IS NOT NULL THEN 'TitleReview' " +
+                "CASE WHEN er.review_id IS NOT NULL THEN 'EpisodeReview' WHEN tr.review_id IS NOT NULL THEN 'TitleReview' " +
                 "ELSE 'Unknown' END AS review_type, " + "er.season_number, er.episode_name, " +
                 "t.name, t.overview, t.poster_path, t.release_date, t.duration, t.popularity, " + "ts.total_episodes " +
-                "FROM review r " + "LEFT JOIN episodereview er ON r.review_id = er.review_id " +
-                "LEFT JOIN titlereview tr ON r.review_id = tr.review_id " +
-                "JOIN userreviews ur ON r.review_id = ur.review_id " +
-                "JOIN title t ON r.title_id = t.title_id " +
-                "LEFT JOIN tvshow ts ON t.title_id = ts.title_id " +
-                "WHERE ur.user_id = ?";
+                "FROM review r " + "LEFT JOIN episodereview er ON r.review_id = er.review_id LEFT JOIN titlereview tr ON r.review_id = tr.review_id " +
+                "JOIN userreviews ur ON r.review_id = ur.review_id JOIN title t ON r.title_id = t.title_id " +
+                "LEFT JOIN tvshow ts ON t.title_id = ts.title_id WHERE ur.user_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, user.getUserID());
