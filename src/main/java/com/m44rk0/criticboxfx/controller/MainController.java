@@ -12,19 +12,23 @@ import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import info.movito.themoviedbapi.tools.TmdbException;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static com.m44rk0.criticboxfx.controller.details.TitleInfoController.lastSearchedTitles;
 import static com.m44rk0.criticboxfx.model.search.Search.titlePosterCache;
 
 /**
@@ -93,6 +97,7 @@ public class MainController {
      */
     @FXML
     private void returnToLogin() {
+        titleInfoController.clearResultNodes();
         stage.close();
         App.showLoginView(new Stage());
     }
@@ -102,13 +107,10 @@ public class MainController {
      * caso contrário, restaura os resultados da ultima busca feita pelo usuário atual.
      */
     @FXML
-    public void initialize() {
+    public void initialize(){
         currentlyUserName.setText(CurrentlyUser.getUser().getName());
-        if (lastSearchedTitles.isEmpty()) {
-            showFavorites();
-        } else {
-            restoreSearchResults();
-        }
+        restoreSearchResults();
+
     }
 
     /**
@@ -123,11 +125,29 @@ public class MainController {
             if (searchParameter.isEmpty() || searchParameter.isBlank()) {
                 AlertMessage.showCommonAlert("Erro de Busca", "Digite um parâmetro de busca");
             } else {
+                showLoadingScreen();
                 searchResults = searcher.search(searchParameter);
                 showSearchResults(searchResults);
             }
         } catch (TmdbException e) {
             AlertMessage.showCommonAlert("Erro de Busca", "Erro de Busca");
+        }
+    }
+
+    private void showLoadingScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("details/searchLoading.fxml"));
+            Pane pane = loader.load();
+            scrollBox.getChildren().addAll(pane);
+
+            FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), pane);
+            fadeIn.setFromValue(0);
+            fadeIn.setToValue(1);
+            fadeIn.setCycleCount(1);
+            fadeIn.play();
+
+        } catch (IOException e) {
+            AlertMessage.showErrorAlert("UI Error", "Erro ao carregar o Splash");
         }
     }
 
@@ -364,7 +384,6 @@ public class MainController {
 
         return titleDetailsController;
     }
-
 }
 
 

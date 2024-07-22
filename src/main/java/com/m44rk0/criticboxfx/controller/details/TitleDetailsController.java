@@ -339,10 +339,10 @@ public class TitleDetailsController implements CommonController {
     /**
      * Define o valor de {@code detailsIsCalledFrom}.
      *
-     * @param whereDetailsIsCalled o valor a ser definido
+     * @param whereTheDetailsIsCalled o valor a ser definido
      */
-    public void setDetailsIsCalledFrom(DetailsSource whereDetailsIsCalled) {
-        detailsIsCalledFrom = whereDetailsIsCalled;
+    public void setWhereTheDetailsIsCalledFrom(DetailsSource whereTheDetailsIsCalled) {
+        detailsIsCalledFrom = whereTheDetailsIsCalled;
     }
 
     /**

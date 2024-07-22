@@ -6,9 +6,7 @@ import com.m44rk0.criticboxfx.model.review.EpisodeReview;
 import com.m44rk0.criticboxfx.model.review.TitleReview;
 import com.m44rk0.criticboxfx.model.review.Review;
 import com.m44rk0.criticboxfx.model.title.*;
-import com.m44rk0.criticboxfx.utils.AlertMessage;
-import com.m44rk0.criticboxfx.utils.CommonController;
-import com.m44rk0.criticboxfx.utils.InvalidReviewException;
+import com.m44rk0.criticboxfx.utils.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -70,10 +68,16 @@ public class ReviewCreatorController implements CommonController {
     private MainController mainController;
 
     // "Avisa" que a tela de criação de review será para edição de uma review
-    private static Boolean isTheReviewEditable;
+    private static Boolean isTheReviewEditable = false;
 
     // Guarda o review que vai ser editado e que será aberto na página de criação de reviews
     private static Review reviewToEdit;
+
+    // Ajusta o botão de "return" a depender de onde ele foi clicado
+    // NONE == Padrão
+    // RESULTS_PAGE == página de resultados (return volta pra página de resultados)
+    // USER_REVIEWS == página de reviews (return volta pra página de reviews)
+    private static CreatorSource creatorIsCalledFrom = CreatorSource.NONE;
 
     /**
      * Método chamado ao clicar no botão de retornar, que retorna a página dos resultados da busca.
@@ -81,7 +85,12 @@ public class ReviewCreatorController implements CommonController {
     @FXML
     void ReturnButtonClick() {
         if (mainController != null) {
-            mainController.restoreSearchResults();
+            if(creatorIsCalledFrom == CreatorSource.RESULTS_PAGE) {
+                mainController.restoreSearchResults();
+            }
+            else if(creatorIsCalledFrom == CreatorSource.USER_REVIEWS){
+                mainController.showUserReviews();
+            }
         }
     }
 
@@ -328,6 +337,15 @@ public class ReviewCreatorController implements CommonController {
      */
     public void setReviewToEdit(Review review) {
         reviewToEdit = review;
+    }
+
+    /**
+     * Define o valor de {@code creatorIsCalledFrom}.
+     *
+     * @param whereTheCreatorIsCalled o valor a ser definido
+     */
+    public void setWhereTheCreatorIsCalledFrom(CreatorSource whereTheCreatorIsCalled) {
+        creatorIsCalledFrom = whereTheCreatorIsCalled;
     }
 
     /**
