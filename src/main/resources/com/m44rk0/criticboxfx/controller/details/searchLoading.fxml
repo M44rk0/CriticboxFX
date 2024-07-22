@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ProgressIndicator?>
+<?import javafx.scene.effect.Bloom?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="670.0" prefWidth="805.0" style="-fx-background-color: #18181a;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ProgressIndicator layoutX="376.0" layoutY="309.0" opacity="0.68">
+         <effect>
+            <Bloom />
+         </effect>
+      </ProgressIndicator>
+   </children>
+</Pane>
