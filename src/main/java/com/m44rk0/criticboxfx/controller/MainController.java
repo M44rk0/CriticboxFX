@@ -132,6 +132,7 @@ public class MainController {
         } catch (TmdbException e) {
             AlertMessage.showCommonAlert("Erro de Busca", "Erro de Busca");
         }
+
     }
 
     private void showLoadingScreen() {
