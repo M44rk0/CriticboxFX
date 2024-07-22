@@ -6,6 +6,7 @@ import com.m44rk0.criticboxfx.model.user.User;
 
 import java.util.ArrayList;
 
+
 /**
  * Classe responsável por gerenciar as informações do usuário atualmente logado.
  * Fornece métodos estáticos para acessar e manipular os dados do usuário,
@@ -140,5 +141,6 @@ public class CurrentlyUser {
     public static void setReviews(ArrayList<Review> reviews) {
         user.setReviews(reviews);
     }
+
 }
 

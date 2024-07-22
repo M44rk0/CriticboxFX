@@ -3,13 +3,21 @@ package com.m44rk0.criticboxfx.controller.login;
 import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.model.user.User;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
+import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import com.m44rk0.criticboxfx.App;
+import javafx.util.Duration;
+
+import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 import static com.m44rk0.criticboxfx.App.userDAO;
 
@@ -17,6 +25,9 @@ import static com.m44rk0.criticboxfx.App.userDAO;
  * Controlador para gerenciar a lógica de login e registro na interface do usuário.
  */
 public class LoginController {
+
+    @FXML
+    private AnchorPane root;
 
     @FXML
     private TextField nameRegister;
@@ -36,11 +47,6 @@ public class LoginController {
     @FXML
     private TextField userRegister;
 
-    @FXML
-    private Text invalid;
-
-    private Stage stage;
-
     /**
      * Método para realizar o login do usuário.
      * Verifica as credenciais do usuário e, se válidas, fecha a tela de login e exibe a tela principal.
@@ -48,11 +54,29 @@ public class LoginController {
      */
     @FXML
     public void login() {
+
         User user = userDAO.getUserByCredentials(getUserLoginText(), getPasswordLoginText());
+
         if (user != null) {
+
             CurrentlyUser.setUser(user);
-            stage.close();
-            App.showMainView();
+
+            loadSplash();
+
+            CompletableFuture.runAsync(() -> {
+
+                CurrentlyUser.setReviews(userDAO.getReviewsByUser(CurrentlyUser.getUser()));
+                CurrentlyUser.setFavorites(userDAO.getFavoritesByUser(CurrentlyUser.getUser()));
+                CurrentlyUser.setWatched(userDAO.getWatchedByUser(CurrentlyUser.getUser()));
+
+            }).thenRun(() -> Platform.runLater(() -> {
+
+                Stage splashStage = (Stage) root.getScene().getWindow();
+                splashStage.close();
+                App.showMainView();
+
+            }));
+
         } else {
             AlertMessage.showCommonAlert("Erro de Login", "Usuário ou Senha Inválidos.");
         }
@@ -82,13 +106,26 @@ public class LoginController {
         }
     }
 
+
     /**
-     * Define o stage (janela) atual.
-     *
-     * @param stage O stage a ser definido.
+     * Método para carregar o Loading após o login.
+
      */
-    public void setStage(Stage stage) {
-        this.stage = stage;
+    private void loadSplash() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("loginSplash.fxml"));
+            Pane pane = loader.load();
+            root.getChildren().addAll(pane);
+
+            FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), pane);
+            fadeIn.setFromValue(0);
+            fadeIn.setToValue(1);
+            fadeIn.setCycleCount(1);
+            fadeIn.play();
+
+        } catch (IOException e) {
+            AlertMessage.showErrorAlert("UI Error", "Erro ao carregar o Splash");
+        }
     }
 
     /**

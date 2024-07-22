@@ -2,6 +2,7 @@ package com.m44rk0.criticboxfx.dao;
 import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.model.search.Search;
 import com.m44rk0.criticboxfx.model.title.*;
+import com.m44rk0.criticboxfx.model.user.User;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.DatabaseConnection;
 import javafx.scene.image.Image;
@@ -97,7 +98,7 @@ public class TitleDAO {
      *
      * @return Uma lista de títulos da última busca do usuário.
      */
-    public List<Title> getLastSearchedTitles() {
+    public List<Title> getLastSearchedTitles(User user) {
         ArrayList<Title> lastSearchedTitles = new ArrayList<>();
 
         String sql = "SELECT t.title_id, t.name, t.overview, t.poster_path, t.release_date, t.duration, t.popularity, t.type, " +
@@ -109,7 +110,7 @@ public class TitleDAO {
                 "WHERE ulr.user_id = ?";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setInt(1, CurrentlyUser.getUser().getUserID());
+            stmt.setInt(1, user.getUserID());
 
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {

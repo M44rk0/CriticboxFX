@@ -5,10 +5,7 @@ import com.m44rk0.criticboxfx.controller.mainview.ViewTabController;
 import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.model.title.TvShow;
-import com.m44rk0.criticboxfx.utils.AlertMessage;
-import com.m44rk0.criticboxfx.utils.CommonController;
-import com.m44rk0.criticboxfx.utils.Icon;
-import com.m44rk0.criticboxfx.utils.DetailsSource;
+import com.m44rk0.criticboxfx.utils.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.TabPane;
@@ -72,7 +69,7 @@ public class TitleInfoController implements CommonController {
     private final List<Node> searchResultNodes = new ArrayList<>();
 
     // Busca os últimos resultados do usuário atual
-    public static List<Title> lastSearchedTitles = titleDAO.getLastSearchedTitles();
+    private List<Title> lastSearchedTitles = titleDAO.getLastSearchedTitles(CurrentlyUser.getUser());
 
     /**
      * Exibe os resultados da busca na tela.
@@ -204,7 +201,7 @@ public class TitleInfoController implements CommonController {
     @FXML
     public void showDetails(){
         mainController.showTitleDetails(title);
-        mainController.getTitleDetailsController().setDetailsIsCalledFrom(DetailsSource.RESULTS_PAGE);
+        mainController.getTitleDetailsController().setWhereTheDetailsIsCalledFrom(DetailsSource.RESULTS_PAGE);
     }
 
     /**
@@ -213,6 +210,7 @@ public class TitleInfoController implements CommonController {
     @FXML
     public void showReview(){
         mainController.showCreateReview(title);
+        mainController.getReviewCreatorController().setWhereTheCreatorIsCalledFrom(CreatorSource.RESULTS_PAGE);
         mainController.getReviewCreatorController().setIfTheReviewIsEditable(false);
     }
 
@@ -275,8 +273,16 @@ public class TitleInfoController implements CommonController {
      */
     @FXML
     public void initialize(){
+        this.lastSearchedTitles = titleDAO.getLastSearchedTitles(CurrentlyUser.getUser());
         episodesField.setVisible(false);
         seasonField.setVisible(false);
+    }
+
+    /**
+     * Limpa os nós de resultados salvos previamente.
+     */
+    public void clearResultNodes(){
+        this.searchResultNodes.clear();
     }
 
     @Override

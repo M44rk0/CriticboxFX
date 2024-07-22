@@ -25,7 +25,7 @@ public class FavoritesPanelController implements CommonController {
     @FXML
     public void showDetails() {
         mainController.showTitleDetails(title);
-        mainController.getTitleDetailsController().setDetailsIsCalledFrom(DetailsSource.FAVORITES);
+        mainController.getTitleDetailsController().setWhereTheDetailsIsCalledFrom(DetailsSource.FAVORITES);
     }
 
     @Override

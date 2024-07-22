@@ -8,6 +8,7 @@ import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.model.title.TvShow;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
+import com.m44rk0.criticboxfx.utils.CreatorSource;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TabPane;
@@ -158,7 +159,7 @@ public class ReviewController implements CommonController {
     private void EditReview() {
         mainController.getReviewCreatorController().setReviewToEdit(review);
         mainController.getReviewCreatorController().setIfTheReviewIsEditable(true);
-        System.out.println("teste");
+        mainController.getReviewCreatorController().setWhereTheCreatorIsCalledFrom(CreatorSource.USER_REVIEWS);
         mainController.showCreateReview(review.getTitle());
     }
 

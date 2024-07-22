@@ -32,7 +32,7 @@
    <FlowPane fx:id="movieInfoFlow" columnHalignment="CENTER" hgap="10.0" layoutX="269.0" layoutY="10.0" prefWidth="521.0" vgap="10.0">
       <HBox spacing="10.0">
          <children>
-            <TextFlow fx:id="tittleField" blendMode="SCREEN" maxWidth="-Infinity" prefHeight="44.0" prefWidth="467.0" style="-fx-border-color: gray #2b2b2d  #2b2b2d  gray; -fx-border-radius: 5; -fx-background-radius: 5; -fx-border-width: 1;">
+            <TextFlow fx:id="tittleField" blendMode="SCREEN" maxWidth="-Infinity" prefHeight="44.0" prefWidth="467.0" style="-fx-border-color: gray; -fx-border-radius: 5; -fx-background-radius: 5; -fx-border-width: 0.5;">
                <padding>
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </padding>
@@ -55,7 +55,7 @@
             </Button>
          </children>
       </HBox>
-      <TextFlow fx:id="overviewField" blendMode="SCREEN" lineSpacing="3.0" prefHeight="115.0" prefWidth="521.0" style="-fx-border-color: gray #2b2b2d  #2b2b2d  gray; -fx-border-radius: 5; -fx-background-color: #1f1e23; -fx-border-width: 1; -fx-background-radius: 5;" textAlignment="JUSTIFY">
+      <TextFlow fx:id="overviewField" blendMode="SCREEN" lineSpacing="3.0" prefHeight="115.0" prefWidth="521.0" style="-fx-border-radius: 5; -fx-background-color: #1f1e23; -fx-border-width: 0.5; -fx-background-radius: 5;" textAlignment="JUSTIFY">
          <padding>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </padding>
@@ -67,7 +67,7 @@
       </TextFlow>
       <HBox alignment="CENTER" prefHeight="44.0" prefWidth="520.0" spacing="15.0">
          <children>
-            <TextFlow fx:id="releaseField" blendMode="SCREEN" prefHeight="44.0" style="-fx-border-color: gray #2b2b2d  #2b2b2d  gray; -fx-border-radius: 5; -fx-background-color: #1f1e23; -fx-background-radius: 5; -fx-border-width: 1;" textAlignment="CENTER">
+            <TextFlow fx:id="releaseField" blendMode="SCREEN" prefHeight="44.0" style="-fx-border-radius: 5; -fx-background-color: #1f1e23; -fx-background-radius: 5; -fx-border-width: 0.5;" textAlignment="CENTER">
                <padding>
                   <Insets left="20.0" right="20.0" top="10.0" />
                </padding>
@@ -77,7 +77,7 @@
                   </font>
                </Text>
             </TextFlow>
-            <TextFlow fx:id="seasonField" blendMode="SCREEN" maxWidth="-Infinity" prefHeight="52.0" prefWidth="163.0" style="-fx-border-color: gray #2b2b2d  #2b2b2d  gray; -fx-border-radius: 5; -fx-background-color: #1f1e23; -fx-background-radius: 5; -fx-border-width: 1;" textAlignment="CENTER">
+            <TextFlow fx:id="seasonField" blendMode="SCREEN" maxWidth="-Infinity" prefHeight="52.0" prefWidth="163.0" style="-fx-border-radius: 5; -fx-background-color: #1f1e23; -fx-background-radius: 5; -fx-border-width: 0.5;" textAlignment="CENTER">
                <padding>
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </padding>
@@ -89,7 +89,7 @@
                   </Text>
                </children>
             </TextFlow>
-            <TextFlow fx:id="episodesField" blendMode="SCREEN" maxWidth="-Infinity" prefHeight="44.0" prefWidth="202.0" style="-fx-border-color: gray #2b2b2d  #2b2b2d  gray; -fx-border-radius: 5; -fx-background-color: #1f1e23; -fx-background-radius: 5; -fx-border-width: 1;" textAlignment="CENTER">
+            <TextFlow fx:id="episodesField" blendMode="SCREEN" maxWidth="-Infinity" prefHeight="44.0" prefWidth="202.0" style="-fx-border-radius: 5; -fx-background-color: #1f1e23; -fx-background-radius: 5; -fx-border-width: 0.5;" textAlignment="CENTER">
                <padding>
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </padding>

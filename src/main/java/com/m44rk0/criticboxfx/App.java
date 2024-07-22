@@ -1,8 +1,6 @@
 package com.m44rk0.criticboxfx;
 
 import com.m44rk0.criticboxfx.controller.MainController;
-import com.m44rk0.criticboxfx.controller.login.LoginController;
-import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.dao.ReviewDAO;
 import com.m44rk0.criticboxfx.dao.TitleDAO;
 import com.m44rk0.criticboxfx.dao.UserDAO;
@@ -61,8 +59,6 @@ public class App extends Application {
         try {
             FXMLLoader loader = new FXMLLoader(App.class.getResource("controller/login/login.fxml"));
             Scene sceneLogin = new Scene(loader.load());
-            LoginController loginController = loader.getController();
-            loginController.setStage(stage);
             stage.setResizable(false);
             stage.setScene(sceneLogin);
             stage.show();
@@ -86,14 +82,9 @@ public class App extends Application {
             mainController.setStage(stage);
             stage.setScene(scene);
             stage.show();
-
-            // Atualiza as informações do usuário atual
-            CurrentlyUser.setReviews(userDAO.getReviewsByUser(CurrentlyUser.getUser()));
-            CurrentlyUser.setFavorites(userDAO.getFavoritesByUser(CurrentlyUser.getUser()));
-            CurrentlyUser.setWatched(userDAO.getWatchedByUser(CurrentlyUser.getUser()));
         }
         catch (IOException e) {
-            AlertMessage.showErrorAlert("UI Error", "Erro ao carregar a Mainview");
+            AlertMessage.showErrorAlert("UI Error", "Erro ao carregar a página inicial");
         }
     }
 }

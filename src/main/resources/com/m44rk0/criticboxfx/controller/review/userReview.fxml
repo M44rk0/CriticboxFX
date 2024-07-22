@@ -29,7 +29,7 @@
             </InnerShadow>
          </effect>
         </ImageView>
-        <TextFlow fx:id="tittleField" blendMode="SCREEN" layoutX="6.0" layoutY="5.0" maxWidth="-Infinity" prefHeight="51.0" prefWidth="537.0" style="-fx-border-color: #5EB03E #2b2b2d  #2b2b2d  #5EB03E; -fx-border-radius: 10 0 0 0; -fx-background-radius: 2; -fx-border-width: 0.5;">
+        <TextFlow fx:id="tittleField" blendMode="SCREEN" layoutX="6.0" layoutY="5.0" maxWidth="-Infinity" prefHeight="51.0" prefWidth="537.0" style="-fx-border-color: #5EB03E; -fx-border-radius: 10 0 0 0; -fx-background-radius: 2; -fx-border-width: 0.5;">
             <padding>
                 <Insets bottom="10.0" left="20.0" right="20.0" top="15.0" />
             </padding>
@@ -50,7 +50,7 @@
                 <SVGPath fx:id="star5" content="M22,10.1c0.1-0.5-0.3-1.1-0.8-1.1l-5.7-0.8L12.9,3c-0.1-0.2-0.2-0.3-0.4-0.4C12,2.3,11.4,2.5,11.1,3L8.6,8.2L2.9,9C2.6,9,2.4,9.1,2.3,9.3c-0.4,0.4-0.4,1,0,1.4l4.1,4l-1,5.7c0,0.2,0,0.4,0.1,0.6c0.3,0.5,0.9,0.7,1.4,0.4l5.1-2.7l5.1,2.7c0.1,0.1,0.3,0.1,0.5,0.1l0,0c0.1,0,0.1,0,0.2,0c0.5-0.1,0.9-0.6,0.8-1.2l-1-5.7l4.1-4C21.9,10.5,22,10.3,22,10.1z" fill="WHITE" />
             </children>
         </HBox>
-        <TextFlow fx:id="reviewField" blendMode="SCREEN" layoutX="6.0" layoutY="96.0" lineSpacing="3.0" prefHeight="268.0" prefWidth="537.0" style="-fx-border-color: #5EB03E #2b2b2d  #2b2b2d  #5EB03E; -fx-border-radius: 0 0 0 10; -fx-background-radius: 10; -fx-border-width: 0.5;">
+        <TextFlow fx:id="reviewField" blendMode="SCREEN" layoutX="6.0" layoutY="96.0" lineSpacing="3.0" prefHeight="268.0" prefWidth="537.0" style="-fx-border-color: #5EB03E; -fx-border-radius: 0 0 0 10; -fx-background-radius: 10; -fx-border-width: 0.5;">
             <padding>
                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
             </padding>
@@ -62,7 +62,7 @@
                 </Text>
             </children>
         </TextFlow>
-        <TextFlow fx:id="watchedField" blendMode="SCREEN" layoutX="6.0" layoutY="62.0" maxWidth="-Infinity" prefHeight="28.0" prefWidth="470.0" style="-fx-border-color: #5EB03E #2b2b2d  #2b2b2d  #5EB03E; -fx-border-radius: 0; -fx-background-radius: 0; -fx-border-width: 0.5;">
+        <TextFlow fx:id="watchedField" blendMode="SCREEN" layoutX="6.0" layoutY="62.0" maxWidth="-Infinity" prefHeight="28.0" prefWidth="470.0" style="-fx-border-color: #5EB03E; -fx-border-radius: 0; -fx-background-radius: 0; -fx-border-width: 0.5;">
             <padding>
                 <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
             </padding>
