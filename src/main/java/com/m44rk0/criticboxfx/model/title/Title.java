@@ -112,17 +112,13 @@ public abstract class Title {
      * @param o O objeto a ser comparado.
      * @return {@code true} se os títulos forem iguais, {@code false} caso contrário.
      */
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Title title)) return false;
 
-        if (!Objects.equals(name, title.name)) return false;
-        if (!Objects.equals(overview, title.overview)) return false;
-        if (!Objects.equals(posterPath, title.posterPath)) return false;
-        if (!Objects.equals(releaseDate, title.releaseDate)) return false;
-        if (!Objects.equals(duration, title.duration)) return false;
-        return Objects.equals(popularity, title.popularity);
+        return titleId.equals(title.titleId);
     }
 
     /**
@@ -133,13 +129,7 @@ public abstract class Title {
      */
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (overview != null ? overview.hashCode() : 0);
-        result = 31 * result + (posterPath != null ? posterPath.hashCode() : 0);
-        result = 31 * result + (releaseDate != null ? releaseDate.hashCode() : 0);
-        result = 31 * result + (duration != null ? duration.hashCode() : 0);
-        result = 31 * result + (popularity != null ? popularity.hashCode() : 0);
-        return result;
+        return titleId.hashCode();
     }
 
     /**

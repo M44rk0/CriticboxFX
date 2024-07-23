@@ -63,6 +63,7 @@ public class TitleInfoController implements CommonController {
     private SVGPath watchedIcon;
 
     private Title title;
+
     private MainController mainController;
 
     // Guarda os resultados de pesquisa

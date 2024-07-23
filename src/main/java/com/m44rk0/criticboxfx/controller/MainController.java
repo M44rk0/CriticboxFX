@@ -13,6 +13,7 @@ import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
 import info.movito.themoviedbapi.tools.TmdbException;
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import static com.m44rk0.criticboxfx.model.search.Search.titlePosterCache;
 
@@ -117,28 +119,35 @@ public class MainController {
      * Realiza a busca com o parâmetro fornecido no campo de busca.
      */
     public void performSearch() {
-        try {
-            List<Title> searchResults;
-            TitleSearcher searcher = new TitleSearcher();
-            String searchParameter = searchField.getText();
+        String searchParameter = searchField.getText();
 
-            if (searchParameter.isEmpty() || searchParameter.isBlank()) {
-                AlertMessage.showCommonAlert("Erro de Busca", "Digite um parâmetro de busca");
-            } else {
-                showLoadingScreen();
-                searchResults = searcher.search(searchParameter);
-                showSearchResults(searchResults);
-            }
-        } catch (TmdbException e) {
-            AlertMessage.showCommonAlert("Erro de Busca", "Erro de Busca");
+        if (searchParameter.isEmpty() || searchParameter.isBlank()) {
+            AlertMessage.showCommonAlert("Erro de Busca", "Digite um parâmetro de busca");
+        } else {
+
+            showLoadingScreen();
+
+            CompletableFuture.supplyAsync(() -> {
+                try {
+                    TitleSearcher searcher = new TitleSearcher();
+                    return searcher.search(searchParameter);
+                } catch (TmdbException e) {
+                    Platform.runLater(() -> AlertMessage.showCommonAlert("Erro de Busca", "Erro de Busca"));
+                    return null;
+                }
+            }).thenAccept(searchResults -> Platform.runLater(() -> {
+                if (searchResults != null) {
+                    showSearchResults(searchResults);
+                }
+            }));
         }
-
     }
 
     private void showLoadingScreen() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("details/searchLoading.fxml"));
             Pane pane = loader.load();
+            scrollBox.getChildren().clear();
             scrollBox.getChildren().addAll(pane);
 
             FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), pane);
@@ -146,6 +155,7 @@ public class MainController {
             fadeIn.setToValue(1);
             fadeIn.setCycleCount(1);
             fadeIn.play();
+
 
         } catch (IOException e) {
             AlertMessage.showErrorAlert("UI Error", "Erro ao carregar o Splash");
