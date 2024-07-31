@@ -6,8 +6,8 @@ import com.m44rk0.criticboxfx.controller.details.TitleInfoController;
 import com.m44rk0.criticboxfx.controller.favorites.FavoritesController;
 import com.m44rk0.criticboxfx.controller.review.ReviewController;
 import com.m44rk0.criticboxfx.controller.review.ReviewCreatorController;
-import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
-import com.m44rk0.criticboxfx.model.search.TitleSearcher;
+import com.m44rk0.criticboxfx.model.user.CurrentlyUser;
+import com.m44rk0.criticboxfx.service.TitleSearcher;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import com.m44rk0.criticboxfx.utils.CommonController;
@@ -31,7 +31,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import static com.m44rk0.criticboxfx.model.search.Search.titlePosterCache;
+import static com.m44rk0.criticboxfx.service.Search.titlePosterCache;
 
 /**
  * Controlador principal da aplicação, responsável por gerenciar as interações com a interface do usuário.
@@ -112,7 +112,6 @@ public class MainController {
     public void initialize(){
         currentlyUserName.setText(CurrentlyUser.getUser().getName());
         restoreSearchResults();
-
     }
 
     /**
@@ -143,6 +142,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Método para carregar o Loading após uma busca.
+     */
     private void showLoadingScreen() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("details/searchLoading.fxml"));

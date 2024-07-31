@@ -1,8 +1,7 @@
-package com.m44rk0.criticboxfx.controller.user;
+package com.m44rk0.criticboxfx.model.user;
 
 import com.m44rk0.criticboxfx.model.review.Review;
 import com.m44rk0.criticboxfx.model.title.Title;
-import com.m44rk0.criticboxfx.model.user.User;
 
 import java.util.ArrayList;
 

@@ -1,7 +1,7 @@
 package com.m44rk0.criticboxfx.controller.details;
 
 import com.m44rk0.criticboxfx.controller.MainController;
-import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
+import com.m44rk0.criticboxfx.model.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.model.title.TitleDetails;
 import com.m44rk0.criticboxfx.model.title.TvShow;

@@ -15,7 +15,7 @@ import java.util.*;
 
 import static com.m44rk0.criticboxfx.App.reviewDAO;
 import static com.m44rk0.criticboxfx.App.titleDAO;
-import static com.m44rk0.criticboxfx.model.search.Search.titlePosterCache;
+import static com.m44rk0.criticboxfx.service.Search.titlePosterCache;
 
 /**
  * Gerencia as operações de acesso a dados relacionadas aos usuários no banco de dados.

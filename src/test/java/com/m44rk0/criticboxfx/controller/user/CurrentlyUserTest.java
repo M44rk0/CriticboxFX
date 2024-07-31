@@ -5,6 +5,7 @@ import com.m44rk0.criticboxfx.model.review.Review;
 import com.m44rk0.criticboxfx.model.review.TitleReview;
 import com.m44rk0.criticboxfx.model.title.Film;
 import com.m44rk0.criticboxfx.model.title.TvShow;
+import com.m44rk0.criticboxfx.model.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.model.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

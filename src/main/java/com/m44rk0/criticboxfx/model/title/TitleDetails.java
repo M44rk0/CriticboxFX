@@ -1,6 +1,6 @@
 package com.m44rk0.criticboxfx.model.title;
 
-import com.m44rk0.criticboxfx.model.search.TitleSearcher;
+import com.m44rk0.criticboxfx.service.TitleSearcher;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.model.core.NamedIdElement;

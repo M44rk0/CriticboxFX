@@ -1,6 +1,6 @@
 package com.m44rk0.criticboxfx.dao;
-import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
-import com.m44rk0.criticboxfx.model.search.Search;
+import com.m44rk0.criticboxfx.model.user.CurrentlyUser;
+import com.m44rk0.criticboxfx.service.Search;
 import com.m44rk0.criticboxfx.model.title.*;
 import com.m44rk0.criticboxfx.model.user.User;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
@@ -11,7 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.m44rk0.criticboxfx.model.search.Search.titlePosterCache;
+import static com.m44rk0.criticboxfx.service.Search.titlePosterCache;
 
 /**
  * Classe de Data Access Object (DAO) para gerenciar operações relacionadas a títulos no banco de dados.
@@ -341,6 +341,43 @@ public class TitleDAO {
                     }
                 }
             }
+        } catch (SQLException e) {
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
+        }
+    }
+
+
+    /**
+     * Remove todos os títulos que não têm relação com review, userfavorites, userwatched ou userlastresults ao final da execução.
+     */
+    public void removeUnrelatedTitles() {
+        String sql = "DELETE t " +
+                "FROM title t " +
+                "LEFT JOIN review r ON t.title_id = r.title_id " +
+                "LEFT JOIN userfavorites uf ON t.title_id = uf.title_id " +
+                "LEFT JOIN userwatched uw ON t.title_id = uw.title_id " +
+                "LEFT JOIN userlastresults ulr ON t.title_id = ulr.lastresult_id " +
+                "WHERE r.title_id IS NULL " +
+                "  AND uf.title_id IS NULL " +
+                "  AND uw.title_id IS NULL " +
+                "  AND ulr.lastresult_id IS NULL";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            AlertMessage.showErrorAlert("SQL Error", e.getMessage());
+        }
+    }
+
+    /**
+     * Remove todos os last results que não estão na tabela userlastresults ao final da execução.
+     */
+    public void removeUnrelatedLastResults() {
+        String sql = "DELETE FROM lastresults " +
+                "WHERE id NOT IN (SELECT lastresult_id FROM userlastresults)";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.executeUpdate();
         } catch (SQLException e) {
             AlertMessage.showErrorAlert("SQL Error", e.getMessage());
         }

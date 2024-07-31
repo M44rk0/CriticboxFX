@@ -1,6 +1,6 @@
 package com.m44rk0.criticboxfx.model.title;
 
-import com.m44rk0.criticboxfx.model.search.Search;
+import com.m44rk0.criticboxfx.service.Search;
 import info.movito.themoviedbapi.model.tv.series.TvSeriesDb;
 import info.movito.themoviedbapi.tools.TmdbException;
 import java.util.ArrayList;

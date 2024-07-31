@@ -86,10 +86,9 @@
                 <version>0.0.8</version>
                 <executions>
                     <execution>
-                        <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.m44rk0.criticboxfx/com.m44rk0.criticboxfx.App</mainClass>
+                            <mainClass>com.m44rk0.criticboxfx.Main</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

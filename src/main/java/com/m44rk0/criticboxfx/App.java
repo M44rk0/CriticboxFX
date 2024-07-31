@@ -74,7 +74,7 @@ public class App extends Application {
      */
     public static void showMainView() {
         try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource("controller/criticbox.fxml"));
+            FXMLLoader loader = new FXMLLoader(App.class.getResource("controller/mainview/criticbox.fxml"));
             Scene scene = new Scene(loader.load());
             MainController mainController = loader.getController();
             Stage stage = new Stage();
@@ -82,6 +82,15 @@ public class App extends Application {
             mainController.setStage(stage);
             stage.setScene(scene);
             stage.show();
+
+            // Remove todos os títulos salvos no banco de dados durante a busca e que
+            // não possuem relacionamentos ativos com outras tabelas
+            // (review, favorites, watched, lastresults) ao final da aplicação.
+            stage.setOnCloseRequest(event -> {
+                titleDAO.removeUnrelatedTitles();
+                titleDAO.removeUnrelatedLastResults();
+            });
+
         }
         catch (IOException e) {
             AlertMessage.showErrorAlert("UI Error", "Erro ao carregar a página inicial");

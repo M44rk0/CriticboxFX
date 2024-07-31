@@ -1,5 +1,4 @@
 package com.m44rk0.criticboxfx.model.title;
-import java.util.*;
 
 /**
  * Representa uma classe abstrata para um título, fornecendo informações como
@@ -106,8 +105,7 @@ public abstract class Title {
     }
 
     /**
-     * Compara este título com outro objeto para verificar a igualdade com base no nome, visão geral,
-     * caminho do pôster, data de lançamento, duração e popularidade.
+     * Compara este título com outro objeto para verificar a igualdade com base no id.
      *
      * @param o O objeto a ser comparado.
      * @return {@code true} se os títulos forem iguais, {@code false} caso contrário.
@@ -122,8 +120,7 @@ public abstract class Title {
     }
 
     /**
-     * Gera um código hash para o título com base no nome, visão geral, caminho do pôster, data de lançamento,
-     * duração e popularidade.
+     * Gera um código hash para o título com base no id.
      *
      * @return O código hash do título.
      */

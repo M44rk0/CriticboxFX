@@ -11,9 +11,6 @@ module com.m44rk0.criticboxfx {
     exports com.m44rk0.criticboxfx;
     opens com.m44rk0.criticboxfx to javafx.controls, javafx.fxml;
 
-    exports com.m44rk0.criticboxfx.controller.user;
-    opens com.m44rk0.criticboxfx.controller.user to javafx.controls, javafx.fxml;
-
     exports com.m44rk0.criticboxfx.utils;
     opens com.m44rk0.criticboxfx.utils to javafx.controls, javafx.fxml;
 
@@ -32,9 +29,6 @@ module com.m44rk0.criticboxfx {
     exports com.m44rk0.criticboxfx.model.title;
     opens com.m44rk0.criticboxfx.model.title to javafx.controls, javafx.fxml;
 
-    exports com.m44rk0.criticboxfx.model.search;
-    opens com.m44rk0.criticboxfx.model.search to javafx.controls, javafx.fxml;
-
     exports com.m44rk0.criticboxfx.model.review;
     opens com.m44rk0.criticboxfx.model.review to javafx.controls, javafx.fxml;
 
@@ -49,4 +43,7 @@ module com.m44rk0.criticboxfx {
 
     exports com.m44rk0.criticboxfx.controller;
     opens com.m44rk0.criticboxfx.controller to javafx.controls, javafx.fxml;
+
+    exports com.m44rk0.criticboxfx.service;
+    opens com.m44rk0.criticboxfx.service to javafx.controls, javafx.fxml;
 }

@@ -1,4 +1,4 @@
-package com.m44rk0.criticboxfx.model.search;
+package com.m44rk0.criticboxfx.service;
 
 import com.m44rk0.criticboxfx.model.title.Title;
 import info.movito.themoviedbapi.tools.TmdbException;

@@ -111,7 +111,7 @@ public class ReviewDAO {
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, episodeReview.getReviewID());
-            stmt.setInt(2, episodeReview.getSeasonNumber());
+            stmt.setInt(2, episodeReview.getSeason().getSeasonNumber());
             stmt.setString(3, episodeReview.getEpisodeName());
             stmt.executeUpdate();
         } catch (SQLException e) {

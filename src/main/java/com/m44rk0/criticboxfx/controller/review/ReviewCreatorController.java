@@ -1,7 +1,7 @@
 package com.m44rk0.criticboxfx.controller.review;
 
 import com.m44rk0.criticboxfx.controller.MainController;
-import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
+import com.m44rk0.criticboxfx.model.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.model.review.EpisodeReview;
 import com.m44rk0.criticboxfx.model.review.TitleReview;
 import com.m44rk0.criticboxfx.model.review.Review;
@@ -109,12 +109,15 @@ public class ReviewCreatorController implements CommonController {
                 }
                 mainController.showUserReviews();
             } else {
-                if (getCurrentRating() == 0 && reviewArea.getText().isBlank()) {
-                    throw new InvalidReviewException("Esqueceu de tudo");
+                if(containsInReview(title)){
+                    AlertMessage.showCommonAlert("Review já existe", "Essa Review já existe");
+                }
+                else if (getCurrentRating() == 0 && reviewArea.getText().isBlank()) {
+                    throw new InvalidReviewException("Preencha todos os campos");
                 } else if (getCurrentRating() == 0) {
-                    throw new InvalidReviewException("Esqueceu da nota");
+                    throw new InvalidReviewException("Avalie o título com uma nota");
                 } else if (reviewArea.getText().isEmpty()) {
-                    throw new InvalidReviewException("Esqueceu da avaliação");
+                    throw new InvalidReviewException("Escreva uma breve avaliação para o título");
                 } else if (!containsInReview(title)) {
                     if (title instanceof Film || (title instanceof TvShow &&
                             (episodeBox.getValue() == null || episodeBox.getValue().isEmpty()) &&
@@ -132,15 +135,12 @@ public class ReviewCreatorController implements CommonController {
                         CurrentlyUser.addReview(review);
                     }
                     mainController.restoreSearchResults();
-                } else {
-                    AlertMessage.showCommonAlert("Review já existe", "Essa Review já existe");
                 }
             }
         } catch (InvalidReviewException e) {
             AlertMessage.showCommonAlert("Erro de Review", e.getMessage());
         }
     }
-
 
     /**
      * Verifica se uma review já existe para um determinado título.

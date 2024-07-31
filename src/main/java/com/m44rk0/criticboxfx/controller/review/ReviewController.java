@@ -1,6 +1,6 @@
 package com.m44rk0.criticboxfx.controller.review;
 import com.m44rk0.criticboxfx.controller.MainController;
-import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
+import com.m44rk0.criticboxfx.model.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.model.review.EpisodeReview;
 import com.m44rk0.criticboxfx.model.review.Review;
 import com.m44rk0.criticboxfx.model.title.Season;
@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.Locale;
 
 import static com.m44rk0.criticboxfx.App.userDAO;
-import static com.m44rk0.criticboxfx.model.search.Search.seasonPosterCache;
-import static com.m44rk0.criticboxfx.model.search.Search.titlePosterCache;
+import static com.m44rk0.criticboxfx.service.Search.seasonPosterCache;
+import static com.m44rk0.criticboxfx.service.Search.titlePosterCache;
 
 /**
  * Controlador para gerenciar a exibição e edição de Reviews do usuário.

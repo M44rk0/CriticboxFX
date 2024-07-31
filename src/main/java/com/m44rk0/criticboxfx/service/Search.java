@@ -1,4 +1,4 @@
-package com.m44rk0.criticboxfx.model.search;
+package com.m44rk0.criticboxfx.service;
 import com.m44rk0.criticboxfx.model.title.*;
 import info.movito.themoviedbapi.TmdbApi;
 import info.movito.themoviedbapi.TmdbTvSeasons;
@@ -20,7 +20,7 @@ public class Search {
     /**
      * Formato de data utilizado no formato "yyyy-MM-dd".
      */
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     // Guarda as imagens de todos os títulos buscados para evitar carregar a mesma imagem várias vezes em outras telas
     public static final Map<Title, Image> titlePosterCache = new HashMap<>();
@@ -39,7 +39,7 @@ public class Search {
     public static ArrayList<Title> searchAll(String apiKey, String search) throws TmdbException {
         TmdbApi api = new TmdbApi(apiKey);
 
-        var searchMovie = api.getSearch().searchMovie(search, true, "pt-BR", null, 1, null, null).getResults();
+        var searchMovie = api.getSearch().searchMovie(search, false, "pt-BR", null, 1, null, null).getResults();
         var searchTVShow = api.getSearch().searchTv(search, null, true, "pt-BR", 1, null).getResults();
 
         List<CompletableFuture<Title>> movieFutures = searchMovie.stream()
@@ -216,7 +216,7 @@ public class Search {
     }
 
     /**
-     * Método privado para obter as temporadas da série de TV usando dados de um objeto TvSeriesDb.
+     * Método para obter as temporadas da série de TV usando dados de um objeto TvSeriesDb.
      *
      * @param seriesDb O objeto TvSeriesDb contendo os dados da série de TV.
      * @return A lista de temporadas.
@@ -281,7 +281,7 @@ public class Search {
      * @param resultMovie O filme a ser verificado.
      * @return {@code true} se o filme for válido, {@code false} caso contrário.
      */
-    protected static boolean isValidMovie(Title resultMovie) {
+    public static boolean isValidMovie(Title resultMovie) {
         if (resultMovie instanceof Film film) {
             return isReleased(film.getReleaseDate()) &&
                     film.getPosterPath() != null &&
@@ -298,7 +298,7 @@ public class Search {
      * @param resultSerie A série a ser verificada.
      * @return {@code true} se a série for válida, {@code false} caso contrário.
      */
-    protected static boolean isValidTvShow(Title resultSerie) {
+    public static boolean isValidTvShow(Title resultSerie) {
         if (resultSerie instanceof TvShow tvShow) {
             return isReleased(tvShow.getReleaseDate()) &&
                     tvShow.getPosterPath() != null &&
@@ -319,7 +319,7 @@ public class Search {
             return false;
         }
         try {
-            LocalDate release = LocalDate.parse(releaseDate, DATE_FORMATTER);
+            LocalDate release = LocalDate.parse(releaseDate, dateFormatter);
             LocalDate today = LocalDate.now();
             return !release.isAfter(today);
         } catch (DateTimeParseException e) {

@@ -2,7 +2,7 @@ package com.m44rk0.criticboxfx.controller.details;
 
 import com.m44rk0.criticboxfx.controller.MainController;
 import com.m44rk0.criticboxfx.controller.mainview.ViewTabController;
-import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
+import com.m44rk0.criticboxfx.model.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.model.title.TvShow;
 import com.m44rk0.criticboxfx.utils.*;
@@ -173,6 +173,10 @@ public class TitleInfoController implements CommonController {
                 mainController.getScrollBox().getChildren().add(resultsTab);
             }
 
+            if(lastSearchedTitles.isEmpty()){
+                tabController.setResultTabText("Nenhum resultado anterior para ser exibido");
+            }
+
             mainController.getScrollPage().setFitToHeight(searchResultNodes.size() == 1 || searchResultNodes.isEmpty());
 
         } catch (IOException e) {
@@ -218,7 +222,6 @@ public class TitleInfoController implements CommonController {
     /**
      * Atualiza o ícone de "assistido" para o título atual.
      */
-    @FXML
     private void setWatchedIcon() {
         watchedIcon.setContent(
                 watchedIcon.getContent().equals(Icon.NOT_WATCHED.getPath()) ? Icon.WATCHED.getPath() : Icon.NOT_WATCHED.getPath()

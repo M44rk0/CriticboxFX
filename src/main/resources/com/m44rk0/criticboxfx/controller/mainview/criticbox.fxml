@@ -19,7 +19,7 @@
 <?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #18181a;" stylesheets="@../style/defaultpage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #18181a;" stylesheets="@../../style/defaultpage.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.m44rk0.criticboxfx.controller.MainController">
    <children>
       <Pane fx:id="wtfPane" blendMode="SRC_ATOP" layoutX="1040.0" layoutY="110.0" prefHeight="670.0" prefWidth="150.0" style="-fx-background-color: linear-gradient(to top,  #18181a, #1F1E22, #1F1E22); -fx-background-radius: 0 0 10 0; -fx-border-radius: 10; -fx-border-width: 0.1;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="1051.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="110.0">
          <effect>
@@ -33,7 +33,7 @@
          <children>
             <ImageView id="logo" fx:id="critic" fitHeight="22.0" fitWidth="196.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../images/Critic.png" />
+                  <Image url="@../../images/Critic.png" />
                </image>
                <HBox.margin>
                   <Insets left="10.0" />

@@ -1,6 +1,6 @@
 package com.m44rk0.criticboxfx.controller.login;
 
-import com.m44rk0.criticboxfx.controller.user.CurrentlyUser;
+import com.m44rk0.criticboxfx.model.user.CurrentlyUser;
 import com.m44rk0.criticboxfx.model.user.User;
 import com.m44rk0.criticboxfx.utils.AlertMessage;
 import javafx.animation.FadeTransition;
@@ -96,16 +96,15 @@ public class LoginController {
         } else if (getPasswordRegisterText().isEmpty() || getPasswordConfirmRegisterText().isEmpty() || getNameRegisterText().isEmpty() || getUserRegisterText().isEmpty()) {
             AlertMessage.showCommonAlert("Erro de Cadastro", "Preencha todos os campos!");
         } else {
+            User user = new User(getNameRegisterText(), getUserRegisterText(), getPasswordRegisterText());
             userRegister.clear();
             nameRegister.clear();
             passwordRegister.clear();
             passwordConfirmRegister.clear();
-            User user = new User(getNameRegisterText(), getUserRegisterText(), getPasswordRegisterText());
             userDAO.addUser(user);
             AlertMessage.showCommonAlert("Confirmação de Cadastro", "Usuário cadastrado com sucesso, faça seu login!");
         }
     }
-
 
     /**
      * Método para carregar o Loading após o login.

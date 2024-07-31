@@ -2,6 +2,7 @@ package com.m44rk0.criticboxfx.model.search;
 import com.m44rk0.criticboxfx.model.title.Film;
 import com.m44rk0.criticboxfx.model.title.Title;
 import com.m44rk0.criticboxfx.model.title.TvShow;
+import com.m44rk0.criticboxfx.service.Search;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
