@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="CriticboxFX:jar">
+  <artifact type="jar" build-on-make="true" name="CriticboxFX:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/CriticboxFX_jar</output-path>
     <root id="archive" name="CriticboxFX.jar">
       <element id="module-output" name="CriticboxFX" />

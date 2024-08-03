@@ -53,7 +53,7 @@ public class App extends Application {
     /**
      * Exibe a tela de login.
      *
-     * @param stage O palco onde a tela de login será exibida.
+     * @param stage O Stage onde a tela de login será exibida.
      */
     public static void showLoginView(Stage stage) {
         try {
